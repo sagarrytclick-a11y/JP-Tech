@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaSearch, FaCode, FaShareAlt, FaBullhorn, FaThumbsUp, FaPaintBrush } from 'react-icons/fa';
+import { site } from '@/lib/site';
 
 const Services = () => {
   const services = [
@@ -29,13 +30,13 @@ const Services = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <p className="text-amber-400 font-semibold tracking-wider text-sm">Our Services</p>
-          <h2 className="text-4xl font-extrabold mt-2">Services We Provide</h2>
+          <h2 className="text-3xl sm:text-4xl font-extrabold mt-2">Services We Provide</h2>
           <p className="max-w-3xl mx-auto text-zinc-300 mt-4 leading-relaxed">
-            As a digital marketing agency, we know that to perform exceedingly well in the field of marketing, It's Important to target the niche-based audience and connect with it at the right time. Therefore, JP Technologies never lags behind in terms of any online marketing area as it provides all the significant digital marketing services that any business may need at any particular time.
+            As a digital marketing agency, we know that to perform exceedingly well in the field of marketing, It's Important to target the niche-based audience and connect with it at the right time. Therefore, {site.name} never lags behind in terms of any online marketing area as it provides all the significant digital marketing services that any business may need at any particular time.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 items-center">
+        <div className="grid md:grid-cols-3 gap-8 items-start">
           {/* Left Column (01, 02, 03) */}
           <div className="space-y-6">
             {services.slice(0, 3).map((s) => (

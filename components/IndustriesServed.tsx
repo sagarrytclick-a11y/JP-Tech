@@ -43,7 +43,7 @@ const IndustriesServed = () => {
         {/* Heading */}
         <div className="text-center mb-16">
           <p className="text-amber-500 font-semibold tracking-wider text-sm">Our Expertise Across Sectors</p>
-          <h2 className="text-5xl font-extrabold text-zinc-900 mt-2 leading-tight">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-zinc-900 mt-2 leading-tight">
             Industries We Serve
           </h2>
           <p className="text-zinc-600 mt-4 max-w-3xl mx-auto leading-relaxed">

@@ -22,13 +22,13 @@ const Process = () => {
           transition={{ duration: 0.6 }}
         >
           <p className="text-amber-500 font-semibold tracking-wider text-sm">How We Work</p>
-          <h2 className="text-4xl font-extrabold text-zinc-900 mt-2">Our Process</h2>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 mt-2">Our Process</h2>
           <p className="text-zinc-600 mt-4 max-w-2xl mx-auto">
             A proven methodology that ensures timely delivery, clear communication, and outstanding results.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-4 gap-8 relative">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 relative">
           {/* Connecting line */}
           <div className="hidden md:block absolute top-16 left-[12%] right-[12%] h-0.5 bg-zinc-200" />
 

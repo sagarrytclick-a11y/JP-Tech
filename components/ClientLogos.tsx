@@ -30,7 +30,7 @@ const ClientLogos = () => {
           transition={{ duration: 0.6 }}
         >
           <p className="text-amber-500 font-semibold tracking-wider text-sm">Trusted By</p>
-          <h2 className="text-4xl font-extrabold text-zinc-900 mt-2">Brands We&apos;ve Worked With</h2>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 mt-2">Brands We&apos;ve Worked With</h2>
           <p className="text-zinc-600 mt-4 max-w-xl mx-auto">
             We are proud to partner with businesses across industries.
           </p>

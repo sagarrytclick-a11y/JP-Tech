@@ -2,13 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaTimes, FaArrowRight, FaCheckCircle, FaSpinner, FaCommentDots } from "react-icons/fa";
+import { useEnquiryForm } from "@/hooks/useEnquiryForm";
 
 const PopupForm = () => {
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", phone: "", city: "", service: "Web" });
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     const handler = () => setOpen(true);
@@ -16,23 +13,12 @@ const PopupForm = () => {
     return () => window.removeEventListener("openPopupForm", handler);
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    if (!form.name || !form.email) {
-      setError("Name and email are required.");
-      return;
-    }
-    setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    setSubmitting(false);
-    setSubmitted(true);
+  const { form, updateField, submitting, submitted, error, handleSubmit, reset } = useEnquiryForm(() => {
     setTimeout(() => {
-      setSubmitted(false);
+      reset();
       setOpen(false);
-      setForm({ name: "", email: "", phone: "", city: "", service: "Web" });
     }, 2000);
-  };
+  });
 
   return (
     <>
@@ -105,7 +91,7 @@ const PopupForm = () => {
                         type="text"
                         placeholder="Your Name *"
                         value={form.name}
-                        onChange={(e) => setForm({ ...form, name: e.target.value })}
+                        onChange={(e) => updateField("name", e.target.value)}
                         className="p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
                       />
                       <motion.input
@@ -113,7 +99,7 @@ const PopupForm = () => {
                         type="email"
                         placeholder="Your Email *"
                         value={form.email}
-                        onChange={(e) => setForm({ ...form, email: e.target.value })}
+                        onChange={(e) => updateField("email", e.target.value)}
                         className="p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
                       />
                     </div>
@@ -122,7 +108,7 @@ const PopupForm = () => {
                       type="tel"
                       placeholder="Phone Number"
                       value={form.phone}
-                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                      onChange={(e) => updateField("phone", e.target.value)}
                       className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
                     />
                     <motion.input
@@ -130,12 +116,12 @@ const PopupForm = () => {
                       type="text"
                       placeholder="City"
                       value={form.city}
-                      onChange={(e) => setForm({ ...form, city: e.target.value })}
+                      onChange={(e) => updateField("city", e.target.value)}
                       className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
                     />
                     <motion.select
                       value={form.service}
-                      onChange={(e) => setForm({ ...form, service: e.target.value })}
+                      onChange={(e) => updateField("service", e.target.value)}
                       className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
                     >
                       <option value="Web">Web Development</option>

@@ -58,13 +58,13 @@ const Pricing = () => {
           transition={{ duration: 0.6 }}
         >
           <p className="text-amber-500 font-semibold tracking-wider text-sm">Transparent Pricing</p>
-          <h2 className="text-4xl font-extrabold text-zinc-900 mt-2">Simple, Honest Pricing</h2>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 mt-2">Simple, Honest Pricing</h2>
           <p className="text-zinc-600 mt-4 max-w-2xl mx-auto">
             No hidden fees. No long-term contracts. Just clear, upfront pricing for the services you need.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {packages.map((pkg, i) => (
             <motion.div
               key={i}

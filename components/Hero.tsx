@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FaRocket, FaCheckCircle, FaArrowRight, FaSpinner, FaStar } from 'react-icons/fa';
+import { site } from '@/lib/site';
+import { useEnquiryForm } from '@/hooks/useEnquiryForm';
 
 const words = ["Stunning Websites", "Real Business Growth", "Social Media Impact", "Digital Dominance"];
 
@@ -26,10 +28,7 @@ const Hero = () => {
   const [wordIndex, setWordIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", phone: "", city: "", service: "Web" });
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
+  const { form, updateField, submitting, submitted, error, handleSubmit } = useEnquiryForm();
 
   useEffect(() => {
     const currentWord = words[wordIndex];
@@ -46,21 +45,6 @@ const Hero = () => {
     }
     return () => clearTimeout(timeout);
   }, [charIndex, deleting, wordIndex]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    if (!form.name || !form.email) {
-      setError("Name and email are required.");
-      return;
-    }
-    setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
-      setSubmitted(true);
-      setForm({ name: "", email: "", phone: "", city: "", service: "Web" });
-    }, 1200);
-  };
 
   return (
     <section className="relative px-6 py-20 bg-gradient-to-br from-zinc-50 via-white to-zinc-100 overflow-hidden">
@@ -165,12 +149,12 @@ const Hero = () => {
             whileHover={{ scale: 1.03 }}
           >
             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <FaRocket className="text-amber-500" /> Welcome To JP Technologies
+            <FaRocket className="text-amber-500" /> Welcome To {site.name}
           </motion.div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tighter text-zinc-900">
-            Web Development &<br />
-            Social Media<br />
+          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-extrabold leading-[1.1] tracking-tighter text-zinc-900">
+            Web Development &<br className="hidden xs:block" />
+            Social Media<br className="hidden xs:block" />
             That Drives{" "}
             <span className="text-[#1e3a5a] relative inline-block">
               {words[wordIndex].substring(0, charIndex)}
@@ -226,7 +210,16 @@ const Hero = () => {
           >
             <div className="flex -space-x-2">
               <div className="w-7 h-7 rounded-full overflow-hidden border-2 border-white relative">
-                <Image src="https://i.pinimg.com/736x/46/88/12/468812df30ab33d9c66397e40be563af.jpg" alt="Client" fill className="object-cover" />
+                <Image src="https://i.pinimg.com/736x/46/88/12/468812df30ab33d9c66397e40be563af.jpg" alt="Client" fill sizes="28px" className="object-cover" />
+              </div>
+              <div className="w-7 h-7 rounded-full overflow-hidden border-2 border-white relative">
+                <Image src="https://i.pinimg.com/736x/1a/5f/4f/1a5f4f37c7df3a498b87b62e62cfa05b.jpg" alt="Client" fill sizes="28px" className="object-cover" />
+              </div>
+              <div className="w-7 h-7 rounded-full overflow-hidden border-2 border-white relative">
+                <Image src="https://i.pinimg.com/736x/89/4b/ff/894bff75c0b4ef5f34c9914377d13185.jpg" alt="Client" fill sizes="28px" className="object-cover" />
+              </div>
+              <div className="w-7 h-7 rounded-full overflow-hidden border-2 border-white relative">
+                <Image src="https://i.pinimg.com/1200x/3a/0c/d8/3a0cd8a35bb1c1d8390cd35987cd4a9e.jpg" alt="Client" fill sizes="28px" className="object-cover" />
               </div>
               <div className="w-7 h-7 rounded-full overflow-hidden border-2 border-white relative">
                 <Image src="https://i.pinimg.com/736x/1a/5f/4f/1a5f4f37c7df3a498b87b62e62cfa05b.jpg" alt="Client" fill className="object-cover" />
@@ -246,7 +239,7 @@ const Hero = () => {
 
         {/* Right - Form Card */}
         <motion.div
-          className="flex-1 w-full max-w-md"
+          className="flex-1 w-full max-w-md mx-auto lg:mx-0"
           variants={itemVariants}
         >
           <motion.div
@@ -290,21 +283,21 @@ const Hero = () => {
                 <h2 className="text-2xl font-bold mb-2 text-zinc-900">Get a Free Consultation</h2>
                 <p className="text-zinc-500 text-sm mb-6">Fill in your details and we&apos;ll reach out.</p>
                 <form onSubmit={handleSubmit} className="space-y-3.5">
-                  <div className="grid grid-cols-2 gap-3.5">
+                  <div className="grid sm:grid-cols-2 gap-3.5">
                     <motion.input
                       whileFocus={{ scale: 1.01 }}
                       type="text"
                       placeholder="Your Name *"
                       value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
-                    />
-                    <motion.input
-                      whileFocus={{ scale: 1.01 }}
-                      type="email"
-                      placeholder="Your Email *"
-                      value={form.email}
-                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                        onChange={(e) => updateField("name", e.target.value)}
+                        className="p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
+                      />
+                      <motion.input
+                        whileFocus={{ scale: 1.01 }}
+                        type="email"
+                        placeholder="Your Email *"
+                        value={form.email}
+                        onChange={(e) => updateField("email", e.target.value)}
                       className="p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
                     />
                   </div>
@@ -313,7 +306,7 @@ const Hero = () => {
                     type="tel"
                     placeholder="Phone Number"
                     value={form.phone}
-                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                    onChange={(e) => updateField("phone", e.target.value)}
                     className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
                   />
                   <motion.input
@@ -321,12 +314,12 @@ const Hero = () => {
                     type="text"
                     placeholder="City"
                     value={form.city}
-                    onChange={(e) => setForm({ ...form, city: e.target.value })}
+                    onChange={(e) => updateField("city", e.target.value)}
                     className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
                   />
                   <motion.select
                     value={form.service}
-                    onChange={(e) => setForm({ ...form, service: e.target.value })}
+                    onChange={(e) => updateField("service", e.target.value)}
                     className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
                   >
                     <option value="Web">Web Development</option>
@@ -351,7 +344,7 @@ const Hero = () => {
 
       {/* Ratings Bar */}
       <motion.div
-        className="max-w-7xl mx-auto mt-16 pt-8 border-t border-zinc-200"
+        className="max-w-7xl mx-auto mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-zinc-200"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -360,7 +353,7 @@ const Hero = () => {
         <p className="text-sm font-semibold text-zinc-900 mb-8 flex items-center gap-2">
           <FaStar className="text-amber-400" /> Transparent Service Ratings
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center justify-center">
+        <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-4 sm:gap-8 items-center justify-center">
           {[
             { src: "https://i.pinimg.com/736x/94/5c/4e/945c4ee2f85a184e208a34d3c6663421.jpg", label: "4.9/5.0" },
             { src: "https://i.pinimg.com/1200x/c1/75/0b/c1750bc8854d49788896e71df7d50f16.jpg", label: "★★★★★" },
@@ -379,7 +372,7 @@ const Hero = () => {
               whileHover={{ y: -4 }}
             >
               <div className="w-16 h-16 relative">
-                <Image src={item.src} alt="" fill className="object-contain" />
+                <Image src={item.src} alt="" fill sizes="64px" className="object-contain" />
               </div>
               <span className="text-sm font-semibold text-black">{item.label}</span>
             </motion.div>

@@ -2,6 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { site } from '@/lib/site';
 
 const FounderMessage = () => {
   return (
@@ -15,19 +16,19 @@ const FounderMessage = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <h2 className="text-4xl font-extrabold">Words Of Founder & MD</h2>
+          <h2 className="text-2xl sm:text-4xl font-extrabold">Words Of Founder & MD</h2>
           <p className="text-zinc-200 leading-relaxed italic">
             “I truly believe in delivering complete satisfaction to every client I work with. I have done my MBA in Digital Marketing and bring over 12+ years of hands-on experience in the marketing industry.
             <br/><br/>
-            I founded JP Technologies in 2012 with a clear vision to help businesses grow, and since then, we have consistently evolved and expanded our capabilities.
+            I founded {site.name} in {site.stats.foundedYear} with a clear vision to help businesses grow, and since then, we have consistently evolved and expanded our capabilities.
             <br/><br/>
             With my experience and deep understanding of marketing, I have always focused on building strategies that drive real results. I strongly believe that with dedication, the right approach, and continuous learning, any business can achieve remarkable growth.
             <br/><br/>
             This belief is not just a thought, it reflects clearly in the results we deliver and the reputation we have built over the years.”
           </p>
           <div>
-            <p className="font-bold text-xl">Abhishek Tiwari</p>
-            <p className="text-amber-400">Founder & MD, JP Technologies</p>
+            <p className="font-bold text-xl">{site.founder}</p>
+            <p className="text-amber-400">Founder & MD, {site.name}</p>
           </div>
           </motion.div>
 
@@ -39,14 +40,15 @@ const FounderMessage = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <div className="bg-amber-400 p-8 rounded-t-full rounded-b-2xl relative">
-            <div className="w-64 h-80 rounded-b-2xl relative overflow-hidden">
+          <div className="bg-amber-400 p-4 sm:p-8 rounded-t-full rounded-b-2xl relative">
+            <div className="w-48 sm:w-64 h-60 sm:h-80 rounded-b-2xl relative overflow-hidden">
               <Image
                 src="https://i.pinimg.com/736x/db/c5/82/dbc582cb4a5ef9df9fc7e82e283947b2.jpg"
-                alt="Abhishek Tiwari - Founder"
+                alt={`${site.founder} - Founder`}
                 fill
-                className="object-cover"
-              />
+              className="object-cover"
+              sizes="(max-width: 768px) 192px, 256px"
+            />
             </div>
             {/* Experience Badge */}
             <motion.div

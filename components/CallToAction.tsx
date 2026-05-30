@@ -7,7 +7,7 @@ const CallToAction = () => {
   return (
     <section className="py-20 px-6">
       <motion.div
-        className="max-w-7xl mx-auto bg-[#1e3a5a] rounded-3xl p-12 text-white flex flex-col md:flex-row items-center gap-12"
+        className="max-w-7xl mx-auto bg-[#1e3a5a] rounded-3xl p-6 sm:p-8 md:p-12 text-white flex flex-col md:flex-row items-center gap-8 md:gap-12"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -15,7 +15,7 @@ const CallToAction = () => {
       >
         <div className="flex-1 space-y-6">
           <p className="text-amber-400 font-semibold tracking-wider text-sm">GET IN TOUCH</p>
-          <h2 className="text-4xl font-extrabold leading-tight">Let&apos;s Build Your Digital Success Story!</h2>
+          <h2 className="text-2xl sm:text-4xl font-extrabold leading-tight">Let&apos;s Build Your Digital Success Story!</h2>
           <p className="text-zinc-200">
             Ready to elevate your online presence? Get in touch with us today for personalized solutions tailored to your business needs.
           </p>

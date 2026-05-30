@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaChevronDown, FaQuestionCircle, FaHeadset } from 'react-icons/fa';
 import Link from 'next/link';
+import { site } from '@/lib/site';
 
 const faqs = [
   {
-    q: "What services does JP Technologies offer?",
+    q: `What services does ${site.name} offer?`,
     a: "We specialize in web development (React, Next.js, PHP, Laravel, Node.js) and social media management (LinkedIn, Instagram, Facebook). From custom websites to full digital marketing campaigns, we handle your entire online presence.",
   },
   {
@@ -61,7 +62,7 @@ const FAQSection = () => {
           transition={{ duration: 0.6 }}
         >
           <p className="text-amber-500 font-semibold tracking-wider text-sm">Got Questions?</p>
-          <h2 className="text-4xl font-extrabold text-zinc-900 mt-2">Frequently Asked Questions</h2>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 mt-2">Frequently Asked Questions</h2>
           <p className="text-zinc-600 mt-4 max-w-xl mx-auto">
             Everything you need to know about working with us.
           </p>

@@ -88,7 +88,7 @@ const ProjectCarousel = ({
         {images.map((project, index) => (
           <SwiperSlide key={index}>
             <Link href="/services" className="block relative h-full w-full group">
-              <img className="h-full w-full object-cover" src={project.src} alt={project.title} />
+              <img className="h-full w-full object-cover" src={project.src} alt={project.title} loading="lazy" decoding="async" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-6">
                 <span className="text-xs font-semibold text-amber-400 uppercase tracking-wider">{project.category}</span>
                 <h3 className="text-white text-xl font-bold mt-1">{project.title}</h3>

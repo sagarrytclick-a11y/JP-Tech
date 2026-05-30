@@ -2,7 +2,9 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { FaRocket, FaChartLine, FaBullseye, FaTools, FaUsers, FaBolt, FaCogs, FaBriefcase, FaChevronDown } from 'react-icons/fa';
+import { FaRocket, FaChartLine, FaBullseye, FaTools, FaCheckCircle, FaArrowRight, FaChevronDown } from 'react-icons/fa';
+import Link from 'next/link';
+import { site } from '@/lib/site';
 
 const WhyChooseUs = () => {
   const reasons = [
@@ -19,17 +21,18 @@ const WhyChooseUs = () => {
         {/* Left: Image Placeholder */}
         <motion.div
           className="w-full md:w-1/3 h-[500px] rounded-2xl relative overflow-hidden"
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-        >
-          <Image
-            src="https://i.pinimg.com/736x/db/c5/82/dbc582cb4a5ef9df9fc7e82e283947b2.jpg"
-            alt="Founder"
-            fill
-            className="object-cover"
-          />
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            <Image
+              src="https://i.pinimg.com/736x/db/c5/82/dbc582cb4a5ef9df9fc7e82e283947b2.jpg"
+              alt="Founder"
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover"
+            />
         </motion.div>
 
         {/* Right: Text and Reasons */}
@@ -42,11 +45,11 @@ const WhyChooseUs = () => {
         >
           <div>
             <p className="text-amber-400 font-semibold tracking-wider text-sm"> Why Choose Us</p>
-            <h2 className="text-4xl font-extrabold mt-2 leading-tight">
-              Why Choose JP Technologies as the Best Digital Marketing Company
+            <h2 className="text-2xl sm:text-4xl font-extrabold mt-2 leading-tight">
+              Why Choose {site.name} as the Best Digital Marketing Company
             </h2>
             <p className="text-zinc-200 mt-4 leading-relaxed">
-              Today, the online space is as competitive as a fast-paced digital enterprise. Companies within India have more than just online presence that they require as a business partner that actually promotes its growth. JP Technologies is an excellent digital marketing agency because it provides custom solutions, strategic analysis, and quantifiable outcomes. Their professional team makes certain that each brand prospers on all digital platforms, so that the clients remain ahead of the game by being innovative and impactful in marketing.
+              Today, the online space is as competitive as a fast-paced digital enterprise. Companies within India have more than just online presence that they require as a business partner that actually promotes its growth. {site.name} is an excellent digital marketing agency because it provides custom solutions, strategic analysis, and quantifiable outcomes. Their professional team makes certain that each brand prospers on all digital platforms, so that the clients remain ahead of the game by being innovative and impactful in marketing.
             </p>
           </div>
 

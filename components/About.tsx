@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { site } from '@/lib/site';
 
 const About = () => {
   return (
@@ -17,13 +18,13 @@ const About = () => {
           transition={{ duration: 0.6 }}
         >
           <p className="text-amber-500 font-semibold tracking-wider text-sm">About Our Company</p>
-          <h2 className="text-4xl font-extrabold text-zinc-900 mt-2">
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-zinc-900 mt-2">
             Best Digital Marketing Agency in Noida<br/>
             Boosting Online Growth
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-6 sm:gap-12 items-center">
           {/* Images */}
           <motion.div
             className="relative"
@@ -33,17 +34,17 @@ const About = () => {
             transition={{ duration: 0.7 }}
           >
             <div className="grid grid-cols-2 gap-4">
-              <div className="h-64 relative rounded-2xl overflow-hidden">
-                <Image src="https://i.pinimg.com/736x/d5/44/3d/d5443d71e44c3ffbb73bd492d1b667bd.jpg" alt="Portfolio 1" fill className="object-cover" />
+              <div className="h-48 sm:h-64 relative rounded-2xl overflow-hidden">
+                <Image src="https://i.pinimg.com/736x/d5/44/3d/d5443d71e44c3ffbb73bd492d1b667bd.jpg" alt="Portfolio 1" fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover" />
               </div>
-              <div className="h-64 relative rounded-2xl overflow-hidden">
-                <Image src="https://i.pinimg.com/736x/93/86/f5/9386f512929d0bd27270ff36641c7fc7.jpg" alt="Portfolio 2" fill className="object-cover" />
+              <div className="h-48 sm:h-64 relative rounded-2xl overflow-hidden">
+                <Image src="https://i.pinimg.com/736x/93/86/f5/9386f512929d0bd27270ff36641c7fc7.jpg" alt="Portfolio 2" fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover" />
               </div>
-              <div className="h-64 relative rounded-2xl overflow-hidden">
-                <Image src="https://i.pinimg.com/1200x/ce/3e/77/ce3e770009fc5d7e270001be47898da1.jpg" alt="Portfolio 3" fill className="object-cover" />
+              <div className="h-48 sm:h-64 relative rounded-2xl overflow-hidden">
+                <Image src="https://i.pinimg.com/1200x/ce/3e/77/ce3e770009fc5d7e270001be47898da1.jpg" alt="Portfolio 3" fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover" />
               </div>
-              <div className="h-64 relative rounded-2xl overflow-hidden">
-                <Image src="https://i.pinimg.com/736x/3d/2a/f2/3d2af2fb4696e2659d42a1b1fc01be32.jpg" alt="Portfolio 4" fill className="object-cover" />
+              <div className="h-48 sm:h-64 relative rounded-2xl overflow-hidden">
+                <Image src="https://i.pinimg.com/736x/3d/2a/f2/3d2af2fb4696e2659d42a1b1fc01be32.jpg" alt="Portfolio 4" fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover" />
               </div>
             </div>
             {/* Experience Badge */}
@@ -68,7 +69,7 @@ const About = () => {
           >
             <h3 className="text-xl font-bold text-zinc-900">SEO | Google Ads | Social Media | Website</h3>
             <p className="text-zinc-600 leading-relaxed">
-              JP Technologies is one-stop solution to all your web marketing needs. 
+              {site.name} is one-stop solution to all your web marketing needs. 
               If you want to see an instant growth in your businesses through digital marketing strategies, 
               give us an opportunity to help you. From SEO, content writing, graphic designing, 
               website development to social media marketing, our team consists experts for everything.
@@ -84,7 +85,7 @@ const About = () => {
                 <span>📞</span>
                 <div>
                   <div className="text-xs text-zinc-500 font-normal">Call us anytime</div>
-                  <div>+91 8826 916 476</div>
+                  <div>{site.phone}</div>
                 </div>
               </div>
             </div>

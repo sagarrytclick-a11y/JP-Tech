@@ -2,12 +2,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaStar, FaQuoteLeft } from 'react-icons/fa';
+import { site } from '@/lib/site';
 
 const testimonials = [
   {
     name: "AlphaworldEducation",
     role: "Founder",
-    text: "JP Technologies transformed our online presence completely. Our student inquiries tripled since they revamped our website and social media strategy.",
+    text: `${site.name} transformed our online presence completely. Our student inquiries tripled since they revamped our website and social media strategy.`,
     rating: 5,
   },
   {
@@ -42,13 +43,13 @@ const Testimonials = () => {
           transition={{ duration: 0.6 }}
         >
           <p className="text-amber-500 font-semibold tracking-wider text-sm">Client Testimonials</p>
-          <h2 className="text-4xl font-extrabold text-zinc-900 mt-2">What Our Clients Say</h2>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 mt-2">What Our Clients Say</h2>
           <p className="text-zinc-600 mt-4 max-w-2xl mx-auto">
             Don&apos;t just take our word for it — hear from our clients about their experience working with us.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
           {testimonials.map((t, i) => (
             <motion.div
               key={i}

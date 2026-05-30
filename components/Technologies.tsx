@@ -29,7 +29,7 @@ const Technologies = () => {
           transition={{ duration: 0.6 }}
         >
           <p className="text-amber-500 font-semibold tracking-wider text-sm">Our Expertise</p>
-          <h2 className="text-4xl font-extrabold text-zinc-900 mt-2 mb-16">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 mt-2 mb-16">
             Technologies We Master to Build Your Success
           </h2>
         </motion.div>

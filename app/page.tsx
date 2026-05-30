@@ -1,21 +1,45 @@
+import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Stats from "@/components/Stats";
 import About from "@/components/About";
 import Services from "@/components/Services";
 import WhyChooseUs from "@/components/WhyChooseUs";
-import Process from "@/components/Process";
-import Pricing from "@/components/Pricing";
-import IndustriesServed from "@/components/IndustriesServed";
-import Projects from "@/components/Projects";
-import Testimonials from "@/components/Testimonials";
-import FounderMessage from "@/components/FounderMessage";
-import ClientLogos from "@/components/ClientLogos";
-import TeamSection from "@/components/TeamSection";
-import Technologies from "@/components/Technologies";
-import FAQSection from "@/components/FAQSection";
-import CallToAction from "@/components/CallToAction";
 import Footer from "@/components/Footer";
+import { site } from "@/lib/site";
+
+const Process = dynamic(() => import("@/components/Process"));
+const Pricing = dynamic(() => import("@/components/Pricing"));
+const IndustriesServed = dynamic(() => import("@/components/IndustriesServed"));
+const Projects = dynamic(() => import("@/components/Projects"));
+const Testimonials = dynamic(() => import("@/components/Testimonials"));
+const FounderMessage = dynamic(() => import("@/components/FounderMessage"));
+const ClientLogos = dynamic(() => import("@/components/ClientLogos"));
+const Technologies = dynamic(() => import("@/components/Technologies"));
+const FAQSection = dynamic(() => import("@/components/FAQSection"));
+const CallToAction = dynamic(() => import("@/components/CallToAction"));
+
+export const metadata: Metadata = {
+  title: `${site.name} — ${site.tagline}`,
+  description: `${site.description} Based in ${site.location}. ${site.stats.teamMembers} team, ${site.stats.happyClients}+ happy clients, ${site.stats.projectsDelivered}+ projects delivered.`,
+  openGraph: {
+    title: `${site.name} — Web Development & Social Media Marketing`,
+    description: site.description,
+    url: site.url,
+    siteName: site.name,
+    locale: "en_IN",
+    type: "website",
+    images: [{ url: `${site.url}/logo.png`, width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} — ${site.tagline}`,
+    description: site.description,
+    images: [`${site.url}/logo.png`],
+  },
+  alternates: { canonical: site.url },
+};
 
 export default function Home() {
   return (
@@ -32,10 +56,9 @@ export default function Home() {
         <IndustriesServed />
         <Projects />
         <Testimonials />
-        <ClientLogos />
         <FounderMessage />
+        <ClientLogos />
         <Technologies />
-        <TeamSection />
         <FAQSection />
         <CallToAction />
       </main>

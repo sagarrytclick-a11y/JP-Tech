@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaTrophy, FaEnvelope, FaPhone, FaRocket, FaChevronDown } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
 import { HiMenu, HiX } from 'react-icons/hi';
+import { site } from '@/lib/site';
 
 const Header = () => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -68,8 +69,8 @@ const Header = () => {
       {/* Contact & Sub-Menu Bar */}
       <div className="bg-[#f5b85a] py-2 px-6 flex justify-between items-center text-sm font-semibold text-black max-md:hidden">
         <div className="flex gap-6">
-          <Link href="mailto:contact@batterseawebexpert.com" className="flex items-center gap-2 hover:opacity-80"><FaEnvelope /> contact@batterseawebexpert.com</Link>
-          <Link href="tel:+918826916476" className="flex items-center gap-2 hover:opacity-80"><FaPhone /> +91 8826 916 476</Link>
+          <Link href={`mailto:${site.email}`} className="flex items-center gap-2 hover:opacity-80"><FaEnvelope /> {site.email}</Link>
+          <Link href={`tel:${site.phone.replace(/\s/g, '')}`} className="flex items-center gap-2 hover:opacity-80"><FaPhone /> {site.phone}</Link>
         </div>
         <div className="flex gap-6">
           <Link href="/about" className="hover:underline">About Us</Link>
@@ -81,8 +82,8 @@ const Header = () => {
       {/* Main Navigation */}
       <nav className="flex items-center justify-between py-4 px-6 border-b border-zinc-100 bg-white/95 backdrop-blur-sm">
         <Link href="/" className="flex items-center gap-3">
-          <Image src="/logo.png" alt="JP Technologies" width={40} height={40} className="object-contain" />
-          <span className="text-xl font-bold text-black">JP Technologies</span>
+          <Image src="/logo.png" alt={site.name} width={40} height={40} priority className="object-contain" />
+          <span className="text-xl font-bold text-black">{site.name}</span>
         </Link>
 
         {/* Desktop Nav */}
@@ -128,7 +129,8 @@ const Header = () => {
               </AnimatePresence>
             </div>
           ))}
-          <button onClick={() => window.dispatchEvent(new CustomEvent('openPopupForm'))} className="flex items-center hover:text-[#1e3a5a] transition-colors cursor-pointer">Contact</button>
+          <Link href="/pricing" className="flex items-center hover:text-[#1e3a5a] transition-colors">Pricing</Link>
+          <Link href="/contact" className="flex items-center hover:text-[#1e3a5a] transition-colors">Contact</Link>
         </div>
 
         <div className="flex items-center gap-4">
@@ -194,15 +196,17 @@ const Header = () => {
                   </AnimatePresence>
                 </div>
               ))}
-              <button
-                onClick={() => { window.dispatchEvent(new CustomEvent('openPopupForm')); setMobileOpen(false); }}
-                className="block py-3 text-sm font-semibold text-zinc-800 hover:text-[#1e3a5a] transition-colors cursor-pointer"
+              <Link href="/pricing" onClick={() => setMobileOpen(false)} className="block py-3 text-sm font-semibold text-zinc-800 hover:text-[#1e3a5a] transition-colors">Pricing</Link>
+              <Link
+                href="/contact"
+                onClick={() => setMobileOpen(false)}
+                className="block py-3 text-sm font-semibold text-zinc-800 hover:text-[#1e3a5a] transition-colors"
               >
                 Contact
-              </button>
+              </Link>
               <div className="pt-4 space-y-3 border-t border-zinc-100 mt-4">
-                <Link href="mailto:contact@batterseawebexpert.com" className="flex items-center gap-2 text-sm text-zinc-600"><FaEnvelope /> contact@batterseawebexpert.com</Link>
-                <Link href="tel:+918826916476" className="flex items-center gap-2 text-sm text-zinc-600"><FaPhone /> +91 8826 916 476</Link>
+                <Link href={`mailto:${site.email}`} className="flex items-center gap-2 text-sm text-zinc-600"><FaEnvelope /> {site.email}</Link>
+                <Link href={`tel:${site.phone.replace(/\s/g, '')}`} className="flex items-center gap-2 text-sm text-zinc-600"><FaPhone /> {site.phone}</Link>
               </div>
               <button
                 onClick={() => { window.dispatchEvent(new CustomEvent('openPopupForm')); setMobileOpen(false); }}
