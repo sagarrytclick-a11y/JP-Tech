@@ -7,6 +7,11 @@ import { FaRocket, FaCheckCircle, FaArrowRight, FaSpinner, FaStar } from 'react-
 
 const words = ["Stunning Websites", "Real Business Growth", "Social Media Impact", "Digital Dominance"];
 
+const seededRandom = (i: number) => {
+  const x = Math.sin(i * 12.9898 + 78.233) * 43758.5453;
+  return x - Math.floor(x);
+};
+
 const containerVariants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.12 } },
@@ -21,7 +26,7 @@ const Hero = () => {
   const [wordIndex, setWordIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", phone: "", website: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", city: "", service: "Web" });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -53,7 +58,7 @@ const Hero = () => {
     setTimeout(() => {
       setSubmitting(false);
       setSubmitted(true);
-      setForm({ name: "", email: "", phone: "", website: "" });
+      setForm({ name: "", email: "", phone: "", city: "", service: "Web" });
     }, 1200);
   };
 
@@ -130,17 +135,17 @@ const Hero = () => {
             key={i}
             className="absolute w-0.5 h-0.5 bg-amber-300 rounded-full"
             style={{
-              top: `${10 + Math.random() * 80}%`,
-              left: `${5 + Math.random() * 90}%`,
+              top: `${10 + seededRandom(i * 2) * 80}%`,
+              left: `${5 + seededRandom(i * 2 + 1) * 90}%`,
             }}
             animate={{
               opacity: [0, 1, 0],
               scale: [0, 1.5, 0],
             }}
             transition={{
-              duration: 2 + Math.random() * 3,
+              duration: 2 + seededRandom(i * 2 + 2) * 3,
               repeat: Infinity,
-              delay: Math.random() * 4,
+              delay: seededRandom(i * 2 + 3) * 4,
               ease: "easeInOut",
             }}
           />
@@ -313,12 +318,20 @@ const Hero = () => {
                   />
                   <motion.input
                     whileFocus={{ scale: 1.01 }}
-                    type="url"
-                    placeholder="Website URL"
-                    value={form.website}
-                    onChange={(e) => setForm({ ...form, website: e.target.value })}
+                    type="text"
+                    placeholder="City"
+                    value={form.city}
+                    onChange={(e) => setForm({ ...form, city: e.target.value })}
                     className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
                   />
+                  <motion.select
+                    value={form.service}
+                    onChange={(e) => setForm({ ...form, service: e.target.value })}
+                    className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
+                  >
+                    <option value="Web">Web Development</option>
+                    <option value="Social Media">Social Media Marketing</option>
+                  </motion.select>
                   {error && <p className="text-red-500 text-sm flex items-center gap-1"><span className="w-1.5 h-1.5 bg-red-500 rounded-full" /> {error}</p>}
                   <motion.button
                     type="submit"

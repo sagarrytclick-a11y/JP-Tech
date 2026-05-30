@@ -1,11 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaTimes, FaPaperPlane, FaCheckCircle, FaSpinner, FaCommentDots } from "react-icons/fa";
+import { FaTimes, FaArrowRight, FaCheckCircle, FaSpinner, FaCommentDots } from "react-icons/fa";
 
 const PopupForm = () => {
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "", service: "Web" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", city: "", service: "Web" });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -19,8 +19,8 @@ const PopupForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!form.name || !form.email || !form.phone) {
-      setError("Name, email, and phone are required.");
+    if (!form.name || !form.email) {
+      setError("Name and email are required.");
       return;
     }
     setSubmitting(true);
@@ -30,7 +30,7 @@ const PopupForm = () => {
     setTimeout(() => {
       setSubmitted(false);
       setOpen(false);
-      setForm({ name: "", email: "", phone: "", message: "", service: "Web" });
+      setForm({ name: "", email: "", phone: "", city: "", service: "Web" });
     }, 2000);
   };
 
@@ -94,58 +94,62 @@ const PopupForm = () => {
                     </div>
                     <div>
                       <h3 className="text-xl font-bold text-zinc-900">Quick Enquiry</h3>
-                      <p className="text-zinc-500 text-sm">Fill the form and we&apos;ll call you back.</p>
+                      <p className="text-zinc-500 text-sm">Fill in your details and we&apos;ll reach out.</p>
                     </div>
                   </div>
 
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <input
+                  <form onSubmit={handleSubmit} className="space-y-3.5">
+                    <div className="grid grid-cols-2 gap-3.5">
+                      <motion.input
+                        whileFocus={{ scale: 1.01 }}
                         type="text"
                         placeholder="Your Name *"
                         value={form.name}
                         onChange={(e) => setForm({ ...form, name: e.target.value })}
-                        className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100 transition-all bg-zinc-50 focus:bg-white"
+                        className="p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
                       />
-                      <input
+                      <motion.input
+                        whileFocus={{ scale: 1.01 }}
                         type="email"
                         placeholder="Your Email *"
                         value={form.email}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
-                        className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100 transition-all bg-zinc-50 focus:bg-white"
+                        className="p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
                       />
                     </div>
-                    <input
+                    <motion.input
+                      whileFocus={{ scale: 1.01 }}
                       type="tel"
-                      placeholder="Phone Number *"
+                      placeholder="Phone Number"
                       value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100 transition-all bg-zinc-50 focus:bg-white"
+                      className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
                     />
-                    <select
+                    <motion.input
+                      whileFocus={{ scale: 1.01 }}
+                      type="text"
+                      placeholder="City"
+                      value={form.city}
+                      onChange={(e) => setForm({ ...form, city: e.target.value })}
+                      className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
+                    />
+                    <motion.select
                       value={form.service}
                       onChange={(e) => setForm({ ...form, service: e.target.value })}
-                      className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100 transition-all bg-zinc-50 focus:bg-white"
+                      className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
                     >
                       <option value="Web">Web Development</option>
                       <option value="Social Media">Social Media Marketing</option>
-                    </select>
-                    <textarea
-                      placeholder="Your Message (optional)"
-                      rows={3}
-                      value={form.message}
-                      onChange={(e) => setForm({ ...form, message: e.target.value })}
-                      className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100 transition-all bg-zinc-50 focus:bg-white resize-none"
-                    />
+                    </motion.select>
                     {error && <p className="text-red-500 text-sm flex items-center gap-1"><span className="w-1.5 h-1.5 bg-red-500 rounded-full" /> {error}</p>}
                     <motion.button
                       type="submit"
-                      disabled={submitting}
-                      className="w-full bg-gradient-to-r from-[#1e3a5a] to-[#2a4f7a] text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-shadow disabled:opacity-70"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
+                      disabled={submitting}
+                      className="w-full bg-gradient-to-r from-[#1e3a5a] to-[#2a4f7a] text-white py-3.5 rounded-xl font-bold text-base flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-shadow disabled:opacity-70"
                     >
-                      {submitting ? <><FaSpinner className="animate-spin" /> Sending...</> : <>Submit Enquiry <FaPaperPlane /></>}
+                      {submitting ? <><FaSpinner className="animate-spin" /> Sending...</> : <>Submit Enquiry <FaArrowRight /></>}
                     </motion.button>
                   </form>
                 </>
