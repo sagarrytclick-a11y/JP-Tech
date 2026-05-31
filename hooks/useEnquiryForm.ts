@@ -24,22 +24,54 @@ export function useEnquiryForm(onSuccess?: () => void) {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+  const validateField = (field: string, value: string) => {
+    const result = enquirySchema.safeParse({ ...form, [field]: value });
+    if (!result.success) {
+      const issue = result.error.issues.find((i) => i.path[0] === field);
+      return issue ? issue.message : "";
+    }
+    return "";
+  };
 
   const updateField = <K extends keyof EnquiryFormData>(
     field: K,
     value: EnquiryFormData[K]
   ) => {
     setForm((prev) => ({ ...prev, [field]: value }));
+    if (touched[field]) {
+      const err = validateField(field, value);
+      setFieldErrors((prev) => ({ ...prev, [field]: err }));
+    }
+  };
+
+  const handleBlur = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    const err = validateField(field, form[field as keyof EnquiryFormData]);
+    setFieldErrors((prev) => ({ ...prev, [field]: err }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    const allTouched: Record<string, boolean> = {};
+    Object.keys(form).forEach((k) => { allTouched[k] = true; });
+    setTouched(allTouched);
+
     const parsed = enquirySchema.safeParse(form);
     if (!parsed.success) {
-      setError(parsed.error.issues[0].message);
+      const errs: Record<string, string> = {};
+      parsed.error.issues.forEach((issue) => {
+        const path = String(issue.path[0]);
+        if (!errs[path]) errs[path] = issue.message;
+      });
+      setFieldErrors(errs);
       return;
     }
+    setFieldErrors({});
     setSubmitting(true);
     try {
       const result = await submitEnquiry(form);
@@ -47,6 +79,8 @@ export function useEnquiryForm(onSuccess?: () => void) {
       setSubmitting(false);
       setSubmitted(true);
       setForm(initialForm);
+      setTouched({});
+      setFieldErrors({});
       onSuccess?.();
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong");
@@ -59,15 +93,19 @@ export function useEnquiryForm(onSuccess?: () => void) {
     setSubmitting(false);
     setSubmitted(false);
     setError("");
+    setFieldErrors({});
+    setTouched({});
   };
 
   return {
     form,
     setForm,
     updateField,
+    handleBlur,
     submitting,
     submitted,
     error,
+    fieldErrors,
     handleSubmit,
     reset,
   };
