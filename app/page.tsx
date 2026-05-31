@@ -19,6 +19,7 @@ const ClientLogos = dynamic(() => import("@/components/ClientLogos"));
 const Technologies = dynamic(() => import("@/components/Technologies"));
 const FAQSection = dynamic(() => import("@/components/FAQSection"));
 const CallToAction = dynamic(() => import("@/components/CallToAction"));
+const TextScrollDemo = dynamic(() => import("@/components/TextScrollDemo").then((m) => m.TextScrollDemo));
 
 export const metadata: Metadata = {
   title: `${site.name} — ${site.tagline}`,
@@ -48,6 +49,7 @@ export default function Home() {
       <main>
         <Hero />
         <Stats />
+        <TextScrollDemo />
         <About />
         <Services />
         <WhyChooseUs />
