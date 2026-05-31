@@ -13,7 +13,7 @@ const PopupForm = () => {
     return () => window.removeEventListener("openPopupForm", handler);
   }, []);
 
-  const { form, updateField, submitting, submitted, error, handleSubmit, reset } = useEnquiryForm(() => {
+  const { form, updateField, handleBlur, submitting, submitted, error, fieldErrors, handleSubmit, reset } = useEnquiryForm(() => {
     setTimeout(() => {
       reset();
       setOpen(false);
@@ -86,47 +86,67 @@ const PopupForm = () => {
 
                   <form onSubmit={handleSubmit} className="space-y-3.5">
                     <div className="grid grid-cols-2 gap-3.5">
+                      <div>
+                        <motion.input
+                          whileFocus={{ scale: 1.01 }}
+                          type="text"
+                          placeholder="Your Name *"
+                          value={form.name}
+                          onChange={(e) => updateField("name", e.target.value)}
+                          onBlur={() => handleBlur("name")}
+                          className="p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white w-full"
+                        />
+                        {fieldErrors.name && <p className="text-red-500 text-xs mt-1">{fieldErrors.name}</p>}
+                      </div>
+                      <div>
+                        <motion.input
+                          whileFocus={{ scale: 1.01 }}
+                          type="email"
+                          placeholder="Your Email *"
+                          value={form.email}
+                          onChange={(e) => updateField("email", e.target.value)}
+                          onBlur={() => handleBlur("email")}
+                          className="p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white w-full"
+                        />
+                        {fieldErrors.email && <p className="text-red-500 text-xs mt-1">{fieldErrors.email}</p>}
+                      </div>
+                    </div>
+                    <div>
+                      <motion.input
+                        whileFocus={{ scale: 1.01 }}
+                        type="tel"
+                        placeholder="Phone Number"
+                        value={form.phone}
+                        onChange={(e) => updateField("phone", e.target.value)}
+                        onBlur={() => handleBlur("phone")}
+                        className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
+                      />
+                      {fieldErrors.phone && <p className="text-red-500 text-xs mt-1">{fieldErrors.phone}</p>}
+                    </div>
+                    <div>
                       <motion.input
                         whileFocus={{ scale: 1.01 }}
                         type="text"
-                        placeholder="Your Name *"
-                        value={form.name}
-                        onChange={(e) => updateField("name", e.target.value)}
-                        className="p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
+                        placeholder="City"
+                        value={form.city}
+                        onChange={(e) => updateField("city", e.target.value)}
+                        onBlur={() => handleBlur("city")}
+                        className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
                       />
-                      <motion.input
-                        whileFocus={{ scale: 1.01 }}
-                        type="email"
-                        placeholder="Your Email *"
-                        value={form.email}
-                        onChange={(e) => updateField("email", e.target.value)}
-                        className="p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
-                      />
+                      {fieldErrors.city && <p className="text-red-500 text-xs mt-1">{fieldErrors.city}</p>}
                     </div>
-                    <motion.input
-                      whileFocus={{ scale: 1.01 }}
-                      type="tel"
-                      placeholder="Phone Number"
-                      value={form.phone}
-                      onChange={(e) => updateField("phone", e.target.value)}
-                      className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
-                    />
-                    <motion.input
-                      whileFocus={{ scale: 1.01 }}
-                      type="text"
-                      placeholder="City"
-                      value={form.city}
-                      onChange={(e) => updateField("city", e.target.value)}
-                      className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
-                    />
-                    <motion.select
-                      value={form.service}
-                      onChange={(e) => updateField("service", e.target.value)}
-                      className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
-                    >
-                      <option value="Web">Web Development</option>
-                      <option value="Social Media">Social Media Marketing</option>
-                    </motion.select>
+                    <div>
+                      <motion.select
+                        value={form.service}
+                        onChange={(e) => updateField("service", e.target.value)}
+                        onBlur={() => handleBlur("service")}
+                        className="w-full p-3.5 border border-zinc-200 rounded-xl text-zinc-900 transition-all focus:shadow-lg focus:border-amber-400 outline-none bg-zinc-50 focus:bg-white"
+                      >
+                        <option value="Web">Web Development</option>
+                        <option value="Social Media">Social Media Marketing</option>
+                      </motion.select>
+                      {fieldErrors.service && <p className="text-red-500 text-xs mt-1">{fieldErrors.service}</p>}
+                    </div>
                     {error && <p className="text-red-500 text-sm flex items-center gap-1"><span className="w-1.5 h-1.5 bg-red-500 rounded-full" /> {error}</p>}
                     <motion.button
                       type="submit"

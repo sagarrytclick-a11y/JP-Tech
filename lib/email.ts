@@ -37,7 +37,7 @@ export async function sendEnquiryEmail(data: {
 
   await resend.emails.send({
     from: site.emailFrom,
-    to: process.env.ADMIN_EMAIL || site.email,
+    to: process.env.NOTIFICATION_EMAIL || site.email,
     subject: `New Enquiry from ${data.name} — ${data.service}`,
     html,
   });
