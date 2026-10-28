@@ -13,7 +13,7 @@ export default function ProjectMockup({ variant }: { variant: MockupVariant }) {
   const { accent, bars } = variants[variant];
 
   return (
-    <div className="relative h-[172px] w-full overflow-hidden bg-[#e8ecf4] p-3 sm:h-[200px]">
+    <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#e8ecf4] p-3 transition-transform duration-300 group-hover:scale-[1.02]">
       <div className="flex h-full gap-2 rounded-xl bg-white p-2.5 shadow-[0_10px_30px_-18px_rgba(15,23,42,0.45)]">
         <div className="hidden w-[22%] flex-col gap-2 rounded-lg bg-[#f6f8fc] p-2 sm:flex">
           <div className="flex items-center gap-1.5">

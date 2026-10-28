@@ -10,7 +10,7 @@ import Footer from "@/components/site/Footer";
 export const metadata: Metadata = {
   title: "Pricing | JP Technology",
   description:
-    "Transparent one-time pricing for business websites, custom CRMs, admin dashboards, educational platforms, MERN websites, and custom web applications.",
+    "Transparent starting prices for business websites, custom CRM dashboards, mobile apps, and SaaS platforms, plus AI automation, e-commerce, and care plans.",
   alternates: {
     canonical: "/pricing",
   },

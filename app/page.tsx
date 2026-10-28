@@ -7,7 +7,6 @@ import SolutionsSection from "@/components/site/SolutionsSection";
 import BuildSection from "@/components/site/BuildSection";
 import ProcessSection from "@/components/site/ProcessSection";
 import WhyChoose from "@/components/site/WhyChoose";
-import Projects from "@/components/site/Projects";
 import EngagementSection from "@/components/site/EngagementSection";
 import IndustriesSection from "@/components/site/IndustriesSection";
 import TestimonialsSection from "@/components/site/TestimonialsSection";
@@ -35,7 +34,6 @@ export default function Home() {
         <BuildSection />
         <ProcessSection />
         <WhyChoose />
-        <Projects />
         <EngagementSection />
         <IndustriesSection />
         <TestimonialsSection />

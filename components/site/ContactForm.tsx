@@ -160,80 +160,17 @@ export default function ContactForm({
           {errorText("service")}
         </div>
 
-        <div>
-          <label htmlFor={fieldId("industry")} className="field-label">
-            Industry
-          </label>
-          <div className="relative">
-            <select
-              id={fieldId("industry")}
-              name="industry"
-              value={form.industry}
-              onChange={(event) => updateField("industry", event.target.value)}
-              onBlur={() => handleBlur("industry")}
-              className={`field appearance-none pr-10 ${
-                form.industry ? "text-white" : "text-white/40"
-              }`}
-              aria-invalid={Boolean(fieldErrors.industry)}
-            >
-              <option value="">Select industry</option>
-              {site.industries.map((industry) => (
-                <option key={industry} value={industry}>
-                  {industry}
-                </option>
-              ))}
-            </select>
-            <ChevronDown
-              size={16}
-              className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-white/70"
-              aria-hidden="true"
-            />
-          </div>
-          {errorText("industry")}
-        </div>
-
-        <div>
-          <label htmlFor={fieldId("budget")} className="field-label">
-            Budget
-          </label>
-          <div className="relative">
-            <select
-              id={fieldId("budget")}
-              name="budget"
-              value={form.budget}
-              onChange={(event) => updateField("budget", event.target.value)}
-              onBlur={() => handleBlur("budget")}
-              className={`field appearance-none pr-10 ${
-                form.budget ? "text-white" : "text-white/40"
-              }`}
-              aria-invalid={Boolean(fieldErrors.budget)}
-            >
-              <option value="">Select budget range</option>
-              {site.budgets.map((budget) => (
-                <option key={budget} value={budget}>
-                  {budget}
-                </option>
-              ))}
-            </select>
-            <ChevronDown
-              size={16}
-              className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-white/70"
-              aria-hidden="true"
-            />
-          </div>
-          {errorText("budget")}
-        </div>
       </div>
 
       <div className="mt-4">
         <label htmlFor={fieldId("message")} className="field-label">
-          Tell us more about your project
+          Message
         </label>
         <textarea
           id={fieldId("message")}
           name="message"
           rows={4}
-          placeholder="Briefly describe your idea or requirements"
+          placeholder="Tell us about your project, timeline, or what you need help with"
           value={form.message}
           onChange={(event) => updateField("message", event.target.value)}
           onBlur={() => handleBlur("message")}

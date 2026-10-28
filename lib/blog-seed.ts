@@ -9,6 +9,7 @@ export type BlogPostView = {
   authorRole: string;
   tags: string[];
   coverTone: string;
+  coverImage?: string;
   readTime: number;
   published: boolean;
   publishedAt: string;

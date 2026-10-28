@@ -14,9 +14,9 @@ import ContactSection from "@/components/site/ContactSection";
 import Footer from "@/components/site/Footer";
 
 export const metadata: Metadata = {
-  title: "About JP Technology | Web & Mobile App Development Agency",
+  title: "About JP Technology | Web & IT Agency",
   description:
-    "JP Technology is a trusted web and mobile app development agency helping startups and enterprises build reliable digital solutions worldwide. Meet the team behind the work.",
+    "JP Technology is a web and IT agency building business websites, custom CRM dashboards, native apps, SaaS platforms, and AI automation. Meet the team behind the work.",
   alternates: {
     canonical: "/about",
   },

@@ -24,34 +24,52 @@ export default function BlogCard({
             featured ? "h-[190px] sm:h-[220px]" : "h-[148px]"
           }`}
         >
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 opacity-[0.14]"
-            style={{
-              backgroundImage:
-                "repeating-linear-gradient(45deg, #ffffff 0 1px, transparent 1px 9px)",
-            }}
-          />
-          <div
-            aria-hidden="true"
-            className="absolute -right-10 -top-14 h-44 w-44 rounded-full border border-white/10"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute -right-3 -top-5 h-28 w-28 rounded-full border border-white/[0.07]"
-          />
+          {post.coverImage ? (
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element -- cover images can be any external URL */}
+              <img
+                src={post.coverImage}
+                alt=""
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-black/30"
+              />
+            </>
+          ) : (
+            <>
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 opacity-[0.14]"
+                style={{
+                  backgroundImage:
+                    "repeating-linear-gradient(45deg, #ffffff 0 1px, transparent 1px 9px)",
+                }}
+              />
+              <div
+                aria-hidden="true"
+                className="absolute -right-10 -top-14 h-44 w-44 rounded-full border border-white/10"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute -right-3 -top-5 h-28 w-28 rounded-full border border-white/[0.07]"
+              />
 
-          <div className="absolute inset-x-4 inset-y-4 flex items-end">
-            <span className="text-[54px] font-semibold leading-none tracking-[-0.06em] text-white/[0.07]">
-              {post.title.slice(0, 2).toUpperCase()}
-            </span>
-          </div>
+              <div className="absolute inset-x-4 inset-y-4 flex items-end">
+                <span className="text-[54px] font-semibold leading-none tracking-[-0.06em] text-white/[0.07]">
+                  {post.title.slice(0, 2).toUpperCase()}
+                </span>
+              </div>
+            </>
+          )}
 
           <div className="absolute inset-x-4 top-4 flex items-center justify-between gap-3">
-            <span className="rounded-full border border-white/15 bg-black/25 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/80 backdrop-blur-sm">
+            <span className="rounded-full border border-white/15 bg-black/35 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/90 backdrop-blur-sm">
               {post.category}
             </span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-black/25 px-2 py-1 text-[10px] text-white/65 backdrop-blur-sm">
+            <span className="inline-flex items-center gap-1 rounded-full bg-black/35 px-2 py-1 text-[10px] text-white/75 backdrop-blur-sm">
               <Clock size={10} aria-hidden="true" />
               {post.readTime} min
             </span>

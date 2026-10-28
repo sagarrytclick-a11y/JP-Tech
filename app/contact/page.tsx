@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { Mail, Phone } from "lucide-react";
 import TopBar from "@/components/site/TopBar";
 import Navbar from "@/components/site/Navbar";
 import HeroRings from "@/components/site/HeroRings";
 import ContactSection from "@/components/site/ContactSection";
 import Footer from "@/components/site/Footer";
-import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contact Us | JP Technology",
@@ -38,28 +36,19 @@ export default function ContactPage() {
               business day.
             </p>
 
-            <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-              <a
-                href={`tel:${site.phoneHref}`}
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/[0.03] px-5 text-[13px] font-medium text-white/85 transition-colors hover:bg-white/[0.07] hover:text-white sm:w-auto"
-              >
-                <Phone size={15} className="text-accent" aria-hidden="true" />
-                {site.phone}
-              </a>
-              <a
-                href={`mailto:${site.email}`}
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/[0.03] px-5 text-[13px] font-medium text-white/85 transition-colors hover:bg-white/[0.07] hover:text-white sm:w-auto"
-              >
-                <Mail size={15} className="text-accent" aria-hidden="true" />
-                {site.email}
-              </a>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[12px] text-white/40">
+              <span>Discovery call</span>
+              <span className="h-1 w-1 rounded-full bg-white/20" />
+              <span>Written scope</span>
+              <span className="h-1 w-1 rounded-full bg-white/20" />
+              <span>No obligation</span>
             </div>
           </section>
         </div>
       </div>
 
       <main>
-        <ContactSection />
+        <ContactSection showHeader={false} />
       </main>
 
       <Footer />

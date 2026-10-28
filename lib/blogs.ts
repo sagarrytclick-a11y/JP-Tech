@@ -24,6 +24,7 @@ export function serializeBlog(doc: LeanBlog): BlogPostView {
     authorRole: String(doc.authorRole ?? "Product & engineering"),
     tags: Array.isArray(doc.tags) ? doc.tags.map(String) : [],
     coverTone: String(doc.coverTone ?? "orange"),
+    coverImage: String(doc.coverImage ?? ""),
     readTime: Number(doc.readTime ?? 5),
     published: Boolean(doc.published),
     publishedAt: toIsoDate(doc.publishedAt),

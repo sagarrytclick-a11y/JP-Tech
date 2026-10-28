@@ -7,8 +7,8 @@ export const enquirySchema = z.object({
     .string()
     .regex(/^\+?[\d\s-]{10,15}$/, 'Enter a valid 10-digit phone number'),
   service: z.string().min(1, 'Please select a service'),
-  industry: z.string().min(1, 'Please select an industry'),
-  budget: z.string().min(1, 'Please select a budget range'),
+  industry: z.string().optional().default(''),
+  budget: z.string().optional().default(''),
   message: z
     .string()
     .min(10, 'Please describe your project in at least 10 characters')

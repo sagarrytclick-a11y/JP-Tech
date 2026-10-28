@@ -1,11 +1,11 @@
 import {
   Check,
-  Code2,
   LayoutDashboard,
   PanelsTopLeft,
   Rocket,
   Settings2,
   Smartphone,
+  TrendingUp,
   X,
   type LucideIcon,
 } from "lucide-react";
@@ -28,126 +28,104 @@ const plans: Plan[] = [
   {
     name: "Landing Page",
     description:
-      "High-converting single-page website perfect for campaigns.",
+      "A focused single page for a launch, campaign, or new offer. Fast, mobile-first, and built to convert.",
     price: "9,999",
-    cta: "Get Started",
-    icon: Smartphone,
+    cta: "Start here",
+    icon: PanelsTopLeft,
     features: [
-      "Single Page Design",
-      "Responsive Layout",
-      "Basic SEO",
-      "Contact Form",
-      "Performance Optimized",
-      "7 Days Support",
+      "Single-page design",
+      "Copy structure guidance",
+      "Responsive build",
+      "Contact / enquiry form",
+      "Basic on-page SEO",
+      "7 days of launch support",
     ],
-    excluded: [
-      "Admin Dashboard",
-      "Blog & CMS",
-      "Dedicated Manager",
-      "Ongoing Maintenance",
-    ],
+    excluded: ["CMS or blog", "Custom integrations", "Care plan"],
   },
   {
     name: "Business Website",
     description:
-      "Professional multi-page site (5\u20137 pages) for small businesses.",
+      "A complete 5–7 page website for a service business that needs to look credible and capture enquiries.",
     price: "19,999",
-    cta: "Get Started",
-    icon: PanelsTopLeft,
+    cta: "Get a quote",
+    icon: Rocket,
     popular: true,
     features: [
-      "5\u20137 Pages",
-      "Responsive Design",
-      "Contact Form",
-      "Basic SEO",
-      "Social Media Integration",
-      "Google Maps Integration",
+      "5–7 custom pages",
+      "Service & about pages",
+      "Enquiry form + email alerts",
+      "Google Maps & analytics",
+      "On-page SEO setup",
+      "30 days of support",
     ],
-    excluded: [
-      "Admin Dashboard",
-      "Blog & CMS",
-      "Dedicated Manager",
-      "Ongoing Maintenance",
-    ],
+    excluded: ["Admin dashboard", "Blog & CMS", "Custom integrations"],
   },
   {
-    name: "Premium Business",
-    description: "Feature-rich website with advanced capabilities.",
-    price: "34,999",
-    cta: "Learn More",
-    icon: Rocket,
-    features: [
-      "Everything in Business",
-      "Blog & CMS",
-      "Advanced SEO",
-      "Admin Dashboard",
-      "Performance Optimization",
-      "Priority Support",
-    ],
-    excluded: [
-      "E-commerce Ready",
-      "Custom Integrations",
-      "Dedicated Manager",
-      "Ongoing Maintenance",
-    ],
-  },
-  {
-    name: "Custom MERN Website",
-    description: "Full-stack MERN application tailored to your business.",
-    price: "59,999",
-    cta: "Get Started",
-    icon: Code2,
-    features: [
-      "MERN Stack (MongoDB, Express, React, Node.js)",
-      "Custom UI/UX Design",
-      "RESTful API Development",
-      "Authentication & Authorization",
-      "Database Design & Management",
-      "Admin Panel",
-      "Third-Party Integrations",
-      "Dedicated Team",
-      "24/7 Support",
-      "Ongoing Maintenance",
-    ],
-  },
-  {
-    name: "Admin Dashboard",
-    description: "Powerful admin panel to manage your business operations.",
-    price: "39,999",
-    cta: "Get Started",
-    icon: LayoutDashboard,
-    features: [
-      "Custom Dashboard Design",
-      "User Management",
-      "Data Visualization & Charts",
-      "Role-Based Access Control",
-      "Export & Reporting",
-      "API Integration Ready",
-      "Third-Party Integrations",
-      "Dedicated Manager",
-      "24/7 Support",
-      "Ongoing Maintenance",
-    ],
-  },
-  {
-    name: "Custom Web Application",
+    name: "Growth Website",
     description:
-      "End-to-end custom web application for complex business needs.",
-    price: "79,999",
-    suffix: "Starting",
-    cta: "Get Started",
-    icon: Settings2,
+      "For businesses that publish regularly and need the site connected to their sales process.",
+    price: "34,999",
+    cta: "Get a quote",
+    icon: TrendingUp,
     features: [
-      "Tailored Architecture",
-      "Full-Stack Development",
-      "Third-Party Integrations",
-      "Advanced Security",
-      "Dedicated Team",
-      "Priority Support & SLA",
-      "Custom Training",
-      "Unlimited Revisions",
-      "24/7 Support",
-      "Ongoing Maintenance",
+      "10–15 pages + blog",
+      "Editable CMS for your team",
+      "Advanced SEO & schema",
+      "CRM / WhatsApp integration",
+      "Speed & accessibility pass",
+      "60 days of support",
+    ],
+    excluded: ["Custom dashboard", "Mobile app", "Care plan"],
+  },
+  {
+    name: "CRM & Dashboard",
+    description:
+      "A custom pipeline, admin panel, or internal tool that replaces spreadsheets and scattered follow-ups.",
+    price: "39,999",
+    cta: "Scope my CRM",
+    icon: LayoutDashboard,
+    suffix: "Starting",
+    features: [
+      "Custom data model & screens",
+      "Leads, deals, tasks, reporting",
+      "Role-based access control",
+      "Export & activity history",
+      "Email / WhatsApp notifications",
+      "Admin walkthrough & docs",
+    ],
+  },
+  {
+    name: "Mobile App",
+    description:
+      "iOS and Android app for customers or field teams, built cross-platform unless native is genuinely needed.",
+    price: "49,999",
+    cta: "Discuss the app",
+    icon: Smartphone,
+    suffix: "Starting",
+    features: [
+      "iOS + Android from one codebase",
+      "UI design & clickable prototype",
+      "API and backend integration",
+      "Push notifications",
+      "Store submission support",
+      "30 days of post-launch fixes",
+    ],
+  },
+  {
+    name: "SaaS Platform",
+    description:
+      "A multi-tenant product with subscriptions, onboarding, and the admin controls a real business needs.",
+    price: "79,999",
+    cta: "Plan the platform",
+    icon: Settings2,
+    suffix: "Starting",
+    features: [
+      "Multi-tenant architecture",
+      "Subscriptions & billing hooks",
+      "User roles & permissions",
+      "Customer + admin portals",
+      "Usage reporting",
+      "Documented handover",
     ],
   },
 ];
@@ -261,9 +239,44 @@ export default function PricingPlans() {
         )}
       </div>
 
+      <div className="mx-auto mt-6 grid max-w-[1240px] gap-3 rounded-2xl border border-line bg-[#101010] p-5 sm:grid-cols-2 sm:p-6 lg:grid-cols-4">
+        {[
+          {
+            name: "AI automation",
+            price: "From \u20b914,999",
+            desc: "Lead scoring, reply drafts, document extraction.",
+          },
+          {
+            name: "E-commerce",
+            price: "From \u20b924,999",
+            desc: "Catalogue, payments, shipping, order operations.",
+          },
+          {
+            name: "Integrations",
+            price: "From \u20b99,999",
+            desc: "Payments, WhatsApp, ERP, accounting, logistics.",
+          },
+          {
+            name: "Care plan",
+            price: "From \u20b98,000 / mo",
+            desc: "Monitoring, updates, backups, monthly improvements.",
+          },
+        ].map((addon) => (
+          <div key={addon.name} className="rounded-xl bg-white/[0.02] p-4">
+            <p className="text-[13px] font-semibold text-white">{addon.name}</p>
+            <p className="mt-1 text-[12px] font-medium text-accent">
+              {addon.price}
+            </p>
+            <p className="mt-1.5 text-[11.5px] leading-relaxed text-white/45">
+              {addon.desc}
+            </p>
+          </div>
+        ))}
+      </div>
+
       <p className="mx-auto mt-8 max-w-[720px] text-center text-[12px] leading-relaxed text-white/45 sm:text-[13px]">
-        All prices are one-time and exclusive of applicable taxes. Need a
-        different scope?{" "}
+        Project prices are one-time and exclusive of applicable taxes. Care
+        plans are billed monthly. Need a different scope?{" "}
         <ContactButton className="font-medium text-accent underline-offset-4 hover:underline">
           Talk to us
         </ContactButton>{" "}

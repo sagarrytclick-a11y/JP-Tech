@@ -2,21 +2,21 @@ import Image from "next/image";
 
 const team = [
   {
-    name: "Gaurav Srivastava",
+    name: "Gaurav rathore",
     role: "Founder & CEO",
     image: "/images/gaurav.png",
     width: 481,
     height: 600,
     linkedin: "https://www.linkedin.com/in/imsrivastavagaurav/",
     paragraphs: [
-      "Gaurav Srivastava is a Product Growth Strategist and Founder who began his journey in the 3rd year of college, driven by curiosity and a passion for building real-world solutions beyond academics.",
+      "Sagar Bisht is a Product Growth Strategist and Founder who began his journey in the 3rd year of college, driven by curiosity and a passion for building real-world solutions beyond academics.",
       "He founded JP Technology with a clear belief: technology should solve real problems and drive measurable business growth. Today, JP Technology builds web apps, mobile apps, SaaS platforms, and AI solutions across B2B, Healthcare, CareerTech, and Enterprise, maintaining 100% client retention through trust and long-term value.",
       "Beyond building products, Gaurav helps founders and businesses grow by simplifying product thinking, strengthening execution systems, and using technology and AI to scale smarter. His focus is on clarity turning ideas into structured roadmaps and growth-driven products.",
     ],
   },
   {
-    name: "Yudhishthir Sharma",
-    role: "CTO",
+    name: "Sagar Bisht",
+    role: "Co-Founder & CTO",
     image: "/images/yudi.png",
     width: 480,
     height: 600,

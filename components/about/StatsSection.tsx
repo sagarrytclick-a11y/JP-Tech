@@ -12,8 +12,8 @@ const stats: {
   lines: [string, string];
   icon: LucideIcon;
 }[] = [
-  { value: "20+", lines: ["Products", "Delivered"], icon: Package },
-  { value: "3+", lines: ["Years of", "Experience"], icon: Users },
+  { value: "60+", lines: ["Products", "Delivered"], icon: Package },
+  { value: "6+", lines: ["Years of", "Experience"], icon: Users },
   { value: "15+", lines: ["Industries", "Served"], icon: Factory },
   { value: "", lines: ["Global", "Delivery"], icon: Globe },
   { value: "98%", lines: ["Retention", "Rate"], icon: Star },

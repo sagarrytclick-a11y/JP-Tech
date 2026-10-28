@@ -1,4 +1,7 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import { Quote, Star } from "lucide-react";
+import ClientMark from "@/components/site/ClientMark";
 
 const testimonials = [
   {
@@ -7,6 +10,8 @@ const testimonials = [
     name: "Operations Head",
     company: "Raam Group",
     context: "Automotive warranty platform",
+    image: "/images/clients/raam-group.png",
+    fit: "contain" as const,
   },
   {
     quote:
@@ -14,6 +19,8 @@ const testimonials = [
     name: "Sales Director",
     company: "SmartShakti",
     context: "CRM & lead management",
+    image: "/images/clients/smartshakti.png",
+    fit: "contain" as const,
   },
   {
     quote:
@@ -21,8 +28,22 @@ const testimonials = [
     name: "Product Lead",
     company: "College Duniya",
     context: "Education platform",
+    image: "/images/clients/college-duniya.png",
+    fit: "contain" as const,
   },
 ];
+
+/**
+ * Only reference an image when the file actually exists in /public, so a
+ * missing logo shows the initials fallback instead of a broken image icon.
+ */
+function resolveImage(src: string) {
+  try {
+    return existsSync(path.join(process.cwd(), "public", src)) ? src : undefined;
+  } catch {
+    return undefined;
+  }
+}
 
 export default function TestimonialsSection() {
   return (
@@ -42,12 +63,18 @@ export default function TestimonialsSection() {
       <div className="mt-9 grid gap-4 sm:mt-11 lg:grid-cols-3">
         {testimonials.map((testimonial) => (
           <figure
-            key={testimonial.name}
+            key={testimonial.company}
             className="flex flex-col rounded-2xl border border-line bg-[#141414] p-6 transition-colors hover:border-white/20"
           >
-            <div className="flex items-center justify-between">
-              <Quote size={22} className="text-accent/50" aria-hidden="true" />
-              <div className="flex gap-0.5">
+            <div className="flex items-start justify-between gap-4">
+              <ClientMark
+                src={resolveImage(testimonial.image)}
+                name={testimonial.company}
+                fit={testimonial.fit}
+                className="h-11 w-[74px] shrink-0"
+              />
+
+              <div className="flex shrink-0 gap-0.5 pt-1.5">
                 {[0, 1, 2, 3, 4].map((star) => (
                   <Star
                     key={star}
@@ -59,7 +86,12 @@ export default function TestimonialsSection() {
               </div>
             </div>
 
-            <blockquote className="mt-4 flex-1 text-[13px] leading-[1.7] text-white/65">
+            <blockquote className="relative mt-5 flex-1 text-[13px] leading-[1.7] text-white/65">
+              <Quote
+                size={16}
+                className="mb-1.5 text-accent/45"
+                aria-hidden="true"
+              />
               &ldquo;{testimonial.quote}&rdquo;
             </blockquote>
 

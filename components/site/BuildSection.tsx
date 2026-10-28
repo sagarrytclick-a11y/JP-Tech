@@ -68,6 +68,32 @@ function PhoneMockup() {
   );
 }
 
+function SmallPhoneMockup({ rotationClass }: { rotationClass: string }) {
+  return (
+    <div className={`relative h-[190px] w-[100px] overflow-hidden rounded-[20px] border-[4px] border-[#222222] bg-[#0b0b0b] opacity-65 shadow-2xl transition-all duration-300 hover:opacity-100 ${rotationClass}`}>
+      <div className="absolute left-1/2 top-1 h-1 w-7 -translate-x-1/2 rounded-full bg-[#222222]" />
+      <div className="flex h-full flex-col px-2 pb-2.5 pt-4">
+        <div className="flex items-center justify-between">
+          <div className="h-1 w-6 rounded bg-white/20" />
+          <span className="h-3.5 w-3.5 rounded-full bg-accent/20" />
+        </div>
+        <div className="mt-2.5 rounded bg-accent/80 p-1.5">
+          <div className="h-1 w-6 rounded bg-white/50" />
+          <div className="mt-1 text-[9px] font-bold text-white">₹48K</div>
+        </div>
+        <div className="mt-2 space-y-1">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="h-2.5 rounded bg-white/[0.04] p-1">
+              <div className="h-0.5 w-full rounded bg-white/20" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
 export default function BuildSection() {
   return (
     <section id="build" className="shell py-12 lg:py-16">
@@ -129,7 +155,7 @@ export default function BuildSection() {
         </article>
 
         {/* 2. Mobile Mockup Card (As requested: Mobile wala chhod kar baaki me image) */}
-        <article className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-line bg-[linear-gradient(155deg,#191919,#0f0f0f)] p-5 sm:p-6 lg:col-span-5">
+       <article className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-line bg-[linear-gradient(155deg,#191919,#0f0f0f)] p-5 sm:p-6 lg:col-span-5">
           <div>
             <span className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-accent">
               <Smartphone size={13} aria-hidden="true" />
@@ -144,8 +170,22 @@ export default function BuildSection() {
             </p>
           </div>
 
-          <div className="mt-5 flex items-end justify-center">
-            <PhoneMockup />
+          {/* Three Phones Aligned Design */}
+          <div className="mt-5 flex items-end justify-center gap-2 sm:gap-4 overflow-hidden py-2">
+            {/* Left Small Phone (Slightly rotated left) */}
+            <div className="hidden sm:block -mr-6 translate-y-4 z-0">
+              <SmallPhoneMockup rotationClass="-rotate-6 origin-bottom-right" />
+            </div>
+
+            {/* Main Center Phone */}
+            <div className="z-10">
+              <PhoneMockup />
+            </div>
+
+            {/* Right Small Phone (Slightly rotated right) */}
+            <div className="hidden sm:block -ml-6 translate-y-4 z-0">
+              <SmallPhoneMockup rotationClass="rotate-6 origin-bottom-left" />
+            </div>
           </div>
 
           <div className="mt-5 flex items-center justify-between gap-3 border-t border-white/[0.06] pt-4">

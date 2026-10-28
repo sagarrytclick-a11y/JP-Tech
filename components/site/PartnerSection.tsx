@@ -1,16 +1,7 @@
-const partners = [
-  "MG Portal",
-  "360 Car Protect",
-  "SOV Portal",
-  "SmartShakti",
-  "College Duniya",
-  "Vidya Vriddhi",
-];
-
 const stats = [
-  { value: "40+", label: "Products shipped" },
+  { value: "60+", label: "Products shipped" },
   { value: "6+", label: "Years building" },
-  { value: "9", label: "Industries served" },
+  { value: "15+", label: "Industries served" },
   { value: "98%", label: "Client retention" },
 ];
 
@@ -18,9 +9,7 @@ export default function PartnerSection() {
   return (
     <section id="trust" className="shell py-8 lg:py-10">
       <div className="overflow-hidden rounded-[24px] border border-line bg-[#101010] sm:rounded-[30px]">
-       
-
-        <div className="grid grid-cols-2 border-t border-white/[0.06] sm:grid-cols-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4">
           {stats.map((stat, index) => (
             <div
               key={stat.label}

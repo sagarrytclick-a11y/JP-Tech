@@ -33,6 +33,7 @@ export async function POST() {
         authorRole: post.authorRole,
         tags: post.tags,
         coverTone: post.coverTone,
+        coverImage: post.coverImage || "",
         readTime: post.readTime,
         published: post.published,
         publishedAt: new Date(post.publishedAt),

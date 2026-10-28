@@ -1,14 +1,5 @@
 import Image from "next/image";
-import {
-  BadgeCheck,
-  CalendarCheck2,
-  Code2,
-  Plug,
-  ShieldCheck,
-  Sparkles,
-  Users,
-  CheckCircle2,
-} from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import ContactButton from "@/components/contact/ContactButton";
 
 const highlights = [
@@ -61,7 +52,7 @@ export default function WhyChoose() {
             We build modern software products that actually ship and scale.
           </h3>
           <p className="mt-4 text-sm leading-relaxed text-white/70">
-            We don't just write code; we partner with your business to streamline
+            We don&apos;t just write code; we partner with your business to streamline
             workflows, eliminate technical debt, and build systems engineered for long-term growth.
           </p>
 

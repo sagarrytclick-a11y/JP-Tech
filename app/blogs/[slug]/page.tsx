@@ -11,6 +11,7 @@ import BlogCard from "@/components/blog/BlogCard";
 import BlogContent from "@/components/blog/BlogContent";
 import { getBlogBySlug, getPublishedBlogs } from "@/lib/blogs";
 import { blogTones, formatBlogDate } from "@/lib/blog-theme";
+import { site } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -35,6 +36,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       publishedTime: post.publishedAt,
       authors: [post.author],
       tags: post.tags,
+      images: post.coverImage
+        ? [
+            {
+              url: /^https?:\/\//i.test(post.coverImage)
+                ? post.coverImage
+                : new URL(post.coverImage, site.url).toString(),
+              alt: post.title,
+            },
+          ]
+        : undefined,
     },
   };
 }
@@ -102,29 +113,52 @@ export default async function BlogPostPage({ params }: PageProps) {
             </div>
 
             <div
-              className={`relative mt-8 h-[170px] overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br ${tone} sm:h-[250px]`}
+              className={`relative mt-8 h-[190px] overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br ${tone} sm:h-[320px]`}
             >
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 opacity-[0.12]"
-                style={{
-                  backgroundImage:
-                    "repeating-linear-gradient(45deg, #ffffff 0 1px, transparent 1px 10px)",
-                }}
-              />
-              <div
-                aria-hidden="true"
-                className="absolute -right-16 -top-24 h-72 w-72 rounded-full border border-white/10"
-              />
-              <div
-                aria-hidden="true"
-                className="absolute -right-4 top-0 h-48 w-48 rounded-full border border-white/[0.07]"
-              />
+              {post.coverImage ? (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element -- cover images can be any external URL */}
+                  <img
+                    src={post.coverImage}
+                    alt={post.title}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/20"
+                  />
+                </>
+              ) : (
+                <>
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 opacity-[0.12]"
+                    style={{
+                      backgroundImage:
+                        "repeating-linear-gradient(45deg, #ffffff 0 1px, transparent 1px 10px)",
+                    }}
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute -right-16 -top-24 h-72 w-72 rounded-full border border-white/10"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute -right-4 top-0 h-48 w-48 rounded-full border border-white/[0.07]"
+                  />
+                  <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-4 sm:inset-x-7 sm:bottom-7">
+                    <span className="text-[64px] font-semibold leading-none tracking-[-0.06em] text-white/[0.08] sm:text-[100px]">
+                      {post.title.slice(0, 2).toUpperCase()}
+                    </span>
+                  </div>
+                </>
+              )}
+
               <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-4 sm:inset-x-7 sm:bottom-7">
-                <span className="text-[64px] font-semibold leading-none tracking-[-0.06em] text-white/[0.08] sm:text-[100px]">
-                  {post.title.slice(0, 2).toUpperCase()}
+                <span className="rounded-full border border-white/15 bg-black/35 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/85 backdrop-blur-sm">
+                  {post.category}
                 </span>
-                <span className="max-w-[220px] text-right text-[10.5px] uppercase tracking-[0.16em] text-white/35">
+                <span className="max-w-[220px] text-right text-[10.5px] uppercase tracking-[0.16em] text-white/60">
                   JP Technology &middot; Build notes
                 </span>
               </div>

@@ -12,4 +12,9 @@ const EnquirySchema = new mongoose.Schema({
   status: { type: String, enum: ['pending', 'resolved', 'follow'], default: 'pending' },
 }, { timestamps: true });
 
+// The admin list is always sorted by newest first and optionally filtered by
+// status, so keep both access patterns covered.
+EnquirySchema.index({ createdAt: -1 });
+EnquirySchema.index({ status: 1, createdAt: -1 });
+
 export default mongoose.models.Enquiry || mongoose.model('Enquiry', EnquirySchema);

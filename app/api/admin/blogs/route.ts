@@ -1,30 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { getAuthUser } from "@/lib/auth";
-import { blogSchema, normalizeTags, type BlogInput } from "@/lib/blog-validation";
+import { blogSchema, toBlogPayload } from "@/lib/blog-validation";
 import { getAllBlogsForAdmin, serializeBlog } from "@/lib/blogs";
 import { slugify } from "@/lib/slug";
 import Blog from "@/models/Blog";
 
 export const dynamic = "force-dynamic";
-
-function buildPayload(input: BlogInput) {
-  const parsedDate = input.publishedAt ? new Date(input.publishedAt) : new Date();
-
-  return {
-    title: input.title,
-    excerpt: input.excerpt || "",
-    content: input.content,
-    category: input.category || "Insights",
-    author: input.author || "JP Technology Team",
-    authorRole: input.authorRole || "Product & engineering",
-    tags: normalizeTags(input.tags),
-    coverTone: input.coverTone || "orange",
-    readTime: input.readTime || 5,
-    published: input.published ?? false,
-    publishedAt: Number.isNaN(parsedDate.getTime()) ? new Date() : parsedDate,
-  };
-}
 
 export async function GET() {
   const user = await getAuthUser();
@@ -68,7 +50,7 @@ export async function POST(req: NextRequest) {
       attempt += 1;
     }
 
-    const post = await Blog.create({ ...buildPayload(parsed.data), slug });
+    const post = await Blog.create({ ...toBlogPayload(parsed.data), slug });
 
     return NextResponse.json(
       { post: serializeBlog(post.toObject() as Record<string, unknown>) },

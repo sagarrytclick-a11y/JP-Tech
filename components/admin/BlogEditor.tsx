@@ -1,14 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ArrowUpRight,
+  Check,
+  ImagePlus,
   Loader2,
   Save,
   Trash2,
+  X,
 } from "lucide-react";
 import type { BlogPostView } from "@/lib/blog-seed";
 import { slugify } from "@/lib/slug";
@@ -25,6 +28,7 @@ type FormState = {
   authorRole: string;
   tags: string;
   coverTone: string;
+  coverImage: string;
   readTime: string;
   published: boolean;
   publishedAt: string;
@@ -41,6 +45,7 @@ function initialState(post?: BlogPostView): FormState {
     authorRole: post?.authorRole ?? "Product & engineering",
     tags: post?.tags.join(", ") ?? "",
     coverTone: post?.coverTone ?? "orange",
+    coverImage: post?.coverImage ?? "",
     readTime: String(post?.readTime ?? 5),
     published: post?.published ?? false,
     publishedAt: post?.publishedAt
@@ -50,9 +55,9 @@ function initialState(post?: BlogPostView): FormState {
 }
 
 const inputClass =
-  "w-full rounded-lg border border-zinc-200 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-amber-400 focus:ring-2 focus:ring-amber-100";
+  "w-full rounded-lg border border-white/[0.09] bg-white/[0.02]/[0.02] px-3 py-2.5 text-sm text-white outline-none transition placeholder:text-white/25 focus:border-accent/50 focus:bg-white/[0.02]/[0.04]";
 
-const labelClass = "mb-1.5 block text-xs font-semibold text-zinc-700";
+const labelClass = "mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.08em] text-white/40";
 
 export default function BlogEditor({
   mode,
@@ -66,7 +71,9 @@ export default function BlogEditor({
   const [slugTouched, setSlugTouched] = useState(Boolean(post?.slug));
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const setField = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((current) => ({ ...current, [key]: value }));
@@ -120,6 +127,37 @@ export default function BlogEditor({
     }
   };
 
+  const handleCoverUpload = async (file: File) => {
+    setUploading(true);
+    setError("");
+
+    try {
+      const body = new FormData();
+      body.append("file", file);
+
+      const response = await fetch("/api/admin/uploads", {
+        method: "POST",
+        body,
+      });
+      const data = (await response.json()) as { url?: string; error?: string };
+
+      if (!response.ok || !data.url) {
+        throw new Error(data.error || "Could not upload the image.");
+      }
+
+      setField("coverImage", data.url);
+    } catch (uploadError) {
+      setError(
+        uploadError instanceof Error
+          ? uploadError.message
+          : "Could not upload the image."
+      );
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
   const handleDelete = async () => {
     if (!post || !window.confirm("Delete this post permanently?")) return;
 
@@ -143,17 +181,17 @@ export default function BlogEditor({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-6xl px-6 py-8">
+    <form onSubmit={handleSubmit} className="w-full">
       <div className="mb-6 flex flex-wrap items-center gap-3">
         <Link
           href="/admin/blogs"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 transition-colors hover:text-zinc-900"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/40 transition-colors hover:text-white"
         >
           <ArrowLeft size={13} aria-hidden="true" />
           All posts
         </Link>
-        <span className="text-zinc-300">/</span>
-        <h2 className="text-sm font-semibold text-zinc-900">
+        <span className="text-white/20">/</span>
+        <h2 className="text-sm font-semibold text-white">
           {mode === "create" ? "New post" : "Edit post"}
         </h2>
 
@@ -162,7 +200,7 @@ export default function BlogEditor({
             <Link
               href={`/blogs/${post.slug}`}
               target="_blank"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 px-3 py-2 text-xs font-semibold text-zinc-600 transition-colors hover:border-zinc-400"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] px-3 py-2 text-xs font-semibold text-white/60 transition-colors hover:border-white/25"
             >
               View live
               <ArrowUpRight size={13} aria-hidden="true" />
@@ -171,7 +209,7 @@ export default function BlogEditor({
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[#1e3a5a] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#162b43] disabled:opacity-60"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-accent-soft disabled:opacity-60"
           >
             {saving ? (
               <Loader2 size={13} className="animate-spin" aria-hidden="true" />
@@ -184,14 +222,14 @@ export default function BlogEditor({
       </div>
 
       {error && (
-        <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-700">
+        <div className="mb-5 rounded-xl border border border-red-500/20 bg-red-500/[0.07] px-4 py-3 text-xs text-red-300">
           {error}
         </div>
       )}
 
-      <div className="grid gap-5 lg:grid-cols-[1fr_320px]">
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_330px]">
         <div className="space-y-5">
-          <div className="rounded-2xl border border-zinc-200 bg-white p-5">
+          <div className="rounded-2xl border border-white/[0.08] bg-[#131313] p-5">
             <label htmlFor="blog-title" className={labelClass}>
               Title
             </label>
@@ -208,8 +246,8 @@ export default function BlogEditor({
               <label htmlFor="blog-slug" className={labelClass}>
                 Slug
               </label>
-              <div className="flex items-center rounded-lg border border-zinc-200 bg-white focus-within:border-amber-400 focus-within:ring-2 focus-within:ring-amber-100">
-                <span className="pl-3 text-xs text-zinc-400">/blogs/</span>
+              <div className="flex items-center rounded-lg border border-white/[0.09] bg-white/[0.02]/[0.02] focus-within:border-accent/50 focus-within:bg-white/[0.02]/[0.04]">
+                <span className="pl-3 text-xs text-white/30">/blogs/</span>
                 <input
                   id="blog-slug"
                   value={form.slug}
@@ -218,10 +256,10 @@ export default function BlogEditor({
                     setField("slug", event.target.value);
                   }}
                   placeholder="post-slug"
-                  className="w-full rounded-lg bg-transparent px-1 py-2.5 text-sm text-zinc-900 outline-none placeholder:text-zinc-400"
+                  className="w-full rounded-lg bg-transparent px-1 py-2.5 text-sm text-white outline-none placeholder:text-white/30"
                 />
               </div>
-              <p className="mt-1.5 text-[11px] text-zinc-400">
+              <p className="mt-1.5 text-[11px] text-white/30">
                 Generated from the title until you edit it.
               </p>
             </div>
@@ -241,12 +279,12 @@ export default function BlogEditor({
             </div>
           </div>
 
-          <div className="rounded-2xl border border-zinc-200 bg-white p-5">
+          <div className="rounded-2xl border border-white/[0.08] bg-[#131313] p-5">
             <div className="mb-1.5 flex items-center justify-between gap-3">
               <label htmlFor="blog-content" className={labelClass}>
                 Content
               </label>
-              <span className="text-[11px] text-zinc-400">
+              <span className="text-[11px] text-white/30">
                 ## heading &middot; ### subheading &middot; - list
               </span>
             </div>
@@ -259,7 +297,7 @@ export default function BlogEditor({
               className={`${inputClass} font-mono text-[13px] leading-relaxed`}
               required
             />
-            <p className="mt-2 text-[11px] text-zinc-400">
+            <p className="mt-2 text-[11px] text-white/30">
               Simple markdown is supported: `##` headings, `###` subheadings,
               `-` bullet lists, and `**bold**`.
             </p>
@@ -267,23 +305,31 @@ export default function BlogEditor({
         </div>
 
         <aside className="space-y-5">
-          <div className="rounded-2xl border border-zinc-200 bg-white p-5">
-            <h3 className="text-xs font-bold uppercase tracking-wide text-zinc-500">
+          <div className="rounded-2xl border border-white/[0.08] bg-[#131313] p-5">
+            <h3 className="text-xs font-bold uppercase tracking-wide text-white/40">
               Publishing
             </h3>
 
             <label className="mt-4 flex cursor-pointer items-start gap-2.5">
-              <input
-                type="checkbox"
-                checked={form.published}
-                onChange={(event) => setField("published", event.target.checked)}
-                className="mt-0.5 h-4 w-4 rounded border-zinc-300 accent-amber-500"
-              />
+              <span className="relative mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center">
+                <input
+                  type="checkbox"
+                  checked={form.published}
+                  onChange={(event) => setField("published", event.target.checked)}
+                  className="peer h-4 w-4 cursor-pointer appearance-none rounded-[4px] bg-white/[0.04] ring-1 ring-inset ring-white/25 transition-colors checked:bg-accent checked:ring-accent"
+                />
+                <Check
+                  size={11}
+                  strokeWidth={3}
+                  className="pointer-events-none absolute text-white opacity-0 peer-checked:opacity-100"
+                  aria-hidden="true"
+                />
+              </span>
               <span>
-                <span className="block text-sm font-semibold text-zinc-800">
+                <span className="block text-sm font-semibold text-white">
                   Published
                 </span>
-                <span className="block text-[11px] text-zinc-400">
+                <span className="block text-[11px] text-white/30">
                   Visible on the public journal.
                 </span>
               </span>
@@ -331,8 +377,80 @@ export default function BlogEditor({
             </div>
           </div>
 
-          <div className="rounded-2xl border border-zinc-200 bg-white p-5">
-            <h3 className="text-xs font-bold uppercase tracking-wide text-zinc-500">
+          <div className="rounded-2xl border border-white/[0.08] bg-[#131313] p-5">
+            <h3 className="text-xs font-bold uppercase tracking-wide text-white/40">
+              Cover image
+            </h3>
+            <p className="mt-1.5 text-[11px] leading-relaxed text-white/30">
+              Shown on cards, the journal list, and the article header. Leave it
+              empty to use the gradient tone.
+            </p>
+
+            {form.coverImage ? (
+              <div className="relative mt-4 aspect-[16/9] overflow-hidden rounded-lg border border-white/[0.08] bg-white/[0.02]/[0.04]">
+                {/* eslint-disable-next-line @next/next/no-img-element -- cover images can be any external URL */}
+                <img
+                  src={form.coverImage}
+                  alt="Cover preview"
+                  className="h-full w-full object-cover"
+                />
+                <button
+                  type="button"
+                  onClick={() => setField("coverImage", "")}
+                  className="absolute right-2 top-2 rounded-full bg-black/60 p-1.5 text-white transition-colors hover:bg-black/80"
+                  aria-label="Remove cover image"
+                >
+                  <X size={13} aria-hidden="true" />
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+                className="mt-4 flex aspect-[16/9] w-full flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-white/[0.12] bg-white/[0.02]/[0.02] text-white/45 transition-colors hover:border-accent/50 hover:text-accent disabled:opacity-60"
+              >
+                {uploading ? (
+                  <Loader2 size={20} className="animate-spin" aria-hidden="true" />
+                ) : (
+                  <ImagePlus size={20} aria-hidden="true" />
+                )}
+                <span className="text-xs font-semibold">
+                  {uploading ? "Uploading..." : "Upload image"}
+                </span>
+                <span className="text-[10px] text-white/30">
+                  JPG, PNG, WebP &middot; up to 5 MB
+                </span>
+              </button>
+            )}
+
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/avif,image/gif"
+              className="hidden"
+              onChange={(event) => {
+                const file = event.target.files?.[0];
+                if (file) void handleCoverUpload(file);
+              }}
+            />
+
+            <div className="mt-3">
+              <label htmlFor="blog-cover-url" className={labelClass}>
+                Or paste an image URL
+              </label>
+              <input
+                id="blog-cover-url"
+                value={form.coverImage}
+                onChange={(event) => setField("coverImage", event.target.value)}
+                placeholder="https://... or /images/..."
+                className={inputClass}
+              />
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-white/[0.08] bg-[#131313] p-5">
+            <h3 className="text-xs font-bold uppercase tracking-wide text-white/40">
               Author &amp; cover
             </h3>
 
@@ -371,14 +489,14 @@ export default function BlogEditor({
                 placeholder="CRM, Sales, Operations"
                 className={inputClass}
               />
-              <p className="mt-1 text-[11px] text-zinc-400">
+              <p className="mt-1 text-[11px] text-white/30">
                 Separate tags with commas.
               </p>
             </div>
 
             <div className="mt-4">
               <label htmlFor="blog-tone" className={labelClass}>
-                Cover tone
+                Gradient fallback
               </label>
               <select
                 id="blog-tone"
@@ -387,7 +505,7 @@ export default function BlogEditor({
                 className={inputClass}
               >
                 {coverTones.map((tone) => (
-                  <option key={tone} value={tone}>
+                  <option key={tone} value={tone} className="bg-[#141414]">
                     {tone}
                   </option>
                 ))}
@@ -400,7 +518,7 @@ export default function BlogEditor({
               type="button"
               onClick={handleDelete}
               disabled={deleting}
-              className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-xs font-semibold text-red-600 transition-colors hover:bg-red-100 disabled:opacity-60"
+              className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border border-red-500/20 bg-red-500/[0.07] px-4 py-2.5 text-xs font-semibold text-red-300 transition-colors hover:bg-red-500/[0.12] disabled:opacity-60"
             >
               {deleting ? (
                 <Loader2 size={13} className="animate-spin" aria-hidden="true" />
