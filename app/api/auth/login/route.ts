@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
     await connectDB();
 
-    const adminEmail = process.env.ADMIN_EMAIL || 'admin@jptechnologies.com';
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@jptechnology.com';
     const adminPass = process.env.ADMIN_PASSWORD || 'admin123';
 
     const existing = await User.findOne({ email: adminEmail });

@@ -1,26 +1,52 @@
 import type { Metadata } from "next";
-import AboutPageClient from "./AboutPageClient";
-import { site } from "@/lib/site";
+import TopBar from "@/components/site/TopBar";
+import Navbar from "@/components/site/Navbar";
+import HeroRings from "@/components/site/HeroRings";
+import AboutHero from "@/components/about/AboutHero";
+import StatsSection from "@/components/about/StatsSection";
+import WhoWeAre from "@/components/about/WhoWeAre";
+import WhyClients from "@/components/about/WhyClients";
+import DifferenceSection from "@/components/about/DifferenceSection";
+import MissionVision from "@/components/about/MissionVision";
+import TeamSection from "@/components/about/TeamSection";
+import CallToAction from "@/components/site/CallToAction";
+import ContactSection from "@/components/site/ContactSection";
+import Footer from "@/components/site/Footer";
 
 export const metadata: Metadata = {
-  title: `About Us — ${site.name}`,
-  description: `Learn about ${site.name}, our team of ${site.stats.teamMembers} experts, our journey since ${site.stats.foundedYear}, and our mission to help businesses grow online. ${site.location} based digital agency.`,
-  openGraph: {
-    title: `About ${site.name} — ${site.stats.teamMembers} Expert Digital Agency`,
-    description: `${site.stats.projectsDelivered}+ projects delivered. ${site.stats.happyClients}+ happy clients. Founded by ${site.founder}.`,
-    url: `${site.url}/about`,
-    siteName: site.name,
-    images: [{ url: `${site.url}/logo.png`, width: 1200, height: 630 }],
+  title: "About JP Technology | Web & Mobile App Development Agency",
+  description:
+    "JP Technology is a trusted web and mobile app development agency helping startups and enterprises build reliable digital solutions worldwide. Meet the team behind the work.",
+  alternates: {
+    canonical: "/about",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: `About ${site.name}`,
-    description: `Digital agency with ${site.stats.teamMembers} experts serving ${site.stats.happyClients}+ clients.`,
-    images: [`${site.url}/logo.png`],
-  },
-  alternates: { canonical: `${site.url}/about` },
 };
 
 export default function AboutPage() {
-  return <AboutPageClient />;
+  return (
+    <div className="min-h-screen overflow-x-hidden bg-ink">
+      <TopBar />
+
+      <div className="shell pt-4 sm:pt-6">
+        <div className="relative overflow-hidden rounded-[28px] border border-line bg-panel sm:rounded-[40px]">
+          <HeroRings />
+          <Navbar />
+          <AboutHero />
+        </div>
+      </div>
+
+      <main>
+        <StatsSection />
+        <WhoWeAre />
+        <WhyClients />
+        <DifferenceSection />
+        <MissionVision />
+        <TeamSection />
+        <CallToAction />
+        <ContactSection />
+      </main>
+
+      <Footer />
+    </div>
+  );
 }

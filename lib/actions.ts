@@ -9,8 +9,10 @@ export async function submitEnquiry(data: {
   name: string;
   email: string;
   phone: string;
-  city?: string;
-  service?: string;
+  service: string;
+  industry: string;
+  budget: string;
+  message: string;
 }) {
   const parsed = enquirySchema.safeParse(data);
   if (!parsed.success) {
@@ -18,14 +20,22 @@ export async function submitEnquiry(data: {
     return { error: `${first.path.join('.')}: ${first.message}` };
   }
 
-  const { name, email, phone, city, service } = parsed.data;
+  const { name, email, phone, service, industry, budget, message } = parsed.data;
 
   try {
     await connectDB();
-    await Enquiry.create({ name, email, phone, city, service });
+    await Enquiry.create({ name, email, phone, service, industry, budget, message });
 
     try {
-      await sendEnquiryEmail({ name, email, phone, city, service, message: '' });
+      await sendEnquiryEmail({
+        name,
+        email,
+        phone,
+        service,
+        industry,
+        budget,
+        message,
+      });
     } catch (emailErr) {
       console.error('Email send failed:', emailErr);
     }

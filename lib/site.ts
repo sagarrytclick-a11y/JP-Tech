@@ -1,85 +1,155 @@
 export const site = {
-  name: 'JP Technologies',
-  tagline: 'Web Development & Social Media Marketing Agency',
-  domain: 'jptechnologies.com',
-  url: 'https://jptechnologies.com',
-  founder: 'Abhishek Tiwari',
-  email: 'Abhishek@vidyavriddhi.com',
-  phone: '+91-9839865347',
-  location: 'S0-2, Geniefolks Building (2nd Floor), Block A, Plot No. A-28, Sector 4, Noida, Uttar Pradesh - 201301',
-  officeHours: 'Mon - Fri: 10:00 AM - 6:00 PM',
-  description:
-    'We build stunning websites and run data-driven social campaigns that turn visitors into loyal customers.',
-
-  stats: {
-    teamMembers: '60+',
-    happyClients: '500+',
-    projectsDelivered: '1000+',
-    foundedYear: 2012,
-    rating: '4.9/5',
-  },
+  name: 'JP Technology',
+  legalName: 'JP Technology Private Limited',
+  tagline: 'Web, CRM & App Development Company',
+  url: 'https://jptechnology.com',
+  email: 'info@jptechnology.com',
+  phone: '+91 9431697649',
+  phoneHref: '+919431697649',
+  secondaryPhone: '+91 9759562500',
+  secondaryPhoneHref: '+919759562500',
+  emailFrom: 'JP Technology <info@jptechnology.com>',
 
   social: {
-    facebook: 'https://facebook.com/jptechnologies',
-    instagram: 'https://instagram.com/jptechnologies',
-    linkedin: 'https://linkedin.com/company/jptechnologies',
-    twitter: 'https://x.com/jptechnologies',
+    instagram: 'https://instagram.com/jptechnology',
+    linkedin: 'https://linkedin.com/company/jptechnology',
+    facebook: 'https://facebook.com/jptechnology',
   },
 
-  emailFrom: 'JP Technologies <Abhishek@vidyavriddhi.com>',
-  adminEmail: 'Abhishek@vidyavriddhi.com',
-
-  team: [
-    { name: 'Abhishek Tiwari', role: 'Founder & CEO', bio: 'Visionary leader with 12+ years in digital marketing and web development.' },
-    { name: 'Gaurav Rathore', role: 'Lead Developer', bio: 'Full-stack expert specializing in React, Node.js, and scalable architectures.' },
-    { name: 'Sagar Bisht', role: 'UI/UX Designer', bio: 'Creative designer crafting beautiful, user-centric digital experiences.' },
-    { name: 'Alfaraz', role: 'Digital Marketing Head', bio: 'Data-driven strategist managing high-performance ad campaigns.' },
-    { name: 'Siddhi Gupta', role: 'Social Media Manager', bio: 'Content expert who builds engaged communities across platforms.' },
-    { name: 'Shubham', role: 'SEO Specialist', bio: 'Technical SEO guru driving organic growth for 100+ clients.' },
-  ],
-
-  faq: [
-    { q: 'What services does JP Technologies offer?', a: 'We offer web development, social media marketing, SEO, Google Ads, logo design, graphic design, and more.' },
-    { q: 'How much does a website cost?', a: 'Our website packages start at ₹5,999 (one-time) with no hidden fees.' },
-    { q: 'Do you offer social media management?', a: 'Yes, our social media packages start at ₹1,999/month.' },
-    { q: 'How long does it take to build a website?', a: 'Most websites are delivered within 7–14 business days.' },
-    { q: 'Do you provide SEO services?', a: 'Yes, we offer on-page, off-page, and technical SEO to boost your rankings.' },
-    { q: 'Can I customize my package?', a: 'Absolutely! We tailor every package to your specific business needs.' },
-    { q: 'Do you work with clients outside India?', a: 'Yes, we serve clients globally with remote collaboration.' },
-    { q: 'What platforms do you build websites on?', a: 'We use Next.js, React, WordPress, PHP, and modern stacks.' },
-    { q: 'Is hosting included in your pricing?', a: 'Hosting is available as an add-on service at affordable rates.' },
-    { q: 'How do I get started?', a: 'Click the "Get Started" button or fill out our enquiry form and we\'ll reach out within 24 hours.' },
+  nav: [
+    { label: 'About', href: '/about' },
+    {
+      label: 'Services',
+      href: '/#services',
+      children: [
+        {
+          label: 'Business Websites',
+          href: '/#services',
+          desc: 'Fast, SEO-ready sites that sell',
+        },
+        {
+          label: 'CRM & Dashboards',
+          href: '/#services',
+          desc: 'Sales, ops and analytics in one place',
+        },
+        {
+          label: 'Educational Platforms',
+          href: '/#services',
+          desc: 'Admissions, learning and student portals',
+        },
+        {
+          label: 'Native & Mobile Apps',
+          href: '/#services',
+          desc: 'iOS, Android and cross-platform builds',
+        },
+        {
+          label: 'SaaS Platforms',
+          href: '/#services',
+          desc: 'Multi-tenant products, billing included',
+        },
+        {
+          label: 'AI Agents & Automation',
+          href: '/#services',
+          desc: 'Workflows that run without chasing',
+        },
+      ],
+    },
+    {
+      label: 'Work',
+      href: '/#work',
+      children: [
+        {
+          label: 'Web Platforms',
+          href: '/#work',
+          desc: 'Portals, marketplaces and B2B tools',
+        },
+        {
+          label: 'CRM Dashboards',
+          href: '/#work',
+          desc: 'Pipelines, reporting and team operations',
+        },
+        {
+          label: 'Mobile Products',
+          href: '/#work',
+          desc: 'Apps for customers and field teams',
+        },
+        {
+          label: 'Our Process',
+          href: '/#process',
+          desc: 'How a project moves from brief to launch',
+        },
+      ],
+    },
+    { label: 'Pricing', href: '/pricing' },
+    { label: 'Blogs', href: '/blogs' },
+    { label: 'Contact', href: '/contact' },
   ],
 
   services: [
-    { title: 'Web Design', icon: 'FaPalette' },
-    { title: 'Web Development', icon: 'FaCode' },
-    { title: 'Social Media Marketing', icon: 'FaShareAlt' },
-    { title: 'Instagram Posts', icon: 'FaCamera' },
-    { title: 'Graphics Work', icon: 'FaPaintBrush' },
-    { title: 'SEO Optimization', icon: 'FaSearch' },
-    { title: 'Google Ads', icon: 'FaGoogle' },
-    { title: 'Logo Design', icon: 'FaPenFancy' },
+    'Business Website',
+    'Custom CRM & Dashboards',
+    'Educational Platform',
+    'Native & Mobile App',
+    'SaaS Platform',
+    'AI Agents & Automation',
+    'E-Commerce',
+    'Something Else',
   ],
 
-  trustLine: {
-    rating: '4.9/5',
-    clients: '200+',
-  },
+  industries: [
+    'Automotive',
+    'Edtech',
+    'Fintech',
+    'Healthcare',
+    'Real Estate',
+    'E-commerce',
+    'SaaS',
+    'Manufacturing',
+    'Logistics',
+    'Professional Services',
+    'Other',
+  ],
 
-  whyChooseUs: {
-    title: 'Why Choose JP Technologies',
-    description: 'JP Technologies is an excellent digital marketing agency that helps you achieve your business goals.',
-  },
+  budgets: [
+    '\u20b925,000 \u2013 \u20b950,000',
+    '\u20b950,000 \u2013 \u20b91,50,000',
+    '\u20b91,50,000 \u2013 \u20b95,00,000',
+    '\u20b95,00,000 \u2013 \u20b915,00,000',
+    '\u20b915,00,000+',
+  ],
 
-  callToAction: {
-    tagline: '60+ Team Members • Award Winning Agency • Affordable Pricing Plan',
-  },
-
-  pricing: {
-    website: { price: '₹5,999', label: 'One-Time', description: 'Professional website with 5 pages, responsive design, basic SEO' },
-    socialMedia: { price: '₹1,999', label: '/month', description: 'Social media management, content creation, monthly reports' },
-  },
+  faqs: [
+    {
+      q: 'What exactly does JP Technology build?',
+      a: 'We build business websites, custom CRM systems and dashboards, educational platforms, native and cross-platform mobile apps, SaaS products, e-commerce storefronts, and AI-powered automations. Most clients start with one product and expand into a long-term build partnership.',
+    },
+    {
+      q: 'How long does a typical project take?',
+      a: 'A focused business website usually takes 3 to 6 weeks. A custom CRM or admin dashboard takes 6 to 12 weeks depending on integrations. Native apps and SaaS platforms typically run 3 to 6 months. You get a milestone plan before we start, so timelines are visible from day one.',
+    },
+    {
+      q: 'How much does a project cost?',
+      a: 'Websites start at \u20b99,999 for a launch page and \u20b919,999 for a complete business site. Custom CRMs start around \u20b939,999, and larger SaaS or native app builds are scoped individually. Every quote includes a fixed scope, payment milestones, and a clear list of what is included.',
+    },
+    {
+      q: 'Do you work with existing codebases and teams?',
+      a: 'Yes. We regularly join products mid-way, audit the existing stack, stabilise what is fragile, and then ship new features. We can work alongside your in-house team, take ownership of a module, or run the full delivery.',
+    },
+    {
+      q: 'Who owns the code and design files?',
+      a: 'You do. Once the final invoice is cleared, you get the repository, design files, environment documentation, and deployment access. There is no vendor lock-in and no hidden licence fee.',
+    },
+    {
+      q: 'Can you connect payments, WhatsApp, ERP or other tools?',
+      a: 'Yes. We integrate Razorpay, Stripe, WhatsApp Business, email platforms, ERPs, CRMs, accounting tools, logistics APIs, and custom internal systems. If an API exists, we can usually wire it into your product.',
+    },
+    {
+      q: 'What happens after launch?',
+      a: 'Every project includes a post-launch stabilisation window. After that you can move to a monthly care plan covering monitoring, security updates, backups, small improvements, and a monthly hours bucket for new work.',
+    },
+    {
+      q: 'Why work with an agency instead of hiring developers?',
+      a: 'Hiring gives you capacity but also recruitment, tooling, and management overhead. A senior agency team gives you product strategy, UI design, engineering, QA, and DevOps from week one, with a delivery process that is already running.',
+    },
+  ],
 } as const;
-
-export type SiteConfig = typeof site;

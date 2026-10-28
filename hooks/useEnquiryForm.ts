@@ -1,22 +1,16 @@
 "use client";
 import { useState } from "react";
 import { submitEnquiry } from "@/lib/actions";
-import { enquirySchema } from "@/lib/validation";
-
-export type EnquiryFormData = {
-  name: string;
-  email: string;
-  phone: string;
-  city: string;
-  service: string;
-};
+import { enquirySchema, type EnquiryFormData } from "@/lib/validation";
 
 const initialForm: EnquiryFormData = {
   name: "",
   email: "",
   phone: "",
-  city: "",
-  service: "Web",
+  service: "",
+  industry: "",
+  budget: "",
+  message: "",
 };
 
 export function useEnquiryForm(onSuccess?: () => void) {
@@ -58,7 +52,9 @@ export function useEnquiryForm(onSuccess?: () => void) {
     setError("");
 
     const allTouched: Record<string, boolean> = {};
-    Object.keys(form).forEach((k) => { allTouched[k] = true; });
+    Object.keys(form).forEach((k) => {
+      allTouched[k] = true;
+    });
     setTouched(allTouched);
 
     const parsed = enquirySchema.safeParse(form);
@@ -71,11 +67,12 @@ export function useEnquiryForm(onSuccess?: () => void) {
       setFieldErrors(errs);
       return;
     }
+
     setFieldErrors({});
     setSubmitting(true);
     try {
       const result = await submitEnquiry(form);
-      if (result.error) throw new Error(result.error);
+      if ("error" in result) throw new Error(result.error);
       setSubmitting(false);
       setSubmitted(true);
       setForm(initialForm);

@@ -59,7 +59,7 @@ export default function AdminLogin() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@jptechnologies.com"
+                placeholder="admin@jptechnology.com"
                 className="w-full pl-10 pr-4 py-3 border border-zinc-200 rounded-xl outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100 transition-all text-black"
                 required
               />

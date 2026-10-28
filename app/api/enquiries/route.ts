@@ -3,27 +3,35 @@ import { connectDB } from '@/lib/db';
 import Enquiry from '@/models/Enquiry';
 import { getAuthUser } from '@/lib/auth';
 import { sendEnquiryEmail } from '@/lib/email';
+import { enquirySchema } from '@/lib/validation';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, email, phone, city, service } = body;
+    const parsed = enquirySchema.safeParse(body);
 
-    if (!name || !email || !phone) {
-      return NextResponse.json({ error: 'Name, email, and phone are required.' }, { status: 400 });
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues[0]?.message || 'Invalid enquiry data.' },
+        { status: 400 }
+      );
     }
+
+    const { name, email, phone, service, industry, budget, message } = parsed.data;
 
     await connectDB();
     const enquiry = await Enquiry.create({
       name,
       email,
       phone,
-      city: city || '',
-      service: service || 'Web',
+      service,
+      industry,
+      budget,
+      message,
     });
 
     try {
-      await sendEnquiryEmail({ name, email, phone, city: city || '', service: service || 'Web' });
+      await sendEnquiryEmail({ name, email, phone, service, industry, budget, message });
     } catch (emailErr) {
       console.error('Email send failed:', emailErr);
     }

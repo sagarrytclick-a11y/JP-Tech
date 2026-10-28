@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useCallback } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { FaSignOutAlt, FaTrash, FaCheck, FaClock, FaRedo, FaChevronLeft, FaChevronRight, FaEnvelope, FaPhone, FaCalendar, FaTag, FaSpinner } from 'react-icons/fa';
@@ -11,6 +12,9 @@ type Enquiry = {
   phone: string;
   city?: string;
   service: string;
+  industry?: string;
+  budget?: string;
+  message?: string;
   status: string;
   createdAt: string;
 };
@@ -72,6 +76,7 @@ export default function AdminDashboard() {
   }, [router]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- load enquiries when auth or filters change
     if (!authCheck) fetchEnquiries(pagination.page, statusFilter);
   }, [authCheck, pagination.page, statusFilter, fetchEnquiries]);
 
@@ -102,14 +107,29 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="bg-[#1e3a5a] text-white px-6 py-4 flex items-center justify-between">
+      <div className="bg-[#1e3a5a] text-white px-6 py-4 flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold">Admin Dashboard</h1>
-          <p className="text-zinc-300 text-sm">Manage Enquiries</p>
+          <h1 className="text-xl font-bold">JP Technology Admin</h1>
+          <p className="text-zinc-300 text-sm">Manage enquiries &amp; content</p>
         </div>
-        <button onClick={handleLogout} className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-xl text-sm hover:bg-white/20 transition-colors">
-          <FaSignOutAlt /> Logout
-        </button>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/admin/blogs"
+            className="hidden sm:inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-xl text-sm hover:bg-white/20 transition-colors"
+          >
+            Blog posts
+          </Link>
+          <Link
+            href="/"
+            target="_blank"
+            className="hidden md:inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-xl text-sm hover:bg-white/20 transition-colors"
+          >
+            View site
+          </Link>
+          <button onClick={handleLogout} className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-xl text-sm hover:bg-white/20 transition-colors">
+            <FaSignOutAlt /> Logout
+          </button>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
@@ -132,7 +152,7 @@ export default function AdminDashboard() {
                 <tr className="bg-zinc-50 text-zinc-600 text-left">
                   <th className="px-5 py-4 font-semibold">Name</th>
                   <th className="px-5 py-4 font-semibold">Contact</th>
-                  <th className="px-5 py-4 font-semibold">City</th>
+                  <th className="px-5 py-4 font-semibold">Industry / Budget</th>
                   <th className="px-5 py-4 font-semibold">Service</th>
                   <th className="px-5 py-4 font-semibold">Date</th>
                   <th className="px-5 py-4 font-semibold">Status</th>
@@ -162,7 +182,8 @@ export default function AdminDashboard() {
                       </div>
                     </td>
                     <td className="px-5 py-4">
-                      <span className="text-zinc-500">{e.city || '—'}</span>
+                      <div className="text-xs text-zinc-600">{e.industry || '—'}</div>
+                      <div className="text-xs text-zinc-400">{e.budget || '—'}</div>
                     </td>
                     <td className="px-5 py-4">
                       <span className="flex items-center gap-1.5 text-zinc-700"><FaTag className="text-xs text-amber-500" /> {e.service}</span>

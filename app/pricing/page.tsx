@@ -1,35 +1,51 @@
 import type { Metadata } from "next";
-import PricingPageClient from "./PricingPageClient";
-import { site } from "@/lib/site";
+import TopBar from "@/components/site/TopBar";
+import Navbar from "@/components/site/Navbar";
+import HeroRings from "@/components/site/HeroRings";
+import PricingPlans from "@/components/pricing/PricingPlans";
+import CallToAction from "@/components/site/CallToAction";
+import ContactSection from "@/components/site/ContactSection";
+import Footer from "@/components/site/Footer";
 
 export const metadata: Metadata = {
-  title: `Pricing — ${site.name}`,
-  description: `Transparent pricing for web development starting at ₹5,999 and social media marketing at ₹1,999/month by ${site.name}. No hidden fees, no surprises.`,
-  keywords: [
-    "website development cost",
-    "social media marketing price",
-    "digital marketing agency pricing",
-    "affordable web development",
-    "SEO services cost",
-    site.location,
-    site.name,
-  ],
-  openGraph: {
-    title: `Affordable Pricing — ${site.name}`,
-    description: `Website packages from ₹5,999. Social media from ₹1,999/month. Transparent pricing, no hidden fees.`,
-    url: `${site.url}/pricing`,
-    siteName: site.name,
-    images: [{ url: `${site.url}/logo.png`, width: 1200, height: 630 }],
+  title: "Pricing | JP Technology",
+  description:
+    "Transparent one-time pricing for business websites, custom CRMs, admin dashboards, educational platforms, MERN websites, and custom web applications.",
+  alternates: {
+    canonical: "/pricing",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: `Pricing — ${site.name}`,
-    description: `Affordable digital services pricing. Websites from ₹5,999.`,
-    images: [`${site.url}/logo.png`],
-  },
-  alternates: { canonical: `${site.url}/pricing` },
 };
 
 export default function PricingPage() {
-  return <PricingPageClient />;
+  return (
+    <div className="min-h-screen overflow-x-hidden bg-ink">
+      <TopBar />
+
+      <div className="shell pt-4 sm:pt-6">
+        <div className="relative overflow-hidden rounded-[28px] border border-line bg-panel sm:rounded-[40px]">
+          <HeroRings />
+          <Navbar />
+
+          <section className="relative mx-auto max-w-[900px] px-5 pb-14 pt-6 text-center sm:px-8 sm:pb-16 sm:pt-8 lg:pb-16 lg:pt-10">
+            <span className="section-badge">Pricing</span>
+            <h1 className="mt-5 text-balance text-[clamp(30px,4vw,56px)] font-semibold leading-[1.08] tracking-[-0.025em] text-white">
+              Simple, transparent <span className="text-accent">pricing</span>
+            </h1>
+            <p className="section-copy mt-5">
+              One-time project pricing for websites, CRMs, dashboards, and
+              custom platforms. No hidden charges, no surprises.
+            </p>
+          </section>
+        </div>
+      </div>
+
+      <main>
+        <PricingPlans />
+        <CallToAction />
+        <ContactSection />
+      </main>
+
+      <Footer />
+    </div>
+  );
 }

@@ -1,63 +1,140 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: #070707;
+  --color-panel: #0c0c0c;
+  --color-card: #161616;
+  --color-card-2: #1f1f1f;
+  --color-line: #292929;
+  --color-accent: #ff4d1f;
+  --color-accent-soft: #ff6a3d;
+  --color-muted: #a3a3a3;
+  --font-sans: var(--font-nevermind);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  color-scheme: dark;
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 32px;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-ink);
+  color: #f5f5f5;
+  font-family: var(--font-nevermind), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-@keyframes scroll-up {
-  0% {
-    transform: translateY(0);
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0b0b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2e2e2e;
+  border-radius: 999px;
+  border: 2px solid #0b0b0b;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3d3d3d;
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-[1680px] px-4 sm:px-6 lg:px-10;
   }
-  100% {
-    transform: translateY(-33.333%);
+
+  .btn-primary {
+    @apply inline-flex h-[46px] items-center justify-center rounded-lg bg-accent px-6 text-[13px] font-semibold text-white transition-colors duration-200 hover:bg-accent-soft sm:h-[50px] sm:px-7 sm:text-[14px];
+  }
+
+  .btn-light {
+    @apply inline-flex h-[46px] items-center justify-center rounded-lg bg-white px-6 text-[13px] font-semibold text-[#101010] transition-colors duration-200 hover:bg-white/90 sm:h-[50px] sm:px-7 sm:text-[14px];
+  }
+
+  .section-badge {
+    @apply inline-flex items-center rounded-full border border-white/10 bg-white/[0.06] px-4 py-1.5 text-[12px] font-semibold tracking-wide text-white/90;
+  }
+
+  .section-heading {
+    @apply text-[clamp(28px,3.5vw,48px)] font-semibold leading-[1.12] tracking-[-0.02em] text-white;
+  }
+
+  .section-copy {
+    @apply mx-auto max-w-[900px] text-[14px] leading-[1.72] text-white/65 sm:text-[16px];
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-[14px] font-medium text-white;
+  }
+
+  .field {
+    @apply h-12 w-full rounded-xl border border-transparent bg-[#2b3033] px-4 text-[14px] text-white outline-none transition placeholder:text-white/35 focus:border-accent/70 focus:bg-[#30363a] focus:ring-2 focus:ring-accent/15;
+  }
+
+  .field-area {
+    @apply w-full resize-y rounded-xl border border-transparent bg-[#2b3033] px-4 py-3 text-[14px] leading-relaxed text-white outline-none transition placeholder:text-white/35 focus:border-accent/70 focus:bg-[#30363a] focus:ring-2 focus:ring-accent/15;
+  }
+
+  .footer-link {
+    @apply text-[14px] text-white/70 transition-colors hover:text-white;
   }
 }
 
-@keyframes scroll-left {
-  0% {
-    transform: translateX(0);
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-text-fill-color: #fff;
+  -webkit-box-shadow: 0 0 0px 1000px #2b3033 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.faq-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 280ms ease;
+}
+
+.faq-answer[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+
+.faq-answer > div {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-  100% {
-    transform: translateX(-50%);
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
-}
-
-.scroll-container {
-  display: flex;
-  flex-direction: column;
-  animation: scroll-up 20s linear infinite;
-}
-
-.scroll-container:hover {
-  animation-play-state: paused;
-}
-
-.scroll-x-container {
-  display: flex;
-  animation: scroll-left 30s linear infinite;
-}
-
-.scroll-x-container:hover {
-  animation-play-state: paused;
 }

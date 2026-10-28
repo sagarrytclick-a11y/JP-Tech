@@ -6,8 +6,13 @@ export const enquirySchema = z.object({
   phone: z
     .string()
     .regex(/^\+?[\d\s-]{10,15}$/, 'Enter a valid 10-digit phone number'),
-  city: z.string().optional().default(''),
-  service: z.enum(['Web', 'Social Media']).default('Web'),
+  service: z.string().min(1, 'Please select a service'),
+  industry: z.string().min(1, 'Please select an industry'),
+  budget: z.string().min(1, 'Please select a budget range'),
+  message: z
+    .string()
+    .min(10, 'Please describe your project in at least 10 characters')
+    .max(1500, 'Please keep your message under 1500 characters'),
 });
 
 export type EnquiryFormData = z.infer<typeof enquirySchema>;

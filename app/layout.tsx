@@ -1,103 +1,85 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import dynamic from "next/dynamic";
-import { ScrollProgressBar, BackToTop } from "@/components/SiteWideUX";
-import WhatsAppButton from "@/components/WhatsAppButton";
+import localFont from "next/font/local";
+import { ContactProvider } from "@/components/contact/ContactProvider";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const neverMind = localFont({
+  src: [
+    { path: "./fonts/NeverMind-Light.ttf", weight: "300", style: "normal" },
+    { path: "./fonts/NeverMind-Regular.ttf", weight: "400", style: "normal" },
+    { path: "./fonts/NeverMind-Medium.ttf", weight: "500", style: "normal" },
+    { path: "./fonts/NeverMind-DemiBold.ttf", weight: "600", style: "normal" },
+    { path: "./fonts/NeverMind-Bold.ttf", weight: "700", style: "normal" },
+  ],
+  variable: "--font-nevermind",
+  display: "swap",
 });
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const PopupForm = dynamic(() => import("@/components/PopupForm"));
-const BottomServiceSlider = dynamic(() => import("@/components/BottomServiceSlider"));
 
 export const metadata: Metadata = {
-  title: `${site.name} — ${site.tagline}`,
-  description: `Top-rated web development and social media marketing agency in ${site.location}. ${site.description}`,
+  metadataBase: new URL(site.url),
+  title: `${site.tagline} | ${site.name}`,
+  description:
+    "JP Technology is a web and IT agency building business websites, custom CRM dashboards, native apps, SaaS platforms, and AI automation for growing businesses in India and worldwide.",
   keywords: [
-    "web development",
-    "social media marketing",
-    "SEO",
-    "PPC",
-    "digital marketing agency",
-    "website design",
+    "web development agency",
+    "business website development",
+    "custom CRM development",
+    "CRM dashboard development",
+    "native app development",
+    "mobile app development company",
+    "SaaS platform development",
+    "AI automation agency",
+    "educational platform development",
     site.name,
-    `${site.location} web development`,
-    `${site.location} digital marketing`,
   ],
-  icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
-  },
+  alternates: { canonical: "/" },
   openGraph: {
-    title: `${site.name} — Web Development & Social Media Marketing`,
-    description: site.description,
-    type: "website",
-    locale: "en_IN",
+    title: `${site.name} \u2014 ${site.tagline}`,
+    description:
+      "Websites, CRMs, native apps, and AI automation built by one senior product team.",
+    url: site.url,
     siteName: site.name,
+    locale: "en_IN",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
+    title: `${site.name} \u2014 ${site.tagline}`,
+    description:
+      "Websites, CRMs, native apps, and AI automation built by one senior product team.",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: site.faq.map((f) => ({
-    "@type": "Question",
-    name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a },
-  })),
+  robots: { index: true, follow: true },
 };
 
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: site.name,
+  legalName: site.legalName,
   url: site.url,
-  logo: `${site.url}/logo.png`,
-  founder: { "@type": "Person", name: site.founder },
-  description: "Web development and social media marketing agency.",
-  foundingDate: String(site.stats.foundedYear),
-  numberOfEmployees: { "@type": "QuantitativeValue", minValue: 50, maxValue: 100 },
+  email: site.email,
+  telephone: site.phone,
+  description:
+    "Web and IT agency building business websites, custom CRM dashboards, native apps, SaaS platforms, and AI automation.",
   contactPoint: {
     "@type": "ContactPoint",
-    telephone: site.phone.replace(/\s/g, '-'),
+    telephone: site.phoneHref,
     contactType: "sales",
     email: site.email,
     availableLanguage: ["English", "Hindi"],
   },
-  sameAs: [
-    site.social.facebook,
-    site.social.instagram,
-    site.social.linkedin,
-    site.social.twitter,
-  ],
+  sameAs: [site.social.instagram, site.social.linkedin, site.social.facebook],
 };
 
-const webSiteSchema = {
+const faqSchema = {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: site.name,
-  url: site.url,
-  potentialAction: {
-    "@type": "SearchAction",
-    target: { "@type": "EntryPoint", urlTemplate: `${site.url}/search?q={search_term_string}` },
-    "query-input": "required name=search_term_string",
-  },
+  "@type": "FAQPage",
+  mainEntity: site.faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.q,
+    acceptedAnswer: { "@type": "Answer", text: faq.a },
+  })),
 };
 
 export default function RootLayout({
@@ -106,10 +88,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
+    <html lang="en" className={neverMind.variable}>
       <head>
         <script
           type="application/ld+json"
@@ -117,20 +96,11 @@ export default function RootLayout({
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }}
-        />
-        <script
-          type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       </head>
-      <body className="min-h-full flex flex-col pb-14">
-        <ScrollProgressBar />
-        {children}
-        <PopupForm />
-        <WhatsAppButton />
-        <BottomServiceSlider />
-        <BackToTop />
+      <body className="min-h-screen bg-ink text-white">
+        <ContactProvider>{children}</ContactProvider>
       </body>
     </html>
   );

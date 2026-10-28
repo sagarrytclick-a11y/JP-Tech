@@ -1,38 +1,82 @@
+import Link from "next/link";
 import type { Metadata } from "next";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { site } from "@/lib/site";
+import Logo from "@/components/site/Logo";
 
 export const metadata: Metadata = {
-  title: `Terms & Conditions — ${site.name}`,
-  description: `Terms and conditions for ${site.name} web development and social media marketing services.`,
-  alternates: { canonical: `${site.url}/terms` },
+  title: "Terms of Service | JP Technology",
+  description: "Terms governing the use of the JP Technology website and services.",
 };
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-zinc-50">
-      <Header />
-      <main className="px-6 py-20">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-zinc-900 mb-8">Terms & Conditions</h1>
-          <div className="bg-white p-6 sm:p-10 rounded-2xl shadow-sm border border-zinc-100 space-y-6 text-zinc-600 leading-relaxed">
-            <p>Welcome to {site.name}. By using our services, you agree to the following terms and conditions. Please read them carefully.</p>
-            <h3 className="text-xl font-bold text-zinc-900">1. Services</h3>
-            <p>We provide web development, social media marketing, SEO, and related digital services. All services are delivered as per the agreed scope of work.</p>
-            <h3 className="text-xl font-bold text-zinc-900">2. Payments</h3>
-            <p>Payment terms are outlined in the project proposal. Late payments may result in service suspension until the outstanding amount is cleared.</p>
-            <h3 className="text-xl font-bold text-zinc-900">3. Intellectual Property</h3>
-            <p>Upon full payment, the client retains full ownership of the final deliverables. {site.name} retains the right to display the work in its portfolio.</p>
-            <h3 className="text-xl font-bold text-zinc-900">4. Confidentiality</h3>
-            <p>We treat all client information as confidential and will not share it with third parties without explicit consent.</p>
-            <h3 className="text-xl font-bold text-zinc-900">5. Cancellation & Refund</h3>
-            <p>Cancellations must be made within 48 hours of project initiation. Refund eligibility is determined on a case-by-case basis.</p>
-            <p>For any questions, contact us at {site.email}</p>
+    <div className="shell py-10 sm:py-16">
+      <div className="mx-auto max-w-3xl">
+        <Logo />
+
+        <div className="mt-10 rounded-[28px] border border-line bg-[#141414] p-6 sm:p-10">
+          <h1 className="text-3xl font-semibold tracking-[-0.02em] text-white sm:text-4xl">
+            Terms of Service
+          </h1>
+          <p className="mt-3 text-sm text-white/50">Last updated: October 2026</p>
+
+          <div className="mt-8 space-y-7 text-[15px] leading-[1.8] text-white/65">
+            <section>
+              <h2 className="mb-2 text-lg font-semibold text-white">
+                Use of this website
+              </h2>
+              <p>
+                The content on this website is provided for general information
+                about our services. You agree not to misuse the site, attempt
+                unauthorised access, or submit false information through our
+                forms.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="mb-2 text-lg font-semibold text-white">
+                Proposals and engagements
+              </h2>
+              <p>
+                Pricing and timelines shown on this site are indicative. Every
+                project is governed by a separate written proposal and agreement
+                that defines scope, deliverables, payment terms, and ownership.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="mb-2 text-lg font-semibold text-white">
+                Intellectual property
+              </h2>
+              <p>
+                All branding, copy, and design assets on this website belong to
+                JP Technology Private Limited and may not be reproduced
+                without permission.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="mb-2 text-lg font-semibold text-white">Contact</h2>
+              <p>
+                Questions about these terms can be sent to{" "}
+                <a
+                  href="mailto:info@jptechnology.com"
+                  className="text-accent underline-offset-4 hover:underline"
+                >
+                  info@jptechnology.com
+                </a>
+                .
+              </p>
+            </section>
           </div>
         </div>
-      </main>
-      <Footer />
+
+        <Link
+          href="/"
+          className="mt-8 inline-flex text-sm font-medium text-white/60 transition-colors hover:text-white"
+        >
+          {"\u2190"} Back to home
+        </Link>
+      </div>
     </div>
   );
 }

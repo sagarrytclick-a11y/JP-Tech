@@ -1,21 +1,16 @@
 import Link from "next/link";
-import { FaHome } from "react-icons/fa";
-import { site } from "@/lib/site";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-50 px-6">
-      <div className="text-center max-w-md">
-        <div className="text-8xl font-extrabold text-[#1e3a5a] mb-4">404</div>
-        <h1 className="text-3xl font-extrabold text-zinc-900 mb-3">Page Not Found</h1>
-        <p className="text-zinc-500 mb-8">
+    <div className="flex min-h-screen items-center justify-center px-6">
+      <div className="max-w-md text-center">
+        <div className="text-7xl font-semibold text-accent">404</div>
+        <h1 className="mt-5 text-3xl font-semibold text-white">Page not found</h1>
+        <p className="mt-3 text-white/60">
           The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 bg-[#1e3a5a] text-white px-8 py-3 rounded-xl font-bold hover:bg-[#152d45] transition-colors"
-        >
-          <FaHome /> Back to Home
+        <Link href="/" className="btn-primary mt-8 w-full sm:w-auto">
+          Back to Home
         </Link>
       </div>
     </div>
