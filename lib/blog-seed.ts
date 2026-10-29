@@ -288,7 +288,3 @@ Whatever you choose, get these right before spending on design: clear product da
     publishedAt: "2026-08-22T09:00:00.000Z",
   },
 ];
-
-export const blogCategories = Array.from(
-  new Set(blogSeedPosts.map((post) => post.category))
-).sort();

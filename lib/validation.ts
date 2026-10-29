@@ -26,5 +26,3 @@ export const careerSchema = z.object({
     .regex(/^\+?[\d\s-]{10,15}$/, 'Enter a valid phone number'),
   position: z.string().trim().min(2, 'Choose a position').max(80),
 });
-
-export type CareerFormData = z.infer<typeof careerSchema>;

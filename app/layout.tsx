@@ -7,7 +7,6 @@ import "./globals.css";
 
 const neverMind = localFont({
   src: [
-    { path: "./fonts/NeverMind-Light.ttf", weight: "300", style: "normal" },
     { path: "./fonts/NeverMind-Regular.ttf", weight: "400", style: "normal" },
     { path: "./fonts/NeverMind-Medium.ttf", weight: "500", style: "normal" },
     { path: "./fonts/NeverMind-DemiBold.ttf", weight: "600", style: "normal" },

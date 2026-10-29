@@ -18,7 +18,7 @@ export const blogSchema = z.object({
 
 export type BlogInput = z.infer<typeof blogSchema>;
 
-export function normalizeTags(tags: BlogInput["tags"]) {
+function normalizeTags(tags: BlogInput["tags"]) {
   if (!tags) return [];
   if (Array.isArray(tags)) {
     return tags.map((tag) => tag.trim()).filter(Boolean);

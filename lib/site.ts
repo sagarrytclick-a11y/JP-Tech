@@ -72,28 +72,6 @@ export const site = {
     'Something Else',
   ],
 
-  industries: [
-    'Automotive',
-    'Edtech',
-    'Fintech',
-    'Healthcare',
-    'Real Estate',
-    'E-commerce',
-    'SaaS',
-    'Manufacturing',
-    'Logistics',
-    'Professional Services',
-    'Other',
-  ],
-
-  budgets: [
-    '\u20b925,000 \u2013 \u20b950,000',
-    '\u20b950,000 \u2013 \u20b91,50,000',
-    '\u20b91,50,000 \u2013 \u20b95,00,000',
-    '\u20b95,00,000 \u2013 \u20b915,00,000',
-    '\u20b915,00,000+',
-  ],
-
   faqs: [
     {
       q: 'What exactly does JP Technology build?',

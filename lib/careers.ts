@@ -1,4 +1,4 @@
-export type CareerRole = {
+type CareerRole = {
   slug: string;
   title: string;
   team: string;

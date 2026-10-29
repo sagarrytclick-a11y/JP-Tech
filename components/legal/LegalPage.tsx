@@ -7,12 +7,6 @@ import HeroRings from "@/components/site/HeroRings";
 import Footer from "@/components/site/Footer";
 import { site } from "@/lib/site";
 
-export type LegalSection = {
-  id: string;
-  title: string;
-  body: ReactNode;
-};
-
 export default function LegalPage({
   title,
   summary,

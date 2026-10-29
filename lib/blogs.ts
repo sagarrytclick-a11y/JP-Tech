@@ -91,7 +91,7 @@ export async function getAllBlogsForAdmin() {
   return (docs as unknown as LeanBlog[]).map(serializeBlog);
 }
 
-export type AdminBlogStatus = "all" | "published" | "draft";
+type AdminBlogStatus = "all" | "published" | "draft";
 
 export async function getBlogsForAdmin({
   page = 1,

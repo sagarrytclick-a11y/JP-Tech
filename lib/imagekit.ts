@@ -1,6 +1,6 @@
 const UPLOAD_ENDPOINT = "https://upload.imagekit.io/api/v1/files/upload";
 
-export class ImageKitNotConfiguredError extends Error {
+class ImageKitNotConfiguredError extends Error {
   constructor() {
     super(
       "ImageKit is not configured. Add IMAGEKIT_PRIVATE_KEY and IMAGEKIT_URL_ENDPOINT to your environment."

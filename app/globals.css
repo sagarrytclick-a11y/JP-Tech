@@ -3,12 +3,9 @@
 @theme inline {
   --color-ink: #070707;
   --color-panel: #0c0c0c;
-  --color-card: #161616;
-  --color-card-2: #1f1f1f;
   --color-line: #292929;
   --color-accent: #ff4d1f;
   --color-accent-soft: #ff6a3d;
-  --color-muted: #a3a3a3;
   --font-sans: var(--font-nevermind);
 }
 

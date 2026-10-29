@@ -33,10 +33,6 @@ function readSmtpConfig() {
   };
 }
 
-export function isEmailConfigured() {
-  return readSmtpConfig().configured;
-}
-
 let transporter: Transporter | null = null;
 let transporterKey = '';
 
@@ -75,7 +71,7 @@ function escapeHtml(value: string) {
     .replace(/'/g, '&#039;');
 }
 
-export type EnquiryEmailData = {
+type EnquiryEmailData = {
   name: string;
   email: string;
   phone: string;
@@ -190,7 +186,7 @@ export async function sendEnquiryEmail(data: EnquiryEmailData) {
   return { sent: true as const, messageId: info.messageId };
 }
 
-export type CareerEmailData = {
+type CareerEmailData = {
   fullName: string;
   email: string;
   phone: string;

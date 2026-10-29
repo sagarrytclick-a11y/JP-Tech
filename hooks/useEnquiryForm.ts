@@ -12,22 +12,8 @@ const initialForm: EnquiryFormData = {
   message: "",
 };
 
-const MAX_ATTACHMENT_BYTES = 8 * 1024 * 1024;
-const ALLOWED_ATTACHMENT_TYPES = [
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/avif",
-  "image/gif",
-  "application/pdf",
-  "application/msword",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-];
-
-export function useEnquiryForm(onSuccess?: () => void) {
+export function useEnquiryForm() {
   const [form, setForm] = useState<EnquiryFormData>(initialForm);
-  const [attachment, setAttachmentState] = useState<File | null>(null);
-  const [attachmentError, setAttachmentError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -60,27 +46,6 @@ export function useEnquiryForm(onSuccess?: () => void) {
     setFieldErrors((prev) => ({ ...prev, [field]: err }));
   };
 
-  const setAttachment = (file: File | null) => {
-    setAttachmentError("");
-    if (!file) {
-      setAttachmentState(null);
-      return;
-    }
-    if (!ALLOWED_ATTACHMENT_TYPES.includes(file.type)) {
-      setAttachmentError(
-        "Attach a PDF, Word document, or image (JPG, PNG, WebP, AVIF, GIF)."
-      );
-      setAttachmentState(null);
-      return;
-    }
-    if (file.size > MAX_ATTACHMENT_BYTES) {
-      setAttachmentError("Attachment is too large. Keep it under 8 MB.");
-      setAttachmentState(null);
-      return;
-    }
-    setAttachmentState(file);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -103,14 +68,12 @@ export function useEnquiryForm(onSuccess?: () => void) {
     }
 
     setFieldErrors({});
-    setAttachmentError("");
     setSubmitting(true);
     try {
       const body = new FormData();
       Object.entries(parsed.data).forEach(([key, value]) => {
         body.append(key, value ?? "");
       });
-      if (attachment) body.append("attachment", attachment);
 
       const response = await fetch("/api/enquiries", {
         method: "POST",
@@ -127,10 +90,8 @@ export function useEnquiryForm(onSuccess?: () => void) {
       setSubmitting(false);
       setSubmitted(true);
       setForm(initialForm);
-      setAttachmentState(null);
       setTouched({});
       setFieldErrors({});
-      onSuccess?.();
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong");
       setSubmitting(false);
@@ -139,8 +100,6 @@ export function useEnquiryForm(onSuccess?: () => void) {
 
   const reset = () => {
     setForm(initialForm);
-    setAttachmentState(null);
-    setAttachmentError("");
     setSubmitting(false);
     setSubmitted(false);
     setError("");
@@ -150,12 +109,8 @@ export function useEnquiryForm(onSuccess?: () => void) {
 
   return {
     form,
-    setForm,
     updateField,
     handleBlur,
-    attachment,
-    setAttachment,
-    attachmentError,
     submitting,
     submitted,
     error,

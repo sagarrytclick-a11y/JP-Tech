@@ -17,7 +17,7 @@ const arrows = [
   { x: 75.3, y: 45.7, direction: "down" },
 ] as const;
 
-export function Diamond({ children }: { children: ReactNode }) {
+function Diamond({ children }: { children: ReactNode }) {
   return (
     <div
       className="relative flex shrink-0 items-center justify-center"
