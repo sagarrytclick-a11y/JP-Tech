@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import ContactButton from "@/components/contact/ContactButton";
 
 export default function AboutHero() {
@@ -25,9 +27,9 @@ export default function AboutHero() {
           <ContactButton className="btn-primary w-full sm:w-auto">
             Start a conversation
           </ContactButton>
-          <a href="#team" className="btn-light w-full sm:w-auto">
+          <Link href="#team" className="btn-light w-full sm:w-auto">
             Meet the team
-          </a>
+          </Link>
         </div>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[11.5px] text-white/40">

@@ -9,6 +9,8 @@ const EnquirySchema = new mongoose.Schema({
   budget: { type: String, default: '' },
   message: { type: String, default: '' },
   city: { type: String, default: '' },
+  attachmentUrl: { type: String, default: '' },
+  attachmentName: { type: String, default: '' },
   status: { type: String, enum: ['pending', 'resolved', 'follow'], default: 'pending' },
 }, { timestamps: true });
 

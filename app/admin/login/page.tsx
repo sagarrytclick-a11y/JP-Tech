@@ -1,14 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { ArrowLeft, Eye, EyeOff, Loader2, Lock, Mail, ShieldCheck } from "lucide-react";
-import Logo from "@/components/site/Logo";
+import { ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react";
 
 export default function AdminLogin() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -19,17 +18,21 @@ export default function AdminLogin() {
     e.preventDefault();
     setError("");
     setLoading(true);
+
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username, password }),
       });
+
       if (!res.ok) {
-        const data = await res.json();
+        const data = (await res.json()) as { error?: string };
         throw new Error(data.error || "Login failed");
       }
-      router.push("/admin");
+
+      router.push("/admin/dashboard");
+      router.refresh();
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Login failed");
       setLoading(false);
@@ -37,85 +40,69 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-ink px-4 py-12">
-      <div
-        className="pointer-events-none absolute -top-40 left-1/2 h-[420px] w-[620px] -translate-x-1/2 rounded-full bg-accent/10 blur-[120px]"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.35] [background-image:linear-gradient(to_right,rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.045)_1px,transparent_1px)] [background-size:56px_56px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_72%)]"
-        aria-hidden="true"
-      />
+    <div className="flex min-h-screen items-center justify-center bg-[#090909] px-4 py-10">
+      <div className="w-full max-w-[460px]">
+        <div className="rounded-[22px] border border-white/[0.08] bg-[#151515] px-6 py-8 shadow-[0_28px_80px_-30px_rgba(0,0,0,0.95)] sm:px-9 sm:py-9">
+          <div className="flex flex-col items-center text-center">
+            <span className="flex h-[70px] w-[70px] items-center justify-center rounded-full border border-white/10 bg-[#0b0b0b] shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)]">
+              <Image
+                src="/logo.png"
+                alt="JP Technology"
+                width={105}
+                height={115}
+                priority
+                className="h-11 w-auto object-contain"
+              />
+            </span>
+            <p className="mt-3 text-[9px] font-semibold uppercase tracking-[0.22em] text-white/35">
+              JP Technology
+            </p>
+            <h1 className="mt-4 text-[28px] font-bold tracking-[-0.03em] text-white sm:text-[32px]">
+              Admin login
+            </h1>
+            <p className="mt-2 max-w-[300px] text-[12.5px] leading-relaxed text-white/45">
+              Use the username and password from your env file.
+            </p>
+          </div>
 
-      <motion.div
-        className="relative w-full max-w-[400px]"
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <div className="mb-7 flex flex-col items-center text-center">
-          <Logo />
-          <span className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/45">
-            <ShieldCheck size={11} aria-hidden="true" />
-            Admin console
-          </span>
-          <h1 className="mt-4 text-[22px] font-semibold tracking-[-0.02em] text-white">
-            Sign in to continue
-          </h1>
-          <p className="mt-1 text-[12.5px] text-white/40">
-            Manage enquiries, blog posts, and publishing.
-          </p>
-        </div>
-
-        <div className="rounded-2xl border border-white/[0.08] bg-[#121212]/95 p-6 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.9)] backdrop-blur-xl sm:p-7">
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <div>
               <label
-                htmlFor="admin-email"
-                className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.08em] text-white/40"
+                htmlFor="admin-username"
+                className="mb-2 block text-[10.5px] font-semibold uppercase tracking-[0.12em] text-white/45"
               >
-                Email
+                Username
               </label>
-              <div className="relative">
-                <Mail
-                  size={15}
-                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30"
-                  aria-hidden="true"
-                />
-                <input
-                  id="admin-email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@jptechnology.com"
-                  autoComplete="email"
-                  className="h-11 w-full rounded-xl border border-white/[0.09] bg-white/[0.02] pl-10 pr-4 text-[13px] text-white outline-none transition placeholder:text-white/25 focus:border-accent/50 focus:bg-white/[0.04]"
-                  required
-                />
-              </div>
+              <input
+                id="admin-username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter your username"
+                autoComplete="username"
+                autoCapitalize="none"
+                spellCheck={false}
+                className="h-[52px] w-full rounded-xl border border-white/[0.09] bg-[#1c1c1c] px-4 text-[13.5px] text-white outline-none transition placeholder:text-white/25 focus:border-accent/60 focus:bg-[#202020] focus:ring-2 focus:ring-accent/10"
+                required
+              />
             </div>
 
             <div>
               <label
                 htmlFor="admin-password"
-                className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.08em] text-white/40"
+                className="mb-2 block text-[10.5px] font-semibold uppercase tracking-[0.12em] text-white/45"
               >
                 Password
               </label>
               <div className="relative">
-                <Lock
-                  size={15}
-                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30"
-                  aria-hidden="true"
-                />
                 <input
                   id="admin-password"
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="Enter your password"
                   autoComplete="current-password"
-                  className="h-11 w-full rounded-xl border border-white/[0.09] bg-white/[0.02] pl-10 pr-11 text-[13px] text-white outline-none transition placeholder:text-white/25 focus:border-accent/50 focus:bg-white/[0.04]"
+                  className="h-[52px] w-full rounded-xl border border-white/[0.09] bg-[#1c1c1c] px-4 pr-12 text-[13.5px] text-white outline-none transition placeholder:text-white/25 focus:border-accent/60 focus:bg-[#202020] focus:ring-2 focus:ring-accent/10"
                   required
                 />
                 <button
@@ -125,17 +112,16 @@ export default function AdminLogin() {
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
-                    <EyeOff size={15} aria-hidden="true" />
+                    <EyeOff size={16} aria-hidden="true" />
                   ) : (
-                    <Eye size={15} aria-hidden="true" />
+                    <Eye size={16} aria-hidden="true" />
                   )}
                 </button>
               </div>
             </div>
 
             {error && (
-              <p className="flex items-start gap-2 rounded-lg border border-red-500/20 bg-red-500/[0.07] px-3 py-2 text-[11.5px] text-red-300">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-red-400" />
+              <p className="rounded-lg border border-red-500/20 bg-red-500/[0.07] px-3 py-2.5 text-[11.5px] text-red-300">
                 {error}
               </p>
             )}
@@ -143,7 +129,7 @@ export default function AdminLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-1 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent text-[12.5px] font-semibold text-white transition-colors hover:bg-accent-soft disabled:opacity-70"
+              className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-accent text-[13.5px] font-semibold text-white transition-colors hover:bg-accent-soft disabled:opacity-70"
             >
               {loading ? (
                 <>
@@ -167,7 +153,7 @@ export default function AdminLogin() {
           </Link>
           <span>&copy; {new Date().getFullYear()} JP Technology</span>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

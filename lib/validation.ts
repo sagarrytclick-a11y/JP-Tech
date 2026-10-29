@@ -16,3 +16,15 @@ export const enquirySchema = z.object({
 });
 
 export type EnquiryFormData = z.infer<typeof enquirySchema>;
+
+export const careerSchema = z.object({
+  fullName: z.string().trim().min(2, 'Full name must be at least 2 characters').max(80),
+  email: z.string().trim().email('Enter a valid email address'),
+  phone: z
+    .string()
+    .trim()
+    .regex(/^\+?[\d\s-]{10,15}$/, 'Enter a valid phone number'),
+  position: z.string().trim().min(2, 'Choose a position').max(80),
+});
+
+export type CareerFormData = z.infer<typeof careerSchema>;

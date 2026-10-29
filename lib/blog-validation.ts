@@ -4,7 +4,7 @@ export const blogSchema = z.object({
   title: z.string().trim().min(3, "Title must be at least 3 characters.").max(160),
   slug: z.string().trim().max(100).optional().or(z.literal("")),
   excerpt: z.string().trim().max(420).optional().or(z.literal("")),
-  content: z.string().trim().min(20, "Content must be at least 20 characters."),
+  content: z.string().trim().max(20000).optional().default(""),
   category: z.string().trim().min(2).max(40).optional().or(z.literal("")),
   author: z.string().trim().max(80).optional().or(z.literal("")),
   authorRole: z.string().trim().max(80).optional().or(z.literal("")),

@@ -13,7 +13,7 @@ const highlights = [
 
 export default function WhyChoose() {
   return (
-    <section id="why-choose" className="shell py-12 lg:py-16">
+    <section id="why-choose" className="shell py-8 lg:py-10">
       {/* Section Heading */}
       <div className="text-center">
         <span className="section-badge">Why JP Technology</span>

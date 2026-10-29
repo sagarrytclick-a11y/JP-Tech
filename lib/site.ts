@@ -3,80 +3,56 @@ export const site = {
   legalName: 'JP Technology Private Limited',
   tagline: 'Web, CRM & App Development Company',
   url: 'https://jptechnology.com',
-  email: 'info@jptechnology.com',
-  phone: '+91 9431697649',
-  phoneHref: '+919431697649',
-  secondaryPhone: '+91 9759562500',
-  secondaryPhoneHref: '+919759562500',
-  emailFrom: 'JP Technology <info@jptechnology.com>',
+  email: 'Abhishek@vidyavriddhi.com',
+  phone: '+91-9839865347',
+  phoneHref: '+919839865347',
+  address:
+    'S0-2, Geniefolks Building (2nd Floor), Block A, Plot No. A-28, Sector 4, Noida, Uttar Pradesh - 201301',
+  addressShort: 'Sector 4, Noida, Uttar Pradesh',
+  mapUrl:
+    'https://www.google.com/maps/search/?api=1&query=Geniefolks+Building+Block+A+Plot+A-28+Sector+4+Noida',
+  emailFrom: 'JP Technology <Abhishek@vidyavriddhi.com>',
 
   social: {
-    instagram: 'https://instagram.com/jptechnology',
     linkedin: 'https://linkedin.com/company/jptechnology',
-    facebook: 'https://facebook.com/jptechnology',
   },
 
   nav: [
+    { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
     {
       label: 'Services',
-      href: '/#services',
+      href: '/services',
       children: [
         {
-          label: 'Business Websites',
-          href: '/#services',
-          desc: 'Fast, SEO-ready sites that sell',
+          label: 'Web Development',
+          href: '/services/web-development',
+          desc: 'Fast, SEO-ready sites and portals',
         },
         {
           label: 'CRM & Dashboards',
-          href: '/#services',
-          desc: 'Sales, ops and analytics in one place',
+          href: '/services/crm-development',
+          desc: 'Pipelines, routing and reporting',
         },
         {
-          label: 'Educational Platforms',
-          href: '/#services',
-          desc: 'Admissions, learning and student portals',
-        },
-        {
-          label: 'Native & Mobile Apps',
-          href: '/#services',
-          desc: 'iOS, Android and cross-platform builds',
+          label: 'Mobile Apps',
+          href: '/services/mobile-apps',
+          desc: 'iOS, Android and field apps',
         },
         {
           label: 'SaaS Platforms',
-          href: '/#services',
-          desc: 'Multi-tenant products, billing included',
+          href: '/services/saas-development',
+          desc: 'Subscriptions, roles and billing',
         },
         {
-          label: 'AI Agents & Automation',
-          href: '/#services',
-          desc: 'Workflows that run without chasing',
-        },
-      ],
-    },
-    {
-      label: 'Work',
-      href: '/#work',
-      children: [
-        {
-          label: 'Web Platforms',
-          href: '/#work',
-          desc: 'Portals, marketplaces and B2B tools',
+          label: 'Internal Tools',
+          href: '/services/internal-tools',
+          desc: 'Operations, inventory and approvals',
         },
         {
-          label: 'CRM Dashboards',
-          href: '/#work',
-          desc: 'Pipelines, reporting and team operations',
-        },
-        {
-          label: 'Mobile Products',
-          href: '/#work',
-          desc: 'Apps for customers and field teams',
-        },
-        {
-          label: 'Our Process',
-          href: '/#process',
-          desc: 'How a project moves from brief to launch',
+          label: 'All Services',
+          href: '/services',
+          desc: 'See how the pieces fit together',
         },
       ],
     },

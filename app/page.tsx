@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import TopBar from "@/components/site/TopBar";
 import Navbar from "@/components/site/Navbar";
 import HeroRings from "@/components/site/HeroRings";
@@ -9,11 +10,14 @@ import ProcessSection from "@/components/site/ProcessSection";
 import WhyChoose from "@/components/site/WhyChoose";
 import EngagementSection from "@/components/site/EngagementSection";
 import IndustriesSection from "@/components/site/IndustriesSection";
-import TestimonialsSection from "@/components/site/TestimonialsSection";
-import BlogPreview from "@/components/site/BlogPreview";
 import FaqSection from "@/components/site/FaqSection";
 import CallToAction from "@/components/site/CallToAction";
 import Footer from "@/components/site/Footer";
+
+const TestimonialsSection = dynamic(() =>
+  import("@/components/site/TestimonialsSection")
+);
+const BlogPreview = dynamic(() => import("@/components/site/BlogPreview"));
 
 export default function Home() {
   return (

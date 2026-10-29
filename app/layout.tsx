@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import ChatWidget from "@/components/chat/ChatWidget";
 import { ContactProvider } from "@/components/contact/ContactProvider";
 import { site } from "@/lib/site";
 import "./globals.css";
@@ -60,6 +61,15 @@ const organizationSchema = {
   url: site.url,
   email: site.email,
   telephone: site.phone,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress:
+      "S0-2, Geniefolks Building (2nd Floor), Block A, Plot No. A-28, Sector 4",
+    addressLocality: "Noida",
+    addressRegion: "Uttar Pradesh",
+    postalCode: "201301",
+    addressCountry: "IN",
+  },
   description:
     "Web and IT agency building business websites, custom CRM dashboards, native apps, SaaS platforms, and AI automation.",
   contactPoint: {
@@ -69,7 +79,7 @@ const organizationSchema = {
     email: site.email,
     availableLanguage: ["English", "Hindi"],
   },
-  sameAs: [site.social.instagram, site.social.linkedin, site.social.facebook],
+  sameAs: [site.social.linkedin],
 };
 
 const faqSchema = {
@@ -100,7 +110,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-ink text-white">
-        <ContactProvider>{children}</ContactProvider>
+        <ContactProvider>
+          {children}
+          <ChatWidget />
+        </ContactProvider>
       </body>
     </html>
   );

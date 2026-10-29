@@ -1,19 +1,22 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
   Inbox,
   Loader2,
   Mail,
+  Paperclip,
   Phone,
   Search,
   Trash2,
   X,
 } from "lucide-react";
+import AdminLoadingSkeleton from "@/components/admin/AdminLoadingSkeleton";
 import AdminShell from "@/components/admin/AdminShell";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import Pagination from "@/components/ui/Pagination";
+import Skeleton from "@/components/ui/Skeleton";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 
 type Enquiry = {
@@ -26,6 +29,8 @@ type Enquiry = {
   industry?: string;
   budget?: string;
   message?: string;
+  attachmentUrl?: string;
+  attachmentName?: string;
   status: string;
   createdAt: string;
 };
@@ -114,6 +119,7 @@ export default function AdminEnquiriesPage() {
   const [notice, setNotice] = useState("");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<Enquiry | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
 
@@ -242,10 +248,9 @@ export default function AdminEnquiriesPage() {
     }
   };
 
-  const deleteEnquiry = async (enquiry: Enquiry) => {
-    if (!window.confirm(`Delete the enquiry from "${enquiry.name}" permanently?`)) {
-      return;
-    }
+  const deleteEnquiry = async () => {
+    if (!pendingDelete) return;
+    const enquiry = pendingDelete;
 
     setDeletingId(enquiry._id);
     setError("");
@@ -261,6 +266,7 @@ export default function AdminEnquiriesPage() {
       const removingLast = enquiries.length === 1 && page > 1;
       setEnquiries((current) => current.filter((item) => item._id !== enquiry._id));
       setNotice("Enquiry deleted.");
+      setPendingDelete(null);
       if (removingLast) {
         setLoading(true);
         setPage((current) => Math.max(1, current - 1));
@@ -278,26 +284,9 @@ export default function AdminEnquiriesPage() {
     }
   };
 
-  const pages = useMemo(() => {
-    const total = pagination.totalPages || 1;
-    const current = pagination.page || 1;
-    const windowSize = 5;
-    let start = Math.max(1, current - Math.floor(windowSize / 2));
-    const end = Math.min(total, start + windowSize - 1);
-    start = Math.max(1, end - windowSize + 1);
-    return Array.from({ length: end - start + 1 }, (_, index) => start + index);
-  }, [pagination.totalPages, pagination.page]);
-
   if (checking) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-ink text-white/40">
-        <Loader2 className="animate-spin" size={22} aria-label="Loading" />
-      </div>
-    );
+    return <AdminLoadingSkeleton />;
   }
-
-  const start = pagination.total === 0 ? 0 : (pagination.page - 1) * pagination.limit + 1;
-  const end = Math.min(pagination.page * pagination.limit, pagination.total);
 
   return (
     <AdminShell
@@ -405,7 +394,7 @@ export default function AdminEnquiriesPage() {
         <p className="text-[11px] text-white/30 sm:ml-auto">
           {pagination.total === 0
             ? "No results"
-            : `Showing ${start}–${end} of ${pagination.total}`}
+            : `${pagination.total} enquir${pagination.total === 1 ? "y" : "ies"}`}
         </p>
       </div>
 
@@ -437,7 +426,7 @@ export default function AdminEnquiriesPage() {
         {loading ? (
           <div className="space-y-3 p-5">
             {[0, 1, 2, 3, 4].map((row) => (
-              <div key={row} className="h-14 animate-pulse rounded-xl bg-white/[0.04]" />
+              <Skeleton key={row} className="h-14 w-full rounded-xl" />
             ))}
           </div>
         ) : enquiries.length === 0 ? (
@@ -563,7 +552,7 @@ export default function AdminEnquiriesPage() {
                       </a>
                       <button
                         type="button"
-                        onClick={() => deleteEnquiry(enquiry)}
+                        onClick={() => setPendingDelete(enquiry)}
                         disabled={deletingId === enquiry._id}
                         title="Delete"
                         className="rounded-lg border border-white/[0.08] p-2 text-white/35 transition-colors hover:border-red-500/40 hover:text-red-400 disabled:opacity-50"
@@ -619,6 +608,22 @@ export default function AdminEnquiriesPage() {
                           {enquiry.message || "No message provided."}
                         </p>
                       </div>
+                      {enquiry.attachmentUrl && (
+                        <div className="mt-4">
+                          <p className="text-[10px] uppercase tracking-[0.12em] text-white/25">
+                            Attachment
+                          </p>
+                          <a
+                            href={enquiry.attachmentUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="mt-1.5 inline-flex items-center gap-1.5 text-[12px] font-medium text-accent transition-colors hover:text-accent-soft"
+                          >
+                            <Paperclip size={12} aria-hidden="true" />
+                            {enquiry.attachmentName || "Open attachment"}
+                          </a>
+                        </div>
+                      )}
                     </div>
                   )}
                 </li>
@@ -628,67 +633,46 @@ export default function AdminEnquiriesPage() {
         )}
 
         {!loading && pagination.total > 0 && (
-          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/[0.07] px-4 py-3 lg:px-5">
-            <button
-              type="button"
-              onClick={() => {
-                setPage((current) => Math.max(1, current - 1));
-                setLoading(true);
-              }}
-              disabled={!pagination.hasPrev || loading}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] px-3 py-1.5 text-[11.5px] font-medium text-white/55 transition-colors hover:border-white/25 hover:text-white disabled:opacity-35"
-            >
-              <ChevronLeft size={13} aria-hidden="true" />
-              Previous
-            </button>
-
-            <div className="flex items-center gap-1">
-              {pages[0] > 1 && (
-                <span className="px-1 text-[11px] text-white/25">…</span>
-              )}
-              {pages.map((pageNumber) => (
-                <button
-                  key={pageNumber}
-                  type="button"
-                  onClick={() => {
-                  if (pageNumber === pagination.page) return;
-                  setPage(pageNumber);
-                  setLoading(true);
-                }}
-                  aria-current={
-                    pageNumber === pagination.page ? "page" : undefined
-                  }
-                  className={`h-7 min-w-7 rounded-md px-1.5 text-[11.5px] font-medium tabular-nums transition-colors ${
-                    pageNumber === pagination.page
-                      ? "bg-accent text-white"
-                      : "text-white/40 hover:bg-white/[0.06] hover:text-white"
-                  }`}
-                >
-                  {pageNumber}
-                </button>
-              ))}
-              {pages[pages.length - 1] < pagination.totalPages && (
-                <span className="px-1 text-[11px] text-white/25">…</span>
-              )}
-            </div>
-
-            <button
-              type="button"
-              onClick={() => {
-                setPage((current) =>
-                  Math.min(pagination.totalPages, current + 1)
-                );
-                setLoading(true);
-              }}
-              disabled={!pagination.hasNext || loading}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] px-3 py-1.5 text-[11.5px] font-medium text-white/55 transition-colors hover:border-white/25 hover:text-white disabled:opacity-35"
-            >
-              Next
-              <ChevronRight size={13} aria-hidden="true" />
-            </button>
-          </div>
+          <Pagination
+            page={pagination.page}
+            totalPages={pagination.totalPages}
+            total={pagination.total}
+            limit={pagination.limit}
+            onPageChange={(next) => {
+              setPage(next);
+              setLoading(true);
+            }}
+            onLimitChange={(next) => {
+              setPageSize(next);
+              setPage(1);
+            }}
+            pageSizes={PAGE_SIZES}
+            loading={loading}
+            itemLabel="enquiries"
+            className="border-t border-white/[0.07] px-4 py-3 lg:px-5"
+          />
         )}
       </div>
+
+      <ConfirmDialog
+        open={Boolean(pendingDelete)}
+        title="Delete this enquiry?"
+        description={
+          pendingDelete ? (
+            <>
+              The enquiry from{" "}
+              <span className="font-medium text-white/70">{pendingDelete.name}</span>{" "}
+              will be removed permanently. This cannot be undone.
+            </>
+          ) : null
+        }
+        confirmLabel="Delete enquiry"
+        loading={deletingId === pendingDelete?._id}
+        onConfirm={deleteEnquiry}
+        onCancel={() => {
+          if (!deletingId) setPendingDelete(null);
+        }}
+      />
     </AdminShell>
   );
 }

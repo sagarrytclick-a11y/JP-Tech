@@ -67,42 +67,43 @@ export function ContactProvider({ children }: { children: ReactNode }) {
         <div
           role="presentation"
           onClick={closeContact}
-          className="fixed inset-0 z-[100] overflow-y-auto bg-black/75 backdrop-blur-sm"
+          className="dialog-overlay fixed inset-0 z-[100] grid place-items-center bg-black/75 p-3 backdrop-blur-sm sm:p-4"
         >
-          <div className="flex min-h-full items-center justify-center px-4 py-6 sm:py-10">
-            <div
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="contact-modal-title"
-              onClick={(event) => event.stopPropagation()}
-              className="relative w-full max-w-[760px] rounded-[24px] border border-white/10 bg-[#141414] p-4 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)] sm:rounded-[28px] sm:p-7 lg:p-8"
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="contact-modal-title"
+            aria-describedby="contact-modal-description"
+            onClick={(event) => event.stopPropagation()}
+            className="dialog-panel no-scrollbar relative max-h-[calc(100dvh-1.5rem)] w-full max-w-[600px] overflow-y-auto overscroll-contain rounded-[22px] border border-white/10 bg-[#141414] p-4 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)] sm:max-h-[calc(100dvh-2rem)] sm:rounded-[24px] sm:p-6"
+          >
+            <button
+              type="button"
+              onClick={closeContact}
+              aria-label="Close contact form"
+              className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition-all duration-200 hover:rotate-90 hover:bg-white/10 hover:text-white active:scale-95 sm:right-4 sm:top-4"
             >
-              <button
-                type="button"
-                onClick={closeContact}
-                aria-label="Close contact form"
-                className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+              <X size={15} aria-hidden="true" />
+            </button>
+
+            <div className="px-6 text-center sm:px-8">
+              <h2
+                id="contact-modal-title"
+                className="text-[22px] font-semibold leading-tight tracking-[-0.02em] text-white sm:text-[26px]"
               >
-                <X size={17} aria-hidden="true" />
-              </button>
+                Get <span className="text-accent">In Touch</span>
+              </h2>
+              <p
+                id="contact-modal-description"
+                className="mx-auto mt-1.5 max-w-[420px] text-[12px] leading-relaxed text-white/55 sm:text-[12.5px]"
+              >
+                Tell us about the project and we&apos;ll book a call at your
+                preferred time.
+              </p>
+            </div>
 
-              <div className="px-2 pr-10 text-center sm:pr-2">
-                <span className="section-badge">Contact Us</span>
-                <h2
-                  id="contact-modal-title"
-                  className="mt-4 text-[26px] font-semibold leading-tight tracking-[-0.02em] text-white sm:text-[32px]"
-                >
-                  Get <span className="text-accent">In Touch</span>
-                </h2>
-                <p className="mx-auto mt-2 max-w-[520px] text-[13px] leading-relaxed text-white/60 sm:text-[14px]">
-                  Let&apos;s discuss your project. Share your details, and
-                  we&apos;ll book a call at your preferred time.
-                </p>
-              </div>
-
-              <div className="mt-6">
-                <ContactForm idPrefix="modal-" />
-              </div>
+            <div className="mt-4 sm:mt-5">
+              <ContactForm idPrefix="modal-" variant="modal" />
             </div>
           </div>
         </div>

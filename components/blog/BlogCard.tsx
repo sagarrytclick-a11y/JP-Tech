@@ -1,9 +1,10 @@
+import { memo } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Clock } from "lucide-react";
 import type { BlogPostView } from "@/lib/blog-seed";
 import { blogTones, formatBlogDate } from "@/lib/blog-theme";
 
-export default function BlogCard({
+function BlogCard({
   post,
   featured = false,
 }: {
@@ -14,7 +15,7 @@ export default function BlogCard({
 
   return (
     <article
-      className={`group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-[#141414] transition-colors hover:border-white/20 ${
+      className={`card-lift group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-[#141414] hover:border-white/20 ${
         featured ? "sm:col-span-2" : ""
       }`}
     >
@@ -31,6 +32,7 @@ export default function BlogCard({
                 src={post.coverImage}
                 alt=""
                 loading="lazy"
+                decoding="async"
                 className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
               />
               <div
@@ -104,3 +106,5 @@ export default function BlogCard({
     </article>
   );
 }
+
+export default memo(BlogCard);

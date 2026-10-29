@@ -84,6 +84,82 @@ export async function getBlogBySlug(slug: string): Promise<BlogPostView | null> 
 
 export async function getAllBlogsForAdmin() {
   await connectDB();
-  const docs = await Blog.find({}).sort({ publishedAt: -1, createdAt: -1 }).lean();
+  const docs = await Blog.find({})
+    .select("-content")
+    .sort({ publishedAt: -1, createdAt: -1 })
+    .lean();
   return (docs as unknown as LeanBlog[]).map(serializeBlog);
+}
+
+export type AdminBlogStatus = "all" | "published" | "draft";
+
+export async function getBlogsForAdmin({
+  page = 1,
+  limit = 10,
+  status = "all",
+  query = "",
+}: {
+  page?: number;
+  limit?: number;
+  status?: AdminBlogStatus;
+  query?: string;
+}) {
+  await connectDB();
+
+  const safeLimit = Math.min(50, Math.max(5, limit));
+  const safePage = Math.max(1, page);
+  const filter: Record<string, unknown> = {};
+
+  if (status === "published") filter.published = true;
+  if (status === "draft") filter.published = false;
+
+  const term = query.trim();
+  if (term) {
+    const safe = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const pattern = new RegExp(safe, "i");
+    filter.$or = [
+      { title: pattern },
+      { slug: pattern },
+      { category: pattern },
+      { excerpt: pattern },
+      { tags: pattern },
+    ];
+  }
+
+  const total = await Blog.countDocuments(filter);
+  const totalPages = Math.max(1, Math.ceil(total / safeLimit));
+  const currentPage = Math.min(safePage, totalPages);
+  const skip = (currentPage - 1) * safeLimit;
+
+  const [docs, statusGroups] = await Promise.all([
+    Blog.find(filter)
+      .select("-content")
+      .sort({ publishedAt: -1, createdAt: -1 })
+      .skip(skip)
+      .limit(safeLimit)
+      .lean(),
+    Blog.aggregate<{ _id: boolean; count: number }>([
+      { $group: { _id: "$published", count: { $sum: 1 } } },
+    ]),
+  ]);
+
+  const counts = { all: 0, published: 0, draft: 0 };
+  for (const group of statusGroups) {
+    counts.all += group.count;
+    if (group._id) counts.published += group.count;
+    else counts.draft += group.count;
+  }
+
+  return {
+    posts: (docs as unknown as LeanBlog[]).map(serializeBlog),
+    counts,
+    pagination: {
+      page: currentPage,
+      limit: safeLimit,
+      total,
+      totalPages,
+      hasPrev: currentPage > 1,
+      hasNext: currentPage < totalPages,
+    },
+  };
 }

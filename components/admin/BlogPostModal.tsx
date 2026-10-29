@@ -5,7 +5,6 @@ import {
   Check,
   ChevronDown,
   Cloud,
-  HardDrive,
   ImagePlus,
   Loader2,
   Save,
@@ -14,6 +13,10 @@ import {
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import type { BlogPostView } from "@/lib/blog-seed";
 import { slugify } from "@/lib/slug";
+
+const COVER_ACCEPT = "image/jpeg,image/png,image/webp,image/avif,image/gif";
+const COVER_TYPES = COVER_ACCEPT.split(",");
+const COVER_MAX_BYTES = 5 * 1024 * 1024;
 
 type FormState = {
   title: string;
@@ -30,8 +33,6 @@ type FormState = {
   published: boolean;
   publishedAt: string;
 };
-
-type UploadProvider = "imagekit" | "local";
 
 function initialState(post?: BlogPostView): FormState {
   return {
@@ -73,61 +74,24 @@ export default function BlogPostModal({
   onSaved: (post?: BlogPostView) => void;
 }) {
   const [form, setForm] = useState<FormState>(() => initialState(post));
-  const [baseline, setBaseline] = useState(() =>
+  const [baseline] = useState(() =>
     JSON.stringify(initialState(post))
   );
   const [slugTouched, setSlugTouched] = useState(Boolean(post?.slug));
   const [advancedOpen, setAdvancedOpen] = useState(Boolean(post?.content));
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
   const [error, setError] = useState("");
   const [closeConfirmOpen, setCloseConfirmOpen] = useState(false);
-  const [provider, setProvider] = useState<UploadProvider | null>(null);
-  const [providerLoading, setProviderLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!open) return;
 
-    const next = initialState(post);
-    setForm(next);
-    setBaseline(JSON.stringify(next));
-    setSlugTouched(Boolean(post?.slug));
-    setAdvancedOpen(Boolean(post?.content));
-    setSaving(false);
-    setUploading(false);
-    setError("");
-    setCloseConfirmOpen(false);
-
     const focusTimer = window.setTimeout(() => titleRef.current?.focus(), 80);
     return () => window.clearTimeout(focusTimer);
-  }, [open, post]);
-
-  useEffect(() => {
-    if (!open) return;
-
-    let active = true;
-    setProviderLoading(true);
-
-    fetch("/api/admin/uploads", { cache: "no-store" })
-      .then(async (response) => {
-        if (!response.ok) return null;
-        return (await response.json()) as { provider?: UploadProvider };
-      })
-      .then((data) => {
-        if (active && data?.provider) setProvider(data.provider);
-      })
-      .catch(() => {
-        // The upload endpoint reports its provider again on save.
-      })
-      .finally(() => {
-        if (active) setProviderLoading(false);
-      });
-
-    return () => {
-      active = false;
-    };
   }, [open]);
 
   useEffect(() => {
@@ -243,7 +207,6 @@ export default function BlogPostModal({
       });
       const data = (await response.json()) as {
         url?: string;
-        provider?: UploadProvider;
         error?: string;
       };
 
@@ -251,7 +214,6 @@ export default function BlogPostModal({
         throw new Error(data.error || "Could not upload the image.");
       }
 
-      if (data.provider) setProvider(data.provider);
       setField("coverImage", data.url);
     } catch (uploadError) {
       setError(
@@ -265,10 +227,24 @@ export default function BlogPostModal({
     }
   };
 
-  if (!open) return null;
+  /** Shared validation for both the file picker and drag-and-drop. */
+  const handleCoverFile = (file: File | null | undefined) => {
+    if (!file) return;
 
-  const providerLabel =
-    provider === "imagekit" ? "ImageKit" : provider === "local" ? "Local storage" : "Uploads";
+    if (!COVER_TYPES.includes(file.type)) {
+      setError("Use a JPG, PNG, WebP, AVIF, or GIF image.");
+      return;
+    }
+
+    if (file.size > COVER_MAX_BYTES) {
+      setError("Image is too large. Keep it under 5 MB.");
+      return;
+    }
+
+    void handleCoverUpload(file);
+  };
+
+  if (!open) return null;
 
   return (
     <>
@@ -384,94 +360,130 @@ export default function BlogPostModal({
                   <span className={`${labelClass} mb-0`}>Cover image</span>
                   <span
                     className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-2 py-1 text-[9.5px] font-medium text-white/40"
-                    title={
-                      provider === "imagekit"
-                        ? "Uploads are stored in ImageKit"
-                        : "Uploads are stored on this server"
-                    }
+                    title="Cover images are stored in ImageKit"
                   >
-                    {providerLoading ? (
-                      <Loader2 size={10} className="animate-spin" aria-hidden="true" />
-                    ) : provider === "imagekit" ? (
-                      <Cloud size={10} aria-hidden="true" />
-                    ) : (
-                      <HardDrive size={10} aria-hidden="true" />
-                    )}
-                    {providerLoading ? "Checking..." : providerLabel}
-                    <span
-                      className={`h-1.5 w-1.5 rounded-full ${
-                        provider === "imagekit"
-                          ? "bg-emerald-400"
-                          : "bg-amber-400"
-                      }`}
-                    />
+                    <Cloud size={10} aria-hidden="true" />
+                    ImageKit
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                   </span>
                 </div>
 
-                {form.coverImage ? (
-                  <div className="relative aspect-[16/8] overflow-hidden rounded-xl border border-white/[0.08] bg-white/[0.03]">
-                    {/* eslint-disable-next-line @next/next/no-img-element -- cover images can be any external URL */}
-                    <img
-                      src={form.coverImage}
-                      alt="Cover preview"
-                      className="h-full w-full object-cover"
-                    />
-                    <div className="absolute right-2 top-2 flex items-center gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => fileInputRef.current?.click()}
-                        disabled={uploading}
-                        className="rounded-lg bg-black/65 px-2.5 py-1.5 text-[10.5px] font-semibold text-white backdrop-blur-sm transition-colors hover:bg-black/80 disabled:opacity-50"
-                      >
-                        Replace
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setField("coverImage", "")}
-                        className="rounded-lg bg-black/65 p-1.5 text-white backdrop-blur-sm transition-colors hover:bg-black/80"
-                        aria-label="Remove cover image"
-                      >
-                        <X size={13} aria-hidden="true" />
-                      </button>
-                    </div>
-                    {uploading && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/60 text-[11px] font-medium text-white">
-                        <Loader2 size={16} className="mr-2 animate-spin" />
-                        Uploading...
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    disabled={uploading}
-                    className="flex aspect-[16/7] w-full flex-col items-center justify-center gap-1.5 rounded-xl border-2 border-dashed border-white/[0.12] bg-white/[0.02] text-white/40 transition-colors hover:border-accent/50 hover:text-accent disabled:opacity-60"
-                  >
-                    {uploading ? (
-                      <Loader2 size={20} className="animate-spin" aria-hidden="true" />
-                    ) : (
-                      <ImagePlus size={20} aria-hidden="true" />
-                    )}
-                    <span className="text-[11.5px] font-semibold">
-                      {uploading ? "Uploading..." : "Upload cover image"}
-                    </span>
-                    <span className="text-[10px] text-white/25">
-                      JPG, PNG, WebP, AVIF, GIF &middot; up to 5 MB
-                    </span>
-                  </button>
-                )}
-
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp,image/avif,image/gif"
-                  className="hidden"
-                  onChange={(event) => {
-                    const file = event.target.files?.[0];
-                    if (file) void handleCoverUpload(file);
+                <div
+                  onDragEnter={(event) => {
+                    event.preventDefault();
+                    if (!uploading) setDragOver(true);
                   }}
-                />
+                  onDragOver={(event) => {
+                    event.preventDefault();
+                    if (!uploading) setDragOver(true);
+                  }}
+                  onDragLeave={(event) => {
+                    if (
+                      !event.currentTarget.contains(
+                        event.relatedTarget as Node | null
+                      )
+                    ) {
+                      setDragOver(false);
+                    }
+                  }}
+                  onDrop={(event) => {
+                    event.preventDefault();
+                    setDragOver(false);
+                    if (uploading) return;
+                    handleCoverFile(event.dataTransfer.files?.[0]);
+                  }}
+                  className={`rounded-xl transition-all ${
+                    dragOver
+                      ? "ring-2 ring-accent/70 ring-offset-4 ring-offset-[#111111]"
+                      : ""
+                  }`}
+                >
+                  {form.coverImage ? (
+                    <div className="relative aspect-[16/8] overflow-hidden rounded-xl border border-white/[0.08] bg-white/[0.03]">
+                      {/* eslint-disable-next-line @next/next/no-img-element -- cover images can be any external URL */}
+                      <img
+                        src={form.coverImage}
+                        alt="Cover preview"
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-full object-cover"
+                      />
+                      {dragOver && (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 bg-black/70 text-accent backdrop-blur-sm">
+                          <ImagePlus size={20} aria-hidden="true" />
+                          <span className="text-[11px] font-semibold">
+                            Drop to replace cover
+                          </span>
+                        </div>
+                      )}
+                      <div className="absolute right-2 top-2 flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => fileInputRef.current?.click()}
+                          disabled={uploading}
+                          className="rounded-lg bg-black/65 px-2.5 py-1.5 text-[10.5px] font-semibold text-white backdrop-blur-sm transition-colors hover:bg-black/80 disabled:opacity-50"
+                        >
+                          Replace
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setField("coverImage", "")}
+                          className="rounded-lg bg-black/65 p-1.5 text-white backdrop-blur-sm transition-colors hover:bg-black/80"
+                          aria-label="Remove cover image"
+                        >
+                          <X size={13} aria-hidden="true" />
+                        </button>
+                      </div>
+                      {uploading && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/60 text-[11px] font-medium text-white">
+                          <Loader2 size={16} className="mr-2 animate-spin" />
+                          Uploading...
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={uploading}
+                      className={`flex aspect-[16/7] w-full flex-col items-center justify-center gap-1.5 rounded-xl border-2 border-dashed transition-colors disabled:opacity-60 ${
+                        dragOver
+                          ? "border-accent/70 bg-accent/[0.06] text-accent"
+                          : "border-white/[0.12] bg-white/[0.02] text-white/40 hover:border-accent/50 hover:text-accent"
+                      }`}
+                    >
+                      {uploading ? (
+                        <Loader2
+                          size={20}
+                          className="animate-spin"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <ImagePlus size={20} aria-hidden="true" />
+                      )}
+                      <span className="text-[11.5px] font-semibold">
+                        {uploading
+                          ? "Uploading..."
+                          : dragOver
+                            ? "Drop image here"
+                            : "Drag & drop or click to upload"}
+                      </span>
+                      <span className="text-[10px] text-white/25">
+                        JPG, PNG, WebP, AVIF, GIF &middot; up to 5 MB
+                      </span>
+                    </button>
+                  )}
+
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept={COVER_ACCEPT}
+                    className="hidden"
+                    onChange={(event) => {
+                      handleCoverFile(event.target.files?.[0]);
+                    }}
+                  />
+                </div>
               </div>
 
               <label className="flex cursor-pointer items-center justify-between gap-4 rounded-xl border border-white/[0.08] bg-white/[0.02] px-3.5 py-3">

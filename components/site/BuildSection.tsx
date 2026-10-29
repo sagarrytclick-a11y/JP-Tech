@@ -96,7 +96,7 @@ function SmallPhoneMockup({ rotationClass }: { rotationClass: string }) {
 
 export default function BuildSection() {
   return (
-    <section id="build" className="shell py-12 lg:py-16">
+    <section id="work" className="shell py-8 lg:py-10">
       <div className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-end">
         <div>
           <span className="section-badge">Capabilities</span>
@@ -113,7 +113,7 @@ export default function BuildSection() {
 
       <div className="mt-8 grid gap-4 sm:mt-10 lg:grid-cols-12">
         {/* 1. CRM & Operations Card with Image */}
-        <article className="relative overflow-hidden rounded-2xl border border-line bg-[#141414] lg:col-span-7">
+        <article className="card-lift relative overflow-hidden rounded-2xl border border-line bg-[#141414] hover:border-white/20 lg:col-span-7">
           <div className="flex flex-wrap items-start justify-between gap-3 px-5 pb-4 pt-5 sm:px-6 sm:pt-6">
             <div>
               <span className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-accent">
@@ -155,7 +155,7 @@ export default function BuildSection() {
         </article>
 
         {/* 2. Mobile Mockup Card (As requested: Mobile wala chhod kar baaki me image) */}
-       <article className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-line bg-[linear-gradient(155deg,#191919,#0f0f0f)] p-5 sm:p-6 lg:col-span-5">
+       <article className="card-lift relative flex flex-col justify-between overflow-hidden rounded-2xl border border-line bg-[linear-gradient(155deg,#191919,#0f0f0f)] p-5 hover:border-white/20 sm:p-6 lg:col-span-5">
           <div>
             <span className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-accent">
               <Smartphone size={13} aria-hidden="true" />
@@ -200,7 +200,7 @@ export default function BuildSection() {
         </article>
 
         {/* 3. Websites that sell Card with Image */}
-        <article className="rounded-2xl border border-line bg-[#141414] p-4 sm:p-5 lg:col-span-4">
+        <article className="card-lift rounded-2xl border border-line bg-[#141414] p-4 hover:border-white/20 sm:p-5 lg:col-span-4">
           <div className="flex items-center gap-2">
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/[0.06] text-accent">
               <Building2 size={15} aria-hidden="true" />
@@ -226,7 +226,7 @@ export default function BuildSection() {
           </div>
         </article>
 
-        <article className="rounded-2xl border border-line bg-[#141414] p-4 sm:p-5 lg:col-span-4">
+        <article className="card-lift rounded-2xl border border-line bg-[#141414] p-4 hover:border-white/20 sm:p-5 lg:col-span-4">
           <div className="flex items-center gap-2">
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/[0.06] text-accent">
               <Bot size={15} aria-hidden="true" />
@@ -264,7 +264,7 @@ export default function BuildSection() {
           </div>
         </article>
 
-        <article className="rounded-2xl border border-line bg-[#141414] p-4 sm:p-5 lg:col-span-4">
+        <article className="card-lift rounded-2xl border border-line bg-[#141414] p-4 hover:border-white/20 sm:p-5 lg:col-span-4">
           <div className="flex items-center gap-2">
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/[0.06] text-accent">
               <Layers3 size={15} aria-hidden="true" />

@@ -10,7 +10,7 @@ import { getPublishedBlogs } from "@/lib/blogs";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Journal | JP Technology",
+  title: "Blog | JP Technology",
   description:
     "Practical notes on websites, custom CRMs, native apps, e-commerce, and AI automation from the JP Technology build team.",
   alternates: { canonical: "/blogs" },
@@ -30,7 +30,7 @@ export default async function BlogsPage() {
           <Navbar />
 
           <section className="relative mx-auto max-w-[980px] px-5 pb-12 pt-6 text-center sm:px-8 sm:pb-14 sm:pt-8 lg:pt-10">
-            <span className="section-badge">Journal</span>
+            <span className="section-badge">Blog</span>
             <h1 className="mt-5 text-balance text-[clamp(30px,4.2vw,58px)] font-semibold leading-[1.06] tracking-[-0.025em] text-white">
               Field notes from the{" "}
               <span className="text-accent">build room</span>

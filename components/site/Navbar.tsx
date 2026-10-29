@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import Logo from "@/components/site/Logo";
@@ -38,7 +39,7 @@ export default function Navbar() {
                   }
                 }}
               >
-                <a
+                <Link
                   href={hrefFor(item.href)}
                   aria-haspopup="true"
                   aria-expanded={openMenu === item.label}
@@ -51,7 +52,7 @@ export default function Navbar() {
                     }`}
                     aria-hidden="true"
                   />
-                </a>
+                </Link>
 
                 <div
                   className={`absolute left-1/2 top-full -translate-x-1/2 pt-2.5 transition-all duration-150 ${
@@ -67,13 +68,13 @@ export default function Navbar() {
                           ? "What we build"
                           : "Selected work"}
                       </span>
-                      <a
+                      <Link
                         href={item.href}
                         className="inline-flex items-center gap-1 text-[11px] font-medium text-white/50 transition-colors hover:text-accent"
                       >
                         View all
                         <ArrowUpRight size={12} aria-hidden="true" />
-                      </a>
+                      </Link>
                     </div>
 
                     <div
@@ -84,7 +85,7 @@ export default function Navbar() {
                       }`}
                     >
                       {item.children.map((child) => (
-                        <a
+                        <Link
                           key={child.label}
                           href={hrefFor(child.href)}
                           className="group/item flex items-start gap-3 rounded-xl px-3 py-3 transition-colors hover:bg-white/[0.05]"
@@ -103,7 +104,7 @@ export default function Navbar() {
                               {child.desc}
                             </span>
                           </span>
-                        </a>
+                        </Link>
                       ))}
                     </div>
 
@@ -120,13 +121,13 @@ export default function Navbar() {
                 </div>
               </div>
             ) : (
-              <a
+              <Link
                 key={item.label}
                 href={hrefFor(item.href)}
                 className="whitespace-nowrap rounded-full px-3 py-2.5 text-[13px] text-white/65 transition-colors hover:text-white xl:px-4 xl:text-[14px]"
               >
                 {item.label}
-              </a>
+              </Link>
             )
           )}
         </nav>
@@ -161,24 +162,24 @@ export default function Navbar() {
                 key={item.label}
                 className="border-b border-white/5 last:border-0"
               >
-                <a
+                <Link
                   href={hrefFor(item.href)}
                   onClick={() => setOpen(false)}
                   className="block py-3 text-[14px] font-medium text-white/80 transition-colors hover:text-white"
                 >
                   {item.label}
-                </a>
+                </Link>
                 {"children" in item && (
                   <div className="pb-2 pl-3.5">
                     {item.children.map((child) => (
-                      <a
+                      <Link
                         key={child.label}
                         href={hrefFor(child.href)}
                         onClick={() => setOpen(false)}
                         className="block py-1.5 text-[13px] text-white/50 transition-colors hover:text-white"
                       >
                         {child.label}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 )}

@@ -78,7 +78,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           <article className="relative mx-auto max-w-[980px] px-5 pb-10 pt-6 sm:px-8 sm:pb-12 sm:pt-8 lg:pt-10">
             <div className="flex flex-wrap items-center justify-center gap-2 text-[11px] text-white/35">
               <Link href="/blogs" className="transition-colors hover:text-white">
-                Journal
+                Blog
               </Link>
               <span>/</span>
               <span className="text-white/55">{post.category}</span>

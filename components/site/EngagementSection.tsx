@@ -51,7 +51,7 @@ const models = [
 
 export default function EngagementSection() {
   return (
-    <section id="engagement" className="shell py-12 lg:py-16">
+    <section id="engagement" className="shell py-8 lg:py-10">
       <div className="text-center">
         <span className="section-badge">Engagement models</span>
         <h2 className="section-heading mt-5 text-balance">
@@ -65,11 +65,11 @@ export default function EngagementSection() {
         </p>
       </div>
 
-      <div className="mt-9 grid gap-4 sm:mt-11 lg:grid-cols-3">
+      <div className="mt-6 grid gap-4 sm:mt-8 lg:grid-cols-3">
         {models.map((model) => (
           <article
             key={model.name}
-            className={`relative flex flex-col rounded-2xl border p-6 sm:p-7 ${
+            className={`card-lift relative flex flex-col rounded-2xl border p-6 sm:p-7 ${
               model.featured
                 ? "border-accent/40 bg-[linear-gradient(165deg,#24120d,#151515_60%)]"
                 : "border-line bg-[#141414]"

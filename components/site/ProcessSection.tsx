@@ -43,7 +43,7 @@ const steps = [
 
 export default function ProcessSection() {
   return (
-    <section id="process" className="shell py-12 lg:py-16">
+    <section id="process" className="shell py-8 lg:py-10">
       <div className="text-center">
         <span className="section-badge">How we work</span>
         <h2 className="section-heading mt-5 text-balance">
@@ -60,7 +60,7 @@ export default function ProcessSection() {
         {steps.map((step, index) => (
           <article
             key={step.number}
-            className="group relative flex flex-col rounded-2xl border border-line bg-[#141414] p-5 transition-colors hover:border-white/20"
+            className="card-lift group relative flex flex-col rounded-2xl border border-line bg-[#141414] p-5 hover:border-white/20"
           >
             <div className="flex items-center justify-between">
               <span className="text-[26px] font-semibold leading-none tracking-[-0.04em] text-white/15 transition-colors group-hover:text-accent/40">

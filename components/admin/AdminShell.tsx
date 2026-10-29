@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   ArrowUpRight,
+  BriefcaseBusiness,
   FileText,
   Inbox,
   LayoutDashboard,
@@ -14,10 +15,12 @@ import {
   X,
 } from "lucide-react";
 import Logo from "@/components/site/Logo";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 
 const nav = [
-  { label: "Dashboard", href: "/admin", icon: LayoutDashboard, exact: true },
+  { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard, exact: true },
   { label: "Enquiries", href: "/admin/enquiries", icon: Inbox },
+  { label: "Career applications", href: "/admin/careers", icon: BriefcaseBusiness },
   { label: "Blog posts", href: "/admin/blogs", icon: FileText },
 ];
 
@@ -35,6 +38,8 @@ export default function AdminShell({
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [logoutOpen, setLogoutOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -44,6 +49,7 @@ export default function AdminShell({
   }, [mobileOpen]);
 
   const handleLogout = async () => {
+    setLoggingOut(true);
     await fetch("/api/auth/logout", { method: "POST" });
     router.push("/admin/login");
   };
@@ -153,7 +159,7 @@ export default function AdminShell({
                 </span>
                 <button
                   type="button"
-                  onClick={handleLogout}
+                  onClick={() => setLogoutOpen(true)}
                   className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 text-white/50 transition-colors hover:border-white/25 hover:text-white"
                   aria-label="Log out"
                   title="Log out"
@@ -217,6 +223,19 @@ export default function AdminShell({
           </aside>
         </div>
       )}
+
+      <ConfirmDialog
+        open={logoutOpen}
+        title="Log out of admin?"
+        description="You will need your username and password to sign back in."
+        confirmLabel="Log out"
+        tone="neutral"
+        loading={loggingOut}
+        onConfirm={handleLogout}
+        onCancel={() => {
+          if (!loggingOut) setLogoutOpen(false);
+        }}
+      />
     </div>
   );
 }

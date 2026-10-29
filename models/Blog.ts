@@ -19,4 +19,9 @@ const BlogSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Common admin/public access patterns: published feed sorted by publish date,
+// slug lookups, and newest-first admin lists.
+BlogSchema.index({ published: 1, publishedAt: -1 });
+BlogSchema.index({ createdAt: -1 });
+
 export default mongoose.models.Blog || mongoose.model('Blog', BlogSchema);

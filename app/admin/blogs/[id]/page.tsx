@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { notFound, useParams, useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
+import AdminLoadingSkeleton from "@/components/admin/AdminLoadingSkeleton";
 import AdminShell from "@/components/admin/AdminShell";
 import BlogEditor from "@/components/admin/BlogEditor";
+import Skeleton from "@/components/ui/Skeleton";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import type { BlogPostView } from "@/lib/blog-seed";
 
@@ -59,12 +61,15 @@ export default function EditBlogPostPage() {
     };
   }, [checking, params.id, router]);
 
+  // `/admin/blogs/new` used to be a dedicated create page. Creating a post now
+  // happens in the modal on `/admin/blogs`, so the old URL should 404 instead
+  // of falling into the dynamic `[id]` route.
+  if (params.id === "new") {
+    notFound();
+  }
+
   if (checking) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-ink text-white/40">
-        <Loader2 className="animate-spin" size={22} aria-label="Loading" />
-      </div>
-    );
+    return <AdminLoadingSkeleton />;
   }
 
   return (
@@ -73,9 +78,26 @@ export default function EditBlogPostPage() {
       subtitle="Update the article, publishing state, and cover image"
     >
       {loading ? (
-        <div className="flex items-center justify-center py-24 text-[12px] text-white/35">
-          <Loader2 className="mr-2 animate-spin" size={16} />
-          Loading post...
+        <div className="mx-auto max-w-5xl space-y-4">
+          <div className="flex items-center justify-between gap-4">
+            <Skeleton className="h-9 w-28 rounded-lg" />
+            <Skeleton className="h-9 w-24 rounded-lg" />
+          </div>
+          <div className="rounded-2xl border border-white/[0.08] bg-[#131313] p-5">
+            <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+              <div className="space-y-4">
+                <Skeleton className="h-10 w-full rounded-lg" />
+                <Skeleton className="h-10 w-full rounded-lg" />
+                <Skeleton className="h-28 w-full rounded-xl" />
+                <Skeleton className="h-40 w-full rounded-xl" />
+              </div>
+              <div className="space-y-4">
+                <Skeleton className="aspect-[16/9] w-full rounded-xl" />
+                <Skeleton className="h-10 w-full rounded-lg" />
+                <Skeleton className="h-10 w-full rounded-lg" />
+              </div>
+            </div>
+          </div>
         </div>
       ) : error || !post ? (
         <div className="mx-auto max-w-3xl py-6">

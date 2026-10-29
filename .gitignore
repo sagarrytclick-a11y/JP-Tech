@@ -34,9 +34,6 @@ yarn-error.log*
 .env*
 !.env.example
 
-# uploaded blog cover images
-/uploads
-
 # vercel
 .vercel
 

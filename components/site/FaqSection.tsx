@@ -5,15 +5,16 @@ import { Plus, X } from "lucide-react";
 import { site } from "@/lib/site";
 
 import ContactButton from "@/components/contact/ContactButton";
+import Reveal from "@/components/ui/Reveal";
 
 export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="shell py-10 lg:py-14">
+    <section id="faq" className="shell py-8 lg:py-10">
       <div className="rounded-[28px] border border-line bg-[#101010] px-4 py-10 sm:rounded-[34px] sm:px-8 sm:py-12 lg:px-14">
         <div className="mx-auto max-w-[1100px]">
-          <div className="text-center">
+          <Reveal className="text-center">
             <span className="section-badge">FAQs</span>
             <h2 className="section-heading mt-5">
               Have <span className="text-accent">Questions?</span>
@@ -21,7 +22,7 @@ export default function FaqSection() {
             <p className="mt-3 text-[14px] text-white/60 sm:text-[16px]">
               Everything you need to know before we even start.
             </p>
-          </div>
+          </Reveal>
 
           <div className="mt-8 space-y-3 sm:mt-10">
             {site.faqs.map((faq, index) => {
@@ -29,7 +30,7 @@ export default function FaqSection() {
               return (
                 <div
                   key={faq.q}
-                  className="overflow-hidden rounded-2xl border border-white/10 bg-[#1c1c1c]"
+                  className="overflow-hidden rounded-2xl border border-white/10 bg-[#1c1c1c] transition-colors duration-200 hover:border-white/20"
                 >
                   <button
                     type="button"

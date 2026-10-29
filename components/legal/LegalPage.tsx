@@ -29,7 +29,7 @@ export default function LegalPage({
   children: ReactNode;
 }) {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-ink">
+    <div className="min-h-screen overflow-x-clip bg-ink">
       <TopBar />
 
       <div className="shell pt-4 sm:pt-6">
@@ -62,7 +62,7 @@ export default function LegalPage({
 
       <main className="shell py-10 lg:py-14">
         <div className="mx-auto grid max-w-[1100px] gap-8 lg:grid-cols-[236px_1fr] lg:gap-10">
-          <aside className="lg:sticky lg:top-8 lg:self-start">
+          <aside className="thin-scrollbar lg:sticky lg:top-6 lg:max-h-[calc(100dvh-3rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:pr-1">
             <p className="text-[10.5px] font-semibold uppercase tracking-[0.16em] text-white/35">
               On this page
             </p>

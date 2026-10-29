@@ -5,13 +5,13 @@ const JWT_SECRET = process.env.JWT_SECRET || 'jp-tech-secret-key-2025';
 const COOKIE_NAME = 'admin_token';
 const EXPIRY = '6h';
 
-export function signToken(payload: { id: string; email: string }) {
+export function signToken(payload: { id: string; username: string }) {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: EXPIRY });
 }
 
 export function verifyToken(token: string) {
   try {
-    return jwt.verify(token, JWT_SECRET) as { id: string; email: string };
+    return jwt.verify(token, JWT_SECRET) as { id: string; username: string };
   } catch {
     return null;
   }

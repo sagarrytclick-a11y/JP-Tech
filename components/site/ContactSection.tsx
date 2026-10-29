@@ -1,12 +1,12 @@
 import {
   Clock3,
-  Globe2,
   Mail,
+  MapPin,
   Phone,
   ShieldCheck,
   type LucideIcon,
 } from "lucide-react";
-import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { FaLinkedinIn } from "react-icons/fa";
 import ContactForm from "@/components/site/ContactForm";
 import { site } from "@/lib/site";
 
@@ -31,10 +31,10 @@ const channels: Channel[] = [
     icon: Phone,
   },
   {
-    label: "Alternate line",
-    value: site.secondaryPhone,
-    href: `tel:${site.secondaryPhoneHref}`,
-    icon: Phone,
+    label: "Visit us",
+    value: site.address,
+    href: site.mapUrl,
+    icon: MapPin,
   },
   {
     label: "Working hours",
@@ -59,9 +59,7 @@ const steps = [
 ];
 
 const socials = [
-  { label: "Instagram", href: site.social.instagram, icon: FaInstagram },
   { label: "LinkedIn", href: site.social.linkedin, icon: FaLinkedinIn },
-  { label: "Facebook", href: site.social.facebook, icon: FaFacebookF },
 ];
 
 export default function ContactSection({
@@ -70,7 +68,7 @@ export default function ContactSection({
   showHeader?: boolean;
 }) {
   return (
-    <section id="contact" className="shell py-12 lg:py-16">
+    <section id="contact" className="shell py-8 lg:py-10">
       {showHeader && (
         <div className="text-center">
           <span className="section-badge">Contact Us</span>
@@ -116,7 +114,13 @@ export default function ContactSection({
                     <span className="block text-[10.5px] uppercase tracking-[0.12em] text-white/35">
                       {channel.label}
                     </span>
-                    <span className="mt-0.5 block truncate text-[13px] font-medium text-white/85">
+                    <span
+                      className={`mt-0.5 block text-[13px] font-medium text-white/85 ${
+                        channel.label === "Visit us"
+                          ? "leading-snug"
+                          : "truncate"
+                      }`}
+                    >
                       {channel.value}
                     </span>
                   </span>
@@ -165,12 +169,7 @@ export default function ContactSection({
             </ol>
           </div>
 
-          <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-7">
-            <span className="inline-flex items-center gap-1.5 text-[11px] text-white/35">
-              <Globe2 size={12} aria-hidden="true" />
-              Working worldwide
-            </span>
-
+          <div className="mt-auto flex flex-wrap items-center justify-end gap-3 pt-7">
             <div className="flex items-center gap-1.5">
               {socials.map((social) => {
                 const Icon = social.icon;

@@ -1,33 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
-import { connectDB } from '@/lib/db';
-import User from '@/models/User';
 import { signToken, setAuthCookie } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password } = await req.json();
-    if (!email || !password) {
-      return NextResponse.json({ error: 'Email and password required' }, { status: 400 });
+    const { username, password } = await req.json();
+
+    if (!username || !password) {
+      return NextResponse.json(
+        { error: 'Username and password are required.' },
+        { status: 400 }
+      );
     }
 
-    await connectDB();
-
-    const adminEmail = process.env.ADMIN_EMAIL || 'admin@jptechnology.com';
+    const adminUser = process.env.ADMIN_USER || 'admin';
     const adminPass = process.env.ADMIN_PASSWORD || 'admin123';
 
-    const existing = await User.findOne({ email: adminEmail });
-    if (!existing) {
-      const hash = bcrypt.hashSync(adminPass, 10);
-      await User.create({ email: adminEmail, password: hash });
+    const usernameMatches =
+      String(username).trim().toLowerCase() === adminUser.trim().toLowerCase();
+    const passwordMatches = String(password) === adminPass;
+
+    if (!usernameMatches || !passwordMatches) {
+      return NextResponse.json({ error: 'Invalid username or password.' }, { status: 401 });
     }
 
-    const user = await User.findOne({ email });
-    if (!user || !bcrypt.compareSync(password, user.password)) {
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
-    }
-
-    const token = signToken({ id: user._id.toString(), email: user.email });
+    const token = signToken({ id: 'admin', username: adminUser });
     await setAuthCookie(token);
 
     return NextResponse.json({ success: true });

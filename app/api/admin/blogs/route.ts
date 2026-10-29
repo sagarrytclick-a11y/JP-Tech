@@ -2,19 +2,43 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { getAuthUser } from "@/lib/auth";
 import { blogSchema, toBlogPayload } from "@/lib/blog-validation";
-import { getAllBlogsForAdmin, serializeBlog } from "@/lib/blogs";
+import { getAllBlogsForAdmin, getBlogsForAdmin, serializeBlog } from "@/lib/blogs";
 import { slugify } from "@/lib/slug";
 import Blog from "@/models/Blog";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const user = await getAuthUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
-    const posts = await getAllBlogsForAdmin();
-    return NextResponse.json({ posts });
+    const { searchParams } = new URL(req.url);
+    const limitParam = searchParams.get("limit");
+
+    if (!limitParam) {
+      const posts = await getAllBlogsForAdmin();
+      return NextResponse.json({ posts });
+    }
+
+    const requestedPage = Number.parseInt(searchParams.get("page") || "1", 10);
+    const requestedLimit = Number.parseInt(limitParam, 10);
+    const requestedStatus = searchParams.get("status") || "all";
+    const status =
+      requestedStatus === "published" || requestedStatus === "draft"
+        ? requestedStatus
+        : "all";
+
+    const data = await getBlogsForAdmin({
+      page: Number.isFinite(requestedPage) ? requestedPage : 1,
+      limit: Number.isFinite(requestedLimit) ? requestedLimit : 10,
+      status,
+      query: (searchParams.get("q") || "").trim(),
+    });
+
+    return NextResponse.json(data, {
+      headers: { "Cache-Control": "no-store" },
+    });
   } catch (error) {
     console.error("Blog list error:", error);
     return NextResponse.json(

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -13,10 +13,15 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import type { BlogPostView } from "@/lib/blog-seed";
 import { slugify } from "@/lib/slug";
 
 const coverTones = ["orange", "blue", "violet", "green", "amber", "slate"];
+
+const COVER_ACCEPT = "image/jpeg,image/png,image/webp,image/avif,image/gif";
+const COVER_TYPES = COVER_ACCEPT.split(",");
+const COVER_MAX_BYTES = 5 * 1024 * 1024;
 
 type FormState = {
   title: string;
@@ -68,12 +73,30 @@ export default function BlogEditor({
 }) {
   const router = useRouter();
   const [form, setForm] = useState<FormState>(() => initialState(post));
+  const [baseline] = useState(() => JSON.stringify(initialState(post)));
   const [slugTouched, setSlugTouched] = useState(Boolean(post?.slug));
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
   const [error, setError] = useState("");
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [leaveOpen, setLeaveOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const dirty = JSON.stringify(form) !== baseline;
+
+  useEffect(() => {
+    if (!dirty || saving) return;
+
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [dirty, saving]);
 
   const setField = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((current) => ({ ...current, [key]: value }));
@@ -158,8 +181,25 @@ export default function BlogEditor({
     }
   };
 
+  /** Shared validation for both the file picker and drag-and-drop. */
+  const handleCoverFile = (file: File | null | undefined) => {
+    if (!file) return;
+
+    if (!COVER_TYPES.includes(file.type)) {
+      setError("Use a JPG, PNG, WebP, AVIF, or GIF image.");
+      return;
+    }
+
+    if (file.size > COVER_MAX_BYTES) {
+      setError("Image is too large. Keep it under 5 MB.");
+      return;
+    }
+
+    void handleCoverUpload(file);
+  };
+
   const handleDelete = async () => {
-    if (!post || !window.confirm("Delete this post permanently?")) return;
+    if (!post) return;
 
     setDeleting(true);
     setError("");
@@ -181,15 +221,23 @@ export default function BlogEditor({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full">
+    <>
+      <form onSubmit={handleSubmit} className="w-full">
       <div className="mb-6 flex flex-wrap items-center gap-3">
-        <Link
-          href="/admin/blogs"
+        <button
+          type="button"
+          onClick={() => {
+            if (dirty) {
+              setLeaveOpen(true);
+              return;
+            }
+            router.push("/admin/blogs");
+          }}
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/40 transition-colors hover:text-white"
         >
           <ArrowLeft size={13} aria-hidden="true" />
           All posts
-        </Link>
+        </button>
         <span className="text-white/20">/</span>
         <h2 className="text-sm font-semibold text-white">
           {mode === "create" ? "New post" : "Edit post"}
@@ -386,54 +434,109 @@ export default function BlogEditor({
               empty to use the gradient tone.
             </p>
 
-            {form.coverImage ? (
-              <div className="relative mt-4 aspect-[16/9] overflow-hidden rounded-lg border border-white/[0.08] bg-white/[0.02]/[0.04]">
-                {/* eslint-disable-next-line @next/next/no-img-element -- cover images can be any external URL */}
-                <img
-                  src={form.coverImage}
-                  alt="Cover preview"
-                  className="h-full w-full object-cover"
-                />
+            <div
+              onDragEnter={(event) => {
+                event.preventDefault();
+                if (!uploading) setDragOver(true);
+              }}
+              onDragOver={(event) => {
+                event.preventDefault();
+                if (!uploading) setDragOver(true);
+              }}
+              onDragLeave={(event) => {
+                if (
+                  !event.currentTarget.contains(event.relatedTarget as Node | null)
+                ) {
+                  setDragOver(false);
+                }
+              }}
+              onDrop={(event) => {
+                event.preventDefault();
+                setDragOver(false);
+                if (uploading) return;
+                handleCoverFile(event.dataTransfer.files?.[0]);
+              }}
+              className={`relative mt-4 rounded-lg transition-all ${
+                dragOver
+                  ? "ring-2 ring-accent/70 ring-offset-4 ring-offset-[#131313]"
+                  : ""
+              }`}
+            >
+              {form.coverImage ? (
+                <div className="relative aspect-[16/9] overflow-hidden rounded-lg border border-white/[0.08] bg-white/[0.02]/[0.04]">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- cover images can be any external URL */}
+                  <img
+                    src={form.coverImage}
+                    alt="Cover preview"
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover"
+                  />
+                  {dragOver ? (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/70 text-accent backdrop-blur-sm">
+                      <ImagePlus size={22} aria-hidden="true" />
+                      <span className="text-xs font-semibold">
+                        Drop to replace cover
+                      </span>
+                    </div>
+                  ) : null}
+                  <button
+                    type="button"
+                    onClick={() => setField("coverImage", "")}
+                    className="absolute right-2 top-2 rounded-full bg-black/60 p-1.5 text-white transition-colors hover:bg-black/80"
+                    aria-label="Remove cover image"
+                  >
+                    <X size={13} aria-hidden="true" />
+                  </button>
+                  {uploading ? (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                      <Loader2
+                        size={22}
+                        className="animate-spin text-accent"
+                        aria-hidden="true"
+                      />
+                    </div>
+                  ) : null}
+                </div>
+              ) : (
                 <button
                   type="button"
-                  onClick={() => setField("coverImage", "")}
-                  className="absolute right-2 top-2 rounded-full bg-black/60 p-1.5 text-white transition-colors hover:bg-black/80"
-                  aria-label="Remove cover image"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                  className={`flex aspect-[16/9] w-full flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed bg-white/[0.02]/[0.02] text-white/45 transition-colors disabled:opacity-60 ${
+                    dragOver
+                      ? "border-accent/70 bg-accent/[0.06] text-accent"
+                      : "border-white/[0.12] hover:border-accent/50 hover:text-accent"
+                  }`}
                 >
-                  <X size={13} aria-hidden="true" />
+                  {uploading ? (
+                    <Loader2 size={20} className="animate-spin" aria-hidden="true" />
+                  ) : (
+                    <ImagePlus size={20} aria-hidden="true" />
+                  )}
+                  <span className="text-xs font-semibold">
+                    {uploading
+                      ? "Uploading..."
+                      : dragOver
+                        ? "Drop image here"
+                        : "Drag & drop or click to upload"}
+                  </span>
+                  <span className="text-[10px] text-white/30">
+                    JPG, PNG, WebP &middot; up to 5 MB
+                  </span>
                 </button>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                disabled={uploading}
-                className="mt-4 flex aspect-[16/9] w-full flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-white/[0.12] bg-white/[0.02]/[0.02] text-white/45 transition-colors hover:border-accent/50 hover:text-accent disabled:opacity-60"
-              >
-                {uploading ? (
-                  <Loader2 size={20} className="animate-spin" aria-hidden="true" />
-                ) : (
-                  <ImagePlus size={20} aria-hidden="true" />
-                )}
-                <span className="text-xs font-semibold">
-                  {uploading ? "Uploading..." : "Upload image"}
-                </span>
-                <span className="text-[10px] text-white/30">
-                  JPG, PNG, WebP &middot; up to 5 MB
-                </span>
-              </button>
-            )}
+              )}
 
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/jpeg,image/png,image/webp,image/avif,image/gif"
-              className="hidden"
-              onChange={(event) => {
-                const file = event.target.files?.[0];
-                if (file) void handleCoverUpload(file);
-              }}
-            />
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept={COVER_ACCEPT}
+                className="hidden"
+                onChange={(event) => {
+                  handleCoverFile(event.target.files?.[0]);
+                }}
+              />
+            </div>
 
             <div className="mt-3">
               <label htmlFor="blog-cover-url" className={labelClass}>
@@ -516,7 +619,7 @@ export default function BlogEditor({
           {mode === "edit" && (
             <button
               type="button"
-              onClick={handleDelete}
+              onClick={() => setDeleteOpen(true)}
               disabled={deleting}
               className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border border-red-500/20 bg-red-500/[0.07] px-4 py-2.5 text-xs font-semibold text-red-300 transition-colors hover:bg-red-500/[0.12] disabled:opacity-60"
             >
@@ -531,5 +634,36 @@ export default function BlogEditor({
         </aside>
       </div>
     </form>
+
+    <ConfirmDialog
+      open={deleteOpen}
+      title="Delete this post?"
+      description={
+        <>
+          <span className="font-medium text-white/70">&ldquo;{form.title}&rdquo;</span>{" "}
+          will be removed permanently. This cannot be undone.
+        </>
+      }
+      confirmLabel="Delete post"
+      loading={deleting}
+      onConfirm={handleDelete}
+      onCancel={() => {
+        if (!deleting) setDeleteOpen(false);
+      }}
+    />
+
+    <ConfirmDialog
+      open={leaveOpen}
+      title="Leave without saving?"
+      description="You have unsaved changes to this post. Leaving now will lose them."
+      confirmLabel="Leave page"
+      cancelLabel="Keep editing"
+      onConfirm={() => {
+        setLeaveOpen(false);
+        router.push("/admin/blogs");
+      }}
+      onCancel={() => setLeaveOpen(false)}
+    />
+    </>
   );
 }

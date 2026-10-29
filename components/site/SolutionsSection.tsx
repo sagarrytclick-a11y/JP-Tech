@@ -66,7 +66,7 @@ const services: Service[] = [
 
 export default function SolutionsSection() {
   return (
-    <section id="services" className="shell py-12 lg:py-16">
+    <section id="services" className="shell py-8 lg:py-10">
       <div className="text-center">
         <span className="section-badge">Services</span>
         <h2 className="section-heading mt-5 text-balance">
@@ -78,7 +78,7 @@ export default function SolutionsSection() {
         </p>
       </div>
 
-      <div className="mx-auto mt-16 grid max-w-[1240px] gap-x-6 gap-y-14 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3 lg:gap-x-7">
+      <div className="mx-auto mt-10 grid max-w-[1240px] gap-x-6 gap-y-14 sm:grid-cols-2 lg:mt-12 lg:grid-cols-3 lg:gap-x-7">
         {services.map(({ title, description, fit, icon: Icon }) => (
           <article key={title} className="group relative">
             <div className="absolute left-1/2 top-0 z-20 flex h-[68px] w-[68px] -translate-x-1/2 -translate-y-1/2 rotate-45 items-center justify-center rounded-[16px] border border-white/20 bg-[#0e0e0e] shadow-[0_12px_32px_rgba(0,0,0,0.6)] sm:h-[72px] sm:w-[72px]">
@@ -90,7 +90,7 @@ export default function SolutionsSection() {
               />
             </div>
 
-            <div className="relative flex h-full flex-col overflow-hidden rounded-[12px] border border-white/[0.07] bg-[linear-gradient(160deg,#1e1e1e_0%,#171717_55%,#111111_100%)] px-6 pb-7 pt-14 text-center shadow-[0_24px_60px_-42px_rgba(0,0,0,0.95)] transition-colors duration-200 hover:border-white/15">
+            <div className="relative flex h-full flex-col overflow-hidden rounded-[12px] border border-white/[0.07] bg-[linear-gradient(160deg,#1e1e1e_0%,#171717_55%,#111111_100%)] px-6 pb-7 pt-14 text-center shadow-[0_24px_60px_-42px_rgba(0,0,0,0.95)] card-lift hover:border-accent/25">
               <span
                 aria-hidden="true"
                 className="pointer-events-none absolute bottom-0 left-0 h-24 w-40 opacity-[0.09]"

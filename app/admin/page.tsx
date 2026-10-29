@@ -4,16 +4,20 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   ArrowUpRight,
+  BriefcaseBusiness,
   CheckCircle2,
   Clock,
   FileText,
   Inbox,
-  Loader2,
   Plus,
   RotateCcw,
   Send,
 } from "lucide-react";
+import AdminLoadingSkeleton from "@/components/admin/AdminLoadingSkeleton";
 import AdminShell from "@/components/admin/AdminShell";
+import CountUp from "@/components/ui/CountUp";
+import Reveal from "@/components/ui/Reveal";
+import Skeleton from "@/components/ui/Skeleton";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import type { BlogPostView } from "@/lib/blog-seed";
 import { formatBlogDate } from "@/lib/blog-theme";
@@ -34,10 +38,39 @@ type Counts = {
   follow: number;
 };
 
+type CareerApplication = {
+  _id: string;
+  fullName: string;
+  email: string;
+  position: string;
+  status: "new" | "shortlisted" | "rejected";
+  createdAt: string;
+  resumeUrl: string;
+};
+
+type CareerCounts = {
+  all: number;
+  new: number;
+  shortlisted: number;
+  rejected: number;
+};
+
 const statusStyles: Record<string, string> = {
   pending: "bg-amber-500/10 text-amber-300 ring-amber-400/20",
   resolved: "bg-emerald-500/10 text-emerald-300 ring-emerald-400/20",
   follow: "bg-sky-500/10 text-sky-300 ring-sky-400/20",
+};
+
+const careerStatusStyles: Record<string, string> = {
+  new: "bg-amber-500/10 text-amber-300 ring-amber-400/20",
+  shortlisted: "bg-emerald-500/10 text-emerald-300 ring-emerald-400/20",
+  rejected: "bg-red-500/10 text-red-300 ring-red-400/20",
+};
+
+const careerStatusLabels: Record<string, string> = {
+  new: "New",
+  shortlisted: "Shortlisted",
+  rejected: "Rejected",
 };
 
 const statusLabels: Record<string, string> = {
@@ -60,6 +93,18 @@ export default function AdminDashboard() {
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [counts, setCounts] = useState<Counts>({ all: 0, pending: 0, resolved: 0, follow: 0 });
   const [posts, setPosts] = useState<BlogPostView[]>([]);
+  const [blogCounts, setBlogCounts] = useState({
+    all: 0,
+    published: 0,
+    draft: 0,
+  });
+  const [applications, setApplications] = useState<CareerApplication[]>([]);
+  const [careerCounts, setCareerCounts] = useState<CareerCounts>({
+    all: 0,
+    new: 0,
+    shortlisted: 0,
+    rejected: 0,
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -81,25 +126,52 @@ export default function AdminDashboard() {
           return data as { enquiries: Enquiry[]; counts: Counts };
         }
       ),
-      fetch("/api/admin/blogs", { signal: controller.signal, cache: "no-store" }).then(
+      fetch("/api/admin/blogs?limit=5", {
+        signal: controller.signal,
+        cache: "no-store",
+      }).then(async (response) => {
+        if (response.status === 401) {
+          window.location.href = "/admin/login";
+          return null;
+        }
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Could not load blog posts.");
+        return data as {
+          posts: BlogPostView[];
+          counts: { all: number; published: number; draft: number };
+        };
+      }),
+      fetch("/api/careers?limit=5", { signal: controller.signal, cache: "no-store" }).then(
         async (response) => {
           if (response.status === 401) {
             window.location.href = "/admin/login";
             return null;
           }
           const data = await response.json();
-          if (!response.ok) throw new Error(data.error || "Could not load blog posts.");
-          return data as { posts: BlogPostView[] };
+          if (!response.ok) {
+            throw new Error(data.error || "Could not load career applications.");
+          }
+          return data as {
+            applications: CareerApplication[];
+            counts: CareerCounts;
+          };
         }
       ),
     ])
-      .then(([enquiryData, blogData]) => {
+      .then(([enquiryData, blogData, careerData]) => {
         if (!active) return;
         if (enquiryData) {
           setEnquiries(enquiryData.enquiries ?? []);
           if (enquiryData.counts) setCounts(enquiryData.counts);
         }
-        if (blogData) setPosts(blogData.posts ?? []);
+        if (blogData) {
+          setPosts(blogData.posts ?? []);
+          if (blogData.counts) setBlogCounts(blogData.counts);
+        }
+        if (careerData) {
+          setApplications(careerData.applications ?? []);
+          if (careerData.counts) setCareerCounts(careerData.counts);
+        }
       })
       .catch((loadError) => {
         if (!active || (loadError instanceof DOMException && loadError.name === "AbortError")) {
@@ -119,8 +191,8 @@ export default function AdminDashboard() {
     };
   }, [checking]);
 
-  const published = posts.filter((post) => post.published).length;
-  const drafts = posts.length - published;
+  const published = blogCounts.published;
+  const drafts = blogCounts.draft;
   const latestPost = posts[0];
 
   const stats = [
@@ -154,7 +226,7 @@ export default function AdminDashboard() {
     },
     {
       label: "Blog posts",
-      value: posts.length,
+      value: blogCounts.all,
       hint: "In the database",
       href: "/admin/blogs",
       icon: FileText,
@@ -166,14 +238,24 @@ export default function AdminDashboard() {
       href: "/admin/blogs",
       icon: Send,
     },
+    {
+      label: "Applications",
+      value: careerCounts.all,
+      hint: "Career pipeline",
+      href: "/admin/careers",
+      icon: BriefcaseBusiness,
+    },
+    {
+      label: "New applicants",
+      value: careerCounts.new,
+      hint: `${careerCounts.shortlisted} shortlisted`,
+      href: "/admin/careers",
+      icon: Clock,
+    },
   ];
 
   if (checking) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-ink text-white/40">
-        <Loader2 className="animate-spin" size={22} aria-label="Loading" />
-      </div>
-    );
+    return <AdminLoadingSkeleton />;
   }
 
   return (
@@ -182,7 +264,7 @@ export default function AdminDashboard() {
       subtitle="Overview of your enquiries and publishing"
       actions={
         <Link
-          href="/admin/blogs/new"
+          href="/admin/blogs"
           className="hidden items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-[12px] font-semibold text-white transition-colors hover:bg-accent-soft sm:inline-flex"
         >
           <Plus size={13} aria-hidden="true" />
@@ -219,32 +301,35 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-6">
-        {stats.map(({ label, value, hint, href, icon: Icon }) => (
-          <Link
-            key={label}
-            href={href}
-            className="group rounded-2xl border border-white/[0.08] bg-[#131313] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-white/20 hover:bg-[#171717] sm:p-5"
-          >
-            <div className="flex items-start justify-between gap-2">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/35">
-                {label}
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        {stats.map(({ label, value, hint, href, icon: Icon }, index) => (
+          <Reveal key={label} delay={index * 45} className="h-full">
+            <Link
+              href={href}
+              className="card-lift group flex h-full flex-col rounded-2xl border border-white/[0.08] bg-[#131313] p-4 hover:border-accent/25 hover:bg-[#171717] sm:p-5"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/35 transition-colors group-hover:text-white/55">
+                  {label}
+                </p>
+                <Icon
+                  size={14}
+                  className="shrink-0 text-white/20 transition-all duration-200 group-hover:scale-110 group-hover:text-accent"
+                  aria-hidden="true"
+                />
+              </div>
+              {loading ? (
+                <Skeleton className="mt-5 h-8 w-12 rounded-md" />
+              ) : (
+                <p className="mt-4 text-[30px] font-semibold leading-none tracking-[-0.035em] text-white sm:mt-5 sm:text-[34px]">
+                  <CountUp value={value} />
+                </p>
+              )}
+              <p className="mt-2 text-[11px] text-white/30 transition-colors group-hover:text-white/45">
+                {hint}
               </p>
-              <Icon
-                size={14}
-                className="shrink-0 text-white/20 transition-colors group-hover:text-accent"
-                aria-hidden="true"
-              />
-            </div>
-            {loading ? (
-              <div className="mt-5 h-8 w-12 animate-pulse rounded bg-white/[0.07]" />
-            ) : (
-              <p className="mt-4 text-[30px] font-semibold leading-none tracking-[-0.035em] text-white sm:mt-5 sm:text-[34px]">
-                {value}
-              </p>
-            )}
-            <p className="mt-2 text-[11px] text-white/30">{hint}</p>
-          </Link>
+            </Link>
+          </Reveal>
         ))}
       </div>
 
@@ -268,7 +353,7 @@ export default function AdminDashboard() {
           {loading ? (
             <div className="space-y-3 p-5">
               {[0, 1, 2].map((row) => (
-                <div key={row} className="h-11 animate-pulse rounded-lg bg-white/[0.04]" />
+                <Skeleton key={row} className="h-11 w-full rounded-lg" />
               ))}
             </div>
           ) : enquiries.length === 0 ? (
@@ -340,7 +425,7 @@ export default function AdminDashboard() {
                 </p>
               </div>
               <span className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[10px] font-medium text-white/50">
-                {posts.length} total
+                {blogCounts.all} total
               </span>
             </div>
 
@@ -348,7 +433,9 @@ export default function AdminDashboard() {
               <div
                 className="h-full rounded-full bg-accent transition-[width] duration-500"
                 style={{
-                  width: posts.length ? `${Math.round((published / posts.length) * 100)}%` : "0%",
+                  width: blogCounts.all
+                    ? `${Math.round((published / blogCounts.all) * 100)}%`
+                    : "0%",
                 }}
               />
             </div>
@@ -391,13 +478,27 @@ export default function AdminDashboard() {
               </Link>
 
               <Link
-                href="/admin/blogs/new"
+                href="/admin/blogs"
                 className="group flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-3.5 py-3 transition-colors hover:border-white/15 hover:bg-white/[0.04]"
               >
                 <FileText size={15} className="text-white/35 group-hover:text-accent" aria-hidden="true" />
                 <div className="min-w-0 flex-1">
                   <p className="text-[12px] font-medium text-white/85">Write a post</p>
-                  <p className="text-[10.5px] text-white/30">Publish to the journal</p>
+                  <p className="text-[10.5px] text-white/30">Publish to the Blog</p>
+                </div>
+                <ArrowUpRight size={13} className="text-white/25" aria-hidden="true" />
+              </Link>
+
+              <Link
+                href="/admin/careers"
+                className="group flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-3.5 py-3 transition-colors hover:border-white/15 hover:bg-white/[0.04]"
+              >
+                <BriefcaseBusiness size={15} className="text-white/35 group-hover:text-accent" aria-hidden="true" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-[12px] font-medium text-white/85">Review applicants</p>
+                  <p className="text-[10.5px] text-white/30">
+                    {careerCounts.new} new application{careerCounts.new === 1 ? "" : "s"}
+                  </p>
                 </div>
                 <ArrowUpRight size={13} className="text-white/25" aria-hidden="true" />
               </Link>
@@ -410,13 +511,91 @@ export default function AdminDashboard() {
                 <ArrowUpRight size={15} className="text-white/35 group-hover:text-accent" aria-hidden="true" />
                 <div className="min-w-0 flex-1">
                   <p className="text-[12px] font-medium text-white/85">Open website</p>
-                  <p className="text-[10.5px] text-white/30">See the live journal</p>
+                  <p className="text-[10.5px] text-white/30">See the live Blog</p>
                 </div>
               </Link>
             </div>
           </section>
         </div>
       </div>
+
+      <section className="mt-5 overflow-hidden rounded-2xl border border-white/[0.08] bg-[#131313]">
+        <div className="flex items-center justify-between gap-3 border-b border-white/[0.07] px-5 py-4">
+          <div>
+            <h3 className="text-[13.5px] font-semibold text-white">
+              Recent career applications
+            </h3>
+            <p className="mt-0.5 text-[11px] text-white/35">
+              The five latest candidates from the careers page.
+            </p>
+          </div>
+          <Link
+            href="/admin/careers"
+            className="shrink-0 text-[11.5px] font-medium text-white/45 transition-colors hover:text-accent"
+          >
+            View all
+          </Link>
+        </div>
+
+        {loading ? (
+          <div className="space-y-3 p-5">
+            {[0, 1, 2].map((row) => (
+              <Skeleton key={row} className="h-11 w-full rounded-lg" />
+            ))}
+          </div>
+        ) : applications.length === 0 ? (
+          <div className="px-5 py-10 text-center">
+            <BriefcaseBusiness
+              className="mx-auto text-white/15"
+              size={24}
+              aria-hidden="true"
+            />
+            <p className="mt-3 text-[13px] font-medium text-white/60">
+              No applications yet
+            </p>
+            <p className="mt-1 text-[11.5px] text-white/30">
+              Candidates who apply on /careers will show up here.
+            </p>
+          </div>
+        ) : (
+          <ul className="divide-y divide-white/[0.06]">
+            {applications.map((application) => (
+              <li
+                key={application._id}
+                className="flex items-center gap-3 px-5 py-3.5 transition-colors hover:bg-white/[0.02]"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/[0.06] text-[10.5px] font-semibold text-white/70">
+                  {initials(application.fullName)}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-[12.5px] font-medium text-white">
+                    {application.fullName}
+                  </p>
+                  <p className="truncate text-[11px] text-white/35">
+                    {application.email}
+                  </p>
+                </div>
+                <span className="hidden max-w-[160px] truncate text-[11px] text-white/40 sm:block">
+                  {application.position}
+                </span>
+                <span
+                  className={`inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[10px] font-semibold ring-1 ring-inset ${
+                    careerStatusStyles[application.status] || careerStatusStyles.new
+                  }`}
+                >
+                  {careerStatusLabels[application.status] || application.status}
+                </span>
+                <span className="hidden w-[76px] shrink-0 text-right text-[10.5px] text-white/30 md:block">
+                  {new Date(application.createdAt).toLocaleDateString("en-IN", {
+                    day: "2-digit",
+                    month: "short",
+                  })}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </AdminShell>
   );
 }

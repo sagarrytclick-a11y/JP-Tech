@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -14,81 +14,139 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+import AdminLoadingSkeleton from "@/components/admin/AdminLoadingSkeleton";
 import AdminShell from "@/components/admin/AdminShell";
 import BlogPostModal from "@/components/admin/BlogPostModal";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import Pagination from "@/components/ui/Pagination";
+import Skeleton from "@/components/ui/Skeleton";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import type { BlogPostView } from "@/lib/blog-seed";
 import { formatBlogDate, blogTones } from "@/lib/blog-theme";
+
+type StatusFilter = "all" | "published" | "draft";
+
+type Counts = {
+  all: number;
+  published: number;
+  draft: number;
+};
+
+type PaginationMeta = {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasPrev: boolean;
+  hasNext: boolean;
+};
+
+const PAGE_SIZES = [10, 25, 50];
 
 export default function AdminBlogsPage() {
   const checking = useAdminAuth();
   const router = useRouter();
   const [posts, setPosts] = useState<BlogPostView[]>([]);
+  const [counts, setCounts] = useState<Counts>({ all: 0, published: 0, draft: 0 });
+  const [pagination, setPagination] = useState<PaginationMeta>({
+    page: 1,
+    limit: 10,
+    total: 0,
+    totalPages: 1,
+    hasPrev: false,
+    hasNext: false,
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const [query, setQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"all" | "published" | "draft">(
-    "all"
-  );
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [importing, setImporting] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
   const [editor, setEditor] = useState<
     { mode: "create" } | { mode: "edit"; post: BlogPostView } | null
   >(null);
   const [pendingDelete, setPendingDelete] = useState<BlogPostView | null>(null);
 
-  const loadPosts = useCallback(async () => {
+  useEffect(() => {
+    const next = searchInput.trim();
+    if (next === query) return;
+
+    const timer = window.setTimeout(() => {
+      setQuery(next);
+      setPage(1);
+    }, 300);
+
+    return () => window.clearTimeout(timer);
+  }, [searchInput, query]);
+
+  useEffect(() => {
+    if (checking) return;
+
+    let active = true;
+    const controller = new AbortController();
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- show the skeleton while the next page loads
     setLoading(true);
     setError("");
 
-    try {
-      const response = await fetch("/api/admin/blogs", { cache: "no-store" });
-      if (response.status === 401) {
-        router.replace("/admin/login");
-        return;
-      }
-
-      const data = (await response.json()) as {
-        posts?: BlogPostView[];
-        error?: string;
-      };
-
-      if (!response.ok) {
-        throw new Error(data.error || "Could not load blog posts.");
-      }
-
-      setPosts(data.posts ?? []);
-    } catch (loadError) {
-      setError(
-        loadError instanceof Error ? loadError.message : "Could not load blog posts."
-      );
-    } finally {
-      setLoading(false);
-    }
-  }, [router]);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- load posts once the auth check completes
-    if (!checking) loadPosts();
-  }, [checking, loadPosts]);
-
-  const filtered = useMemo(() => {
-    const term = query.trim().toLowerCase();
-    return posts.filter((post) => {
-      if (statusFilter === "published" && !post.published) return false;
-      if (statusFilter === "draft" && post.published) return false;
-      if (!term) return true;
-      return [post.title, post.slug, post.category, ...post.tags]
-        .join(" ")
-        .toLowerCase()
-        .includes(term);
+    const params = new URLSearchParams({
+      page: String(page),
+      limit: String(pageSize),
     });
-  }, [posts, query, statusFilter]);
+    if (statusFilter !== "all") params.set("status", statusFilter);
+    if (query) params.set("q", query);
 
-  const publishedCount = posts.filter((post) => post.published).length;
-  const draftCount = posts.length - publishedCount;
+    fetch(`/api/admin/blogs?${params}`, {
+      signal: controller.signal,
+      cache: "no-store",
+    })
+      .then(async (response) => {
+        if (response.status === 401) {
+          router.replace("/admin/login");
+          return null;
+        }
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Could not load blog posts.");
+
+        return data as {
+          posts: BlogPostView[];
+          counts: Counts;
+          pagination: PaginationMeta;
+        };
+      })
+      .then((data) => {
+        if (!active || !data) return;
+        setPosts(data.posts ?? []);
+        if (data.counts) setCounts(data.counts);
+        if (data.pagination) {
+          setPagination(data.pagination);
+          if (data.pagination.page !== page) setPage(data.pagination.page);
+        }
+      })
+      .catch((loadError) => {
+        if (!active) return;
+        if (loadError instanceof DOMException && loadError.name === "AbortError") {
+          return;
+        }
+        setError(
+          loadError instanceof Error ? loadError.message : "Could not load blog posts."
+        );
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+      controller.abort();
+    };
+  }, [checking, page, pageSize, statusFilter, query, reloadKey, router]);
 
   const handleDelete = async () => {
     if (!pendingDelete) return;
@@ -104,9 +162,15 @@ export default function AdminBlogsPage() {
       });
       const data = (await response.json()) as { error?: string };
       if (!response.ok) throw new Error(data.error || "Could not delete the post.");
-      setPosts((current) => current.filter((item) => item._id !== post._id));
+
       setNotice("Post deleted.");
       setPendingDelete(null);
+
+      if (posts.length === 1 && page > 1) {
+        setPage((current) => Math.max(1, current - 1));
+      } else {
+        setReloadKey((key) => key + 1);
+      }
     } catch (deleteError) {
       setError(
         deleteError instanceof Error ? deleteError.message : "Could not delete the post."
@@ -138,7 +202,8 @@ export default function AdminBlogsPage() {
           data.skipped ?? 0
         }.`
       );
-      await loadPosts();
+      setPage(1);
+      setReloadKey((key) => key + 1);
     } catch (importError) {
       setError(
         importError instanceof Error
@@ -151,22 +216,18 @@ export default function AdminBlogsPage() {
   };
 
   if (checking) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-ink text-white/40">
-        <Loader2 className="animate-spin" size={22} aria-label="Loading" />
-      </div>
-    );
+    return <AdminLoadingSkeleton />;
   }
 
   return (
     <AdminShell
       title="Blog posts"
-      subtitle="Draft, publish, and manage the journal"
+      subtitle="Draft, publish, and manage the Blog"
       actions={
         <button
           type="button"
           onClick={() => setEditor({ mode: "create" })}
-          className="hidden items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-[12px] font-semibold text-white transition-colors hover:bg-accent-soft sm:inline-flex"
+          className="hidden items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-[12px] font-semibold text-white transition-all duration-200 hover:bg-accent-soft hover:shadow-[0_12px_26px_-14px_rgba(255,77,31,0.9)] active:scale-[0.98] sm:inline-flex"
         >
           <Plus size={13} aria-hidden="true" />
           New post
@@ -179,9 +240,9 @@ export default function AdminBlogsPage() {
             Blog posts
           </h2>
           <p className="mt-1.5 text-[12.5px] text-white/40 sm:text-[13px]">
-            {posts.length} post{posts.length === 1 ? "" : "s"} &middot;{" "}
-            {publishedCount} live &middot; {draftCount} draft
-            {draftCount === 1 ? "" : "s"}
+            {counts.all} post{counts.all === 1 ? "" : "s"} &middot;{" "}
+            {counts.published} live &middot; {counts.draft} draft
+            {counts.draft === 1 ? "" : "s"}
           </p>
         </div>
 
@@ -190,7 +251,7 @@ export default function AdminBlogsPage() {
             type="button"
             onClick={handleImportStarter}
             disabled={importing}
-            className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-white/10 px-3 text-[11.5px] font-medium text-white/55 transition-colors hover:border-white/25 hover:text-white disabled:opacity-50"
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-white/10 px-3 text-[11.5px] font-medium text-white/55 transition-all duration-200 hover:border-white/25 hover:bg-white/[0.04] hover:text-white active:scale-[0.98] disabled:opacity-50"
           >
             {importing ? (
               <Loader2 size={13} className="animate-spin" aria-hidden="true" />
@@ -203,7 +264,7 @@ export default function AdminBlogsPage() {
           <button
             type="button"
             onClick={() => setEditor({ mode: "create" })}
-            className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-accent px-3.5 text-[11.5px] font-semibold text-white transition-colors hover:bg-accent-soft sm:hidden"
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-accent px-3.5 text-[11.5px] font-semibold text-white transition-all duration-200 hover:bg-accent-soft active:scale-[0.98] sm:hidden"
           >
             <Plus size={13} aria-hidden="true" />
             New post
@@ -220,16 +281,16 @@ export default function AdminBlogsPage() {
           />
           <input
             type="search"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
+            value={searchInput}
+            onChange={(event) => setSearchInput(event.target.value)}
             placeholder="Search title, slug, category..."
-            className="h-10 w-full rounded-lg border border-white/[0.08] bg-white/[0.02] pl-9 pr-9 text-[12.5px] text-white outline-none transition placeholder:text-white/25 focus:border-accent/50 focus:bg-white/[0.04]"
+            className="h-10 w-full rounded-lg border border-white/[0.08] bg-white/[0.02] pl-9 pr-9 text-[12.5px] text-white outline-none transition placeholder:text-white/25 hover:border-white/15 focus:border-accent/50 focus:bg-white/[0.04]"
           />
-          {query && (
+          {searchInput && (
             <button
               type="button"
-              onClick={() => setQuery("")}
-              className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-white/30 hover:text-white"
+              onClick={() => setSearchInput("")}
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-white/30 transition-colors hover:bg-white/[0.06] hover:text-white"
               aria-label="Clear search"
             >
               <X size={13} aria-hidden="true" />
@@ -240,9 +301,9 @@ export default function AdminBlogsPage() {
         <div className="flex items-center gap-1.5">
           {(
             [
-              { value: "all", label: "All", count: posts.length },
-              { value: "published", label: "Published", count: publishedCount },
-              { value: "draft", label: "Drafts", count: draftCount },
+              { value: "all", label: "All", count: counts.all },
+              { value: "published", label: "Published", count: counts.published },
+              { value: "draft", label: "Drafts", count: counts.draft },
             ] as const
           ).map((tab) => {
             const active = statusFilter === tab.value;
@@ -250,11 +311,17 @@ export default function AdminBlogsPage() {
               <button
                 key={tab.value}
                 type="button"
-                onClick={() => setStatusFilter(tab.value)}
-                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11.5px] font-medium transition-colors ${
+                onClick={() => {
+                  if (statusFilter === tab.value) return;
+                  setStatusFilter(tab.value);
+                  setPage(1);
+                  setLoading(true);
+                  setError("");
+                }}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11.5px] font-medium transition-all duration-200 active:scale-[0.97] ${
                   active
                     ? "border-accent/40 bg-accent/10 text-accent"
-                    : "border-white/[0.08] bg-white/[0.02] text-white/50 hover:border-white/20 hover:text-white"
+                    : "border-white/[0.08] bg-white/[0.02] text-white/50 hover:border-white/20 hover:bg-white/[0.04] hover:text-white"
                 }`}
               >
                 {tab.label}
@@ -272,7 +339,7 @@ export default function AdminBlogsPage() {
 
         <p className="text-[11px] text-white/30 lg:ml-auto">
           {query || statusFilter !== "all"
-            ? `${filtered.length} match${filtered.length === 1 ? "" : "es"}`
+            ? `${pagination.total} match${pagination.total === 1 ? "" : "es"}`
             : "Published posts appear on /blogs"}
         </p>
       </div>
@@ -293,7 +360,10 @@ export default function AdminBlogsPage() {
         </div>
       )}
 
-      <div className="mt-4 overflow-hidden rounded-2xl border border-white/[0.08] bg-[#131313]">
+      <div
+        className="mt-4 overflow-hidden rounded-2xl border border-white/[0.08] bg-[#131313]"
+        aria-busy={loading}
+      >
         <div className="hidden grid-cols-[minmax(0,1fr)_150px_110px_110px_130px] gap-4 border-b border-white/[0.07] px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/30 lg:grid">
           <span>Post</span>
           <span>Category</span>
@@ -304,36 +374,37 @@ export default function AdminBlogsPage() {
 
         {loading ? (
           <div className="space-y-3 p-5">
-            {[0, 1, 2, 3].map((row) => (
-              <div key={row} className="h-14 animate-pulse rounded-xl bg-white/[0.04]" />
+            {[0, 1, 2, 3, 4].map((row) => (
+              <Skeleton key={row} className="h-14 w-full rounded-xl" />
             ))}
           </div>
-        ) : filtered.length === 0 ? (
+        ) : posts.length === 0 ? (
           <div className="px-5 py-16 text-center">
             <FileText className="mx-auto text-white/15" size={26} aria-hidden="true" />
             <p className="mt-3 text-[13px] font-medium text-white/60">
-              {posts.length === 0
+              {counts.all === 0
                 ? "No posts yet"
                 : "No posts match these filters"}
             </p>
             <p className="mt-1 text-[11.5px] text-white/30">
-              {posts.length === 0
+              {counts.all === 0
                 ? "Write a new post or import the starter articles."
                 : "Try a different search term or tab."}
             </p>
-            {posts.length === 0 && (
-              <Link
-                href="/admin/blogs/new"
-                className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-[11.5px] font-semibold text-white transition-colors hover:bg-accent-soft"
+            {counts.all === 0 && (
+              <button
+                type="button"
+                onClick={() => setEditor({ mode: "create" })}
+                className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-[11.5px] font-semibold text-white transition-all duration-200 hover:bg-accent-soft active:scale-[0.98]"
               >
                 <Plus size={13} aria-hidden="true" />
                 New post
-              </Link>
+              </button>
             )}
           </div>
         ) : (
           <ul className="divide-y divide-white/[0.06]">
-            {filtered.map((post) => (
+            {posts.map((post) => (
               <li
                 key={post._id}
                 className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3.5 transition-colors hover:bg-white/[0.02] lg:grid-cols-[minmax(0,1fr)_150px_110px_110px_130px] lg:gap-4 lg:px-5"
@@ -350,6 +421,7 @@ export default function AdminBlogsPage() {
                         <img
                           src={post.coverImage}
                           alt=""
+                          loading="lazy"
                           className="h-full w-full object-cover"
                         />
                       </>
@@ -360,12 +432,13 @@ export default function AdminBlogsPage() {
                     )}
                   </div>
                   <div className="min-w-0">
-                    <Link
-                      href={`/admin/blogs/${post._id}`}
-                      className="block truncate text-[12.5px] font-medium text-white transition-colors hover:text-accent"
+                    <button
+                      type="button"
+                      onClick={() => setEditor({ mode: "edit", post })}
+                      className="block max-w-full truncate text-left text-[12.5px] font-medium text-white transition-colors hover:text-accent"
                     >
                       {post.title}
-                    </Link>
+                    </button>
                     <p className="mt-0.5 truncate text-[11px] text-white/30">
                       /blogs/{post.slug}
                     </p>
@@ -409,24 +482,25 @@ export default function AdminBlogsPage() {
                       href={`/blogs/${post.slug}`}
                       target="_blank"
                       title="View live"
-                      className="rounded-lg border border-white/[0.08] p-2 text-white/35 transition-colors hover:border-white/20 hover:text-white"
+                      className="rounded-lg border border-white/[0.08] p-2 text-white/35 transition-all duration-200 hover:border-white/20 hover:bg-white/[0.05] hover:text-white active:scale-90"
                     >
                       <ArrowUpRight size={13} aria-hidden="true" />
                     </Link>
                   )}
-                  <Link
-                    href={`/admin/blogs/${post._id}`}
-                    title="Edit"
-                    className="rounded-lg border border-white/[0.08] p-2 text-white/35 transition-colors hover:border-white/20 hover:text-white"
-                  >
-                    <Pencil size={13} aria-hidden="true" />
-                  </Link>
                   <button
                     type="button"
-                    onClick={() => handleDelete(post)}
+                    onClick={() => setEditor({ mode: "edit", post })}
+                    title="Edit"
+                    className="rounded-lg border border-white/[0.08] p-2 text-white/35 transition-all duration-200 hover:border-white/20 hover:bg-white/[0.05] hover:text-white active:scale-90"
+                  >
+                    <Pencil size={13} aria-hidden="true" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPendingDelete(post)}
                     disabled={deletingId === post._id}
                     title="Delete"
-                    className="rounded-lg border border-white/[0.08] p-2 text-white/35 transition-colors hover:border-red-500/40 hover:text-red-400 disabled:opacity-50"
+                    className="rounded-lg border border-white/[0.08] p-2 text-white/35 transition-all duration-200 hover:border-red-500/40 hover:bg-red-500/[0.06] hover:text-red-400 active:scale-90 disabled:opacity-50"
                   >
                     {deletingId === post._id ? (
                       <Loader2 size={13} className="animate-spin" aria-hidden="true" />
@@ -439,7 +513,64 @@ export default function AdminBlogsPage() {
             ))}
           </ul>
         )}
+
+        {!loading && pagination.total > 0 && (
+          <Pagination
+            page={pagination.page}
+            totalPages={pagination.totalPages}
+            total={pagination.total}
+            limit={pagination.limit}
+            onPageChange={(next) => {
+              setPage(next);
+              setLoading(true);
+            }}
+            onLimitChange={(next) => {
+              setPageSize(next);
+              setPage(1);
+            }}
+            pageSizes={PAGE_SIZES}
+            loading={loading}
+            itemLabel="posts"
+            className="border-t border-white/[0.07] px-4 py-3 lg:px-5"
+          />
+        )}
       </div>
+
+      {editor !== null && (
+        <BlogPostModal
+          open
+          mode={editor.mode}
+          post={editor.mode === "edit" ? editor.post : undefined}
+          onClose={() => setEditor(null)}
+          onSaved={(saved) => {
+            setEditor(null);
+            setNotice(saved ? `"${saved.title}" saved.` : "Post saved.");
+            setPage(1);
+            setReloadKey((key) => key + 1);
+          }}
+        />
+      )}
+
+      <ConfirmDialog
+        open={Boolean(pendingDelete)}
+        title="Delete this post?"
+        description={
+          pendingDelete ? (
+            <>
+              <span className="font-medium text-white/70">
+                &ldquo;{pendingDelete.title}&rdquo;
+              </span>{" "}
+              will be removed permanently. This cannot be undone.
+            </>
+          ) : null
+        }
+        confirmLabel="Delete post"
+        loading={deletingId === pendingDelete?._id}
+        onConfirm={handleDelete}
+        onCancel={() => {
+          if (!deletingId) setPendingDelete(null);
+        }}
+      />
     </AdminShell>
   );
 }

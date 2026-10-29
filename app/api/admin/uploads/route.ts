@@ -1,8 +1,7 @@
 import { randomUUID } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
 import { NextResponse } from "next/server";
 import { getAuthUser } from "@/lib/auth";
+import { isImageKitConfigured, uploadToImageKit } from "@/lib/imagekit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -16,14 +15,33 @@ const EXTENSIONS: Record<string, string> = {
   "image/gif": "gif",
 };
 
+export async function GET() {
+  const user = await getAuthUser();
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  return NextResponse.json({
+    provider: "imagekit",
+    configured: isImageKitConfigured(),
+    maxSize: MAX_BYTES,
+  });
+}
+
 /**
- * Stores blog cover images on disk and returns a URL served by
- * `/api/uploads/[...path]`. For multi-instance/serverless deployments swap this
- * for object storage (S3/R2/Cloudinary); the DB only stores the returned URL.
+ * Stores blog cover images in ImageKit. The database only keeps the URL.
  */
 export async function POST(request: Request) {
   const user = await getAuthUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  if (!isImageKitConfigured()) {
+    return NextResponse.json(
+      {
+        error:
+          "Image uploads are unavailable because ImageKit is not configured. Add IMAGEKIT_PRIVATE_KEY and IMAGEKIT_URL_ENDPOINT.",
+      },
+      { status: 503 }
+    );
+  }
 
   try {
     const formData = await request.formData();
@@ -50,19 +68,25 @@ export async function POST(request: Request) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
     const filename = `${Date.now()}-${randomUUID().slice(0, 8)}.${extension}`;
-    const directory = path.join(process.cwd(), "uploads", "blogs");
 
-    await mkdir(directory, { recursive: true });
-    await writeFile(path.join(directory, filename), buffer);
+    const url = await uploadToImageKit({
+      buffer,
+      fileName: filename,
+      folder: "/blogs",
+      mimeType: file.type,
+    });
 
     return NextResponse.json(
-      { url: `/api/uploads/blogs/${filename}`, size: buffer.byteLength },
+      { url, size: buffer.byteLength, provider: "imagekit" },
       { status: 201 }
     );
   } catch (error) {
     console.error("Image upload error:", error);
     return NextResponse.json(
-      { error: "Could not upload the image. Please try again." },
+      {
+        error:
+          "Could not upload the image to ImageKit. Check your storage settings and try again.",
+      },
       { status: 500 }
     );
   }

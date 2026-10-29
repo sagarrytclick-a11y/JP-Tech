@@ -61,7 +61,7 @@ const industries: { name: string; use: string; icon: LucideIcon }[] = [
 
 export default function IndustriesSection() {
   return (
-    <section id="industries" className="shell py-12 lg:py-16">
+    <section id="industries" className="shell py-8 lg:py-10">
       <div className="rounded-[24px] border border-line bg-[#101010] p-5 sm:rounded-[30px] sm:p-8 lg:p-10">
         <div className="flex flex-col items-start justify-between gap-5 lg:flex-row lg:items-end">
           <div>
