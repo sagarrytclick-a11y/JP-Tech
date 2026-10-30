@@ -60,32 +60,38 @@ export default function ProcessSection() {
         {steps.map((step, index) => (
           <article
             key={step.number}
-            className="card-lift group relative flex flex-col rounded-2xl border border-line bg-[#141414] p-5 hover:border-white/20"
+            className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-[#141414] p-5 transition-all duration-300 hover:-translate-y-2 hover:border-accent/50 hover:bg-gradient-to-b hover:from-[#241713] hover:via-[#181413] hover:to-[#111111] hover:shadow-[0_22px_48px_-18px_rgba(255,77,31,0.25)]"
           >
+            {/* Top ambient hover accent line */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            />
+
             <div className="flex items-center justify-between">
-              <span className="text-[26px] font-semibold leading-none tracking-[-0.04em] text-white/15 transition-colors group-hover:text-accent/40">
+              <span className="text-[26px] font-bold leading-none tracking-[-0.04em] text-white/15 transition-all duration-300 group-hover:scale-110 group-hover:text-accent">
                 {step.number}
               </span>
-              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.1em] text-white/35">
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.1em] text-white/35 transition-all duration-300 group-hover:border-accent/40 group-hover:bg-accent/15 group-hover:text-accent-soft">
                 {step.duration}
               </span>
             </div>
 
-            <h3 className="mt-5 text-[17px] font-semibold text-white">
+            <h3 className="mt-5 text-[17px] font-semibold text-white transition-colors duration-300 group-hover:text-accent-soft">
               {step.title}
             </h3>
-            <p className="mt-2 flex-1 text-[12.5px] leading-relaxed text-white/50">
+            <p className="mt-2 flex-1 text-[12.5px] leading-relaxed text-white/50 transition-colors duration-300 group-hover:text-white/70">
               {step.description}
             </p>
 
-            <p className="mt-4 border-t border-white/[0.06] pt-3 text-[11px] leading-snug text-white/35">
-              <span className="text-accent/70">You get:</span> {step.output}
+            <p className="mt-4 border-t border-white/[0.06] pt-3 text-[11px] leading-snug text-white/35 transition-colors duration-300 group-hover:border-accent/20 group-hover:text-white/55">
+              <span className="text-accent/70 group-hover:text-accent font-medium">You get:</span> {step.output}
             </p>
 
             {index < steps.length - 1 && (
               <span
                 aria-hidden="true"
-                className="absolute -right-[7px] top-1/2 hidden h-3 w-3 -translate-y-1/2 rotate-45 border-r border-t border-white/10 bg-[#141414] lg:block"
+                className="absolute -right-[7px] top-1/2 hidden h-3 w-3 -translate-y-1/2 rotate-45 border-r border-t border-white/10 bg-[#141414] transition-colors duration-300 group-hover:border-accent/50 group-hover:bg-[#1a1413] lg:block z-10"
               />
             )}
           </article>

@@ -80,20 +80,23 @@ export default function SolutionsSection() {
 
       <div className="mx-auto mt-10 grid max-w-[1240px] gap-x-6 gap-y-14 sm:grid-cols-2 lg:mt-12 lg:grid-cols-3 lg:gap-x-7">
         {services.map(({ title, description, fit, icon: Icon }) => (
-          <article key={title} className="group relative">
-            <div className="absolute left-1/2 top-0 z-20 flex h-[68px] w-[68px] -translate-x-1/2 -translate-y-1/2 rotate-45 items-center justify-center rounded-[16px] border border-white/20 bg-[#0e0e0e] shadow-[0_12px_32px_rgba(0,0,0,0.6)] sm:h-[72px] sm:w-[72px]">
+          <article
+            key={title}
+            className="group relative transition-all duration-300 hover:-translate-y-2"
+          >
+            <div className="absolute left-1/2 top-0 z-20 flex h-[68px] w-[68px] -translate-x-1/2 -translate-y-1/2 rotate-45 items-center justify-center rounded-[16px] border border-white/20 bg-[#0e0e0e] shadow-[0_12px_32px_rgba(0,0,0,0.6)] transition-all duration-300 group-hover:scale-110 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[0_0_30px_rgba(255,77,31,0.6)] sm:h-[72px] sm:w-[72px]">
               <Icon
                 size={25}
                 strokeWidth={1.6}
-                className="-rotate-45 text-white"
+                className="-rotate-45 text-white transition-transform duration-300 group-hover:scale-110"
                 aria-hidden="true"
               />
             </div>
 
-            <div className="relative flex h-full flex-col overflow-hidden rounded-[12px] border border-white/[0.07] bg-[linear-gradient(160deg,#1e1e1e_0%,#171717_55%,#111111_100%)] px-6 pb-7 pt-14 text-center shadow-[0_24px_60px_-42px_rgba(0,0,0,0.95)] card-lift hover:border-accent/25">
+            <div className="relative flex h-full flex-col overflow-hidden rounded-[16px] border border-white/[0.08] bg-[linear-gradient(160deg,#1e1e1e_0%,#171717_55%,#111111_100%)] px-6 pb-7 pt-14 text-center shadow-[0_24px_60px_-42px_rgba(0,0,0,0.95)] transition-all duration-300 group-hover:border-accent/40 group-hover:bg-[linear-gradient(160deg,#271612_0%,#1b1514_45%,#111111_100%)] group-hover:shadow-[0_25px_60px_-18px_rgba(255,77,31,0.25)]">
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute bottom-0 left-0 h-24 w-40 opacity-[0.09]"
+                className="pointer-events-none absolute bottom-0 left-0 h-24 w-40 opacity-[0.09] transition-opacity duration-300 group-hover:opacity-[0.16]"
                 style={{
                   backgroundImage:
                     "repeating-linear-gradient(45deg, #ffffff 0 1px, transparent 1px 7px)",
@@ -101,7 +104,7 @@ export default function SolutionsSection() {
                 }}
               />
 
-              <h3 className="relative text-[19px] font-semibold tracking-[-0.01em] text-white sm:text-[21px]">
+              <h3 className="relative text-[19px] font-semibold tracking-[-0.01em] text-white transition-colors duration-300 group-hover:text-accent-soft sm:text-[21px]">
                 {title}
               </h3>
 
@@ -109,24 +112,24 @@ export default function SolutionsSection() {
                 className="relative mx-auto mt-4 flex items-center gap-1.5"
                 aria-hidden="true"
               >
-                <span className="h-[3px] w-7 rounded-full bg-accent" />
-                <span className="h-[3px] w-4 rounded-full bg-accent" />
+                <span className="h-[3px] w-7 rounded-full bg-accent transition-all duration-300 group-hover:w-12 group-hover:shadow-[0_0_12px_rgba(255,77,31,0.8)]" />
+                <span className="h-[3px] w-4 rounded-full bg-accent transition-all duration-300 group-hover:w-6" />
               </div>
 
-              <p className="relative mx-auto mt-4 max-w-[340px] flex-1 text-[13px] leading-[1.7] text-white/55 sm:text-[14px]">
+              <p className="relative mx-auto mt-4 max-w-[340px] flex-1 text-[13px] leading-[1.7] text-white/55 transition-colors duration-300 group-hover:text-white/70 sm:text-[14px]">
                 {description}
               </p>
 
-              <p className="relative mx-auto mt-5 max-w-[320px] text-[11.5px] leading-snug text-white/35">
-                <span className="font-semibold text-white/55">Best for:</span>{" "}
+              <p className="relative mx-auto mt-5 max-w-[320px] text-[11.5px] leading-snug text-white/35 transition-colors duration-300 group-hover:text-white/50">
+                <span className="font-semibold text-white/55 group-hover:text-white/80">Best for:</span>{" "}
                 {fit}
               </p>
 
-              <ContactButton className="relative mx-auto mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/10 bg-[#262626] px-5 text-[13px] font-medium text-white/90 transition-colors duration-200 hover:bg-[#303030] hover:text-white">
+              <ContactButton className="relative mx-auto mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/10 bg-[#262626] px-5 text-[13px] font-medium text-white/90 transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-white group-hover:shadow-[0_8px_24px_-4px_rgba(255,77,31,0.6)]">
                 Discuss for Projects
                 <ArrowRight
                   size={14}
-                  className="transition-transform duration-200 group-hover:translate-x-0.5"
+                  className="transition-transform duration-200 group-hover:translate-x-1"
                   aria-hidden="true"
                 />
               </ContactButton>
@@ -135,7 +138,7 @@ export default function SolutionsSection() {
         ))}
       </div>
 
-      <div className="mx-auto mt-12 flex max-w-[1240px] flex-col items-center justify-between gap-4 rounded-2xl border border-line bg-[#141414] px-5 py-5 text-center sm:flex-row sm:px-6 sm:text-left">
+      <div className="mx-auto mt-12 flex max-w-[1240px] flex-col items-center justify-between gap-4 rounded-2xl border border-line bg-[#141414] px-5 py-5 text-center transition-all duration-300 hover:border-accent/40 hover:bg-gradient-to-r hover:from-[#1b1514] hover:to-[#121212] hover:shadow-[0_15px_35px_-15px_rgba(255,77,31,0.2)] sm:flex-row sm:px-6 sm:text-left">
         <p className="text-[13px] leading-relaxed text-white/55 sm:text-[14px]">
           <span className="font-semibold text-white">
             Have something different in mind?
@@ -143,7 +146,7 @@ export default function SolutionsSection() {
           Internal tools, marketplaces, API platforms — if it runs on the web, we
           can scope it.
         </p>
-        <ContactButton className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-white/15 px-4 py-2.5 text-[13px] font-medium text-white transition-colors hover:border-accent hover:text-accent">
+        <ContactButton className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-white/15 px-4 py-2.5 text-[13px] font-medium text-white transition-all hover:border-accent hover:bg-accent/10 hover:text-accent">
           Scope a custom build
           <ArrowUpRight size={15} aria-hidden="true" />
         </ContactButton>

@@ -43,7 +43,7 @@ export default function Navbar() {
                   href={hrefFor(item.href)}
                   aria-haspopup="true"
                   aria-expanded={openMenu === item.label}
-                  className="flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2.5 text-[13px] text-white/65 transition-colors hover:text-white xl:px-4 xl:text-[14px]"
+                  className="flex items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-2 text-[13px] text-white/70 transition-all duration-200 hover:bg-white/[0.08] hover:text-white xl:px-4 xl:text-[14px]"
                 >
                   {item.label}
                   <ChevronDown
@@ -88,7 +88,7 @@ export default function Navbar() {
                         <Link
                           key={child.label}
                           href={hrefFor(child.href)}
-                          className="group/item flex items-start gap-3 rounded-xl px-3 py-3 transition-colors hover:bg-white/[0.05]"
+                          className="group/item flex items-start gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-white/[0.08] hover:translate-x-1"
                         >
                           <span className="mt-[7px] h-[5px] w-[5px] shrink-0 rounded-full bg-accent/70 transition-transform duration-200 group-hover/item:scale-125" />
                           <span className="min-w-0">
@@ -124,7 +124,7 @@ export default function Navbar() {
               <Link
                 key={item.label}
                 href={hrefFor(item.href)}
-                className="whitespace-nowrap rounded-full px-3 py-2.5 text-[13px] text-white/65 transition-colors hover:text-white xl:px-4 xl:text-[14px]"
+                className="whitespace-nowrap rounded-full px-3.5 py-2 text-[13px] text-white/70 transition-all duration-200 hover:bg-white/[0.08] hover:text-white xl:px-4 xl:text-[14px]"
               >
                 {item.label}
               </Link>

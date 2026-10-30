@@ -119,9 +119,15 @@ export default function TestimonialsSection() {
       >
         {testimonials.map((testimonial) => (
           <SwiperSlide key={testimonial.image} className="!h-auto">
-            <figure className="card-lift flex h-full flex-col rounded-2xl border border-line bg-[#141414] p-5 hover:border-accent/30">
+            <figure className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-[#141414] p-5 transition-all duration-300 hover:-translate-y-2 hover:border-accent/40 hover:bg-gradient-to-b hover:from-[#221613] hover:to-[#111111] hover:shadow-[0_22px_45px_-18px_rgba(255,77,31,0.22)]">
+              {/* Top ambient hover accent line */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              />
+
               <div className="flex items-center gap-3">
-                <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-white/[0.06] ring-2 ring-white/10">
+                <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-white/[0.06] ring-2 ring-white/10 transition-all duration-300 group-hover:ring-accent/60 group-hover:scale-105">
                   <Image
                     src={testimonial.image}
                     alt={`${testimonial.role} founder portrait`}
@@ -131,7 +137,7 @@ export default function TestimonialsSection() {
                   />
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-[12.5px] font-semibold text-white">
+                  <p className="truncate text-[12.5px] font-semibold text-white transition-colors duration-300 group-hover:text-accent-soft">
                     {testimonial.name}
                   </p>
                   <p className="truncate text-[10.5px] text-white/40">
@@ -142,24 +148,24 @@ export default function TestimonialsSection() {
                   {[0, 1, 2, 3, 4].map((star) => (
                     <Star
                       key={star}
-                      size={9}
-                      className="fill-accent text-accent"
+                      size={10}
+                      className="fill-accent text-accent transition-transform duration-200 group-hover:scale-110"
                       aria-hidden="true"
                     />
                   ))}
                 </div>
               </div>
 
-              <blockquote className="mt-4 flex-1 text-[12.5px] leading-[1.7] text-white/65">
+              <blockquote className="mt-4 flex-1 text-[12.5px] leading-[1.7] text-white/65 transition-colors duration-300 group-hover:text-white/80">
                 <Quote
                   size={14}
-                  className="mb-1.5 text-accent/45"
+                  className="mb-1.5 text-accent/45 transition-colors duration-300 group-hover:text-accent"
                   aria-hidden="true"
                 />
                 &ldquo;{testimonial.quote}&rdquo;
               </blockquote>
 
-              <figcaption className="mt-4 border-t border-white/[0.06] pt-3 text-[10.5px] text-white/35">
+              <figcaption className="mt-4 border-t border-white/[0.06] pt-3 text-[10.5px] text-white/35 transition-colors duration-300 group-hover:text-white/55">
                 {testimonial.context}
               </figcaption>
             </figure>

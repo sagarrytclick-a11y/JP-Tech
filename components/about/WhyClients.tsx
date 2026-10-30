@@ -43,15 +43,18 @@ export default function WhyClients() {
             across industries.
           </p>
 
-          <ul className="space-y-4 sm:space-y-5 lg:space-y-6">
+          <ul className="space-y-3 sm:space-y-4">
             {points.map(({ text, icon: Icon }) => (
-              <li key={text} className="flex items-start gap-3.5">
+              <li
+                key={text}
+                className="group flex items-start gap-3.5 rounded-xl p-3 -mx-3 transition-all duration-200 hover:bg-white/[0.04] hover:translate-x-1 cursor-default"
+              >
                 <Icon
-                  className="mt-[3px] h-[18px] w-[18px] shrink-0 text-accent sm:h-5 sm:w-5"
+                  className="mt-[3px] h-[18px] w-[18px] shrink-0 text-accent transition-transform duration-200 group-hover:scale-125"
                   strokeWidth={1.7}
                   aria-hidden="true"
                 />
-                <span className="text-[14px] leading-[1.6] text-white/85 sm:text-[15px] lg:text-[17px]">
+                <span className="text-[14px] leading-[1.6] text-white/85 transition-colors duration-200 group-hover:text-white sm:text-[15px] lg:text-[17px]">
                   {text}
                 </span>
               </li>

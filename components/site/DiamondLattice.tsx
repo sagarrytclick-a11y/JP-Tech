@@ -20,12 +20,12 @@ const arrows = [
 function Diamond({ children }: { children: ReactNode }) {
   return (
     <div
-      className="relative flex shrink-0 items-center justify-center"
+      className="group relative flex shrink-0 items-center justify-center cursor-default transition-transform duration-300 hover:scale-105"
       style={{ width: "var(--diamond)", height: "var(--diamond)" }}
     >
       <span
         aria-hidden="true"
-        className="absolute rotate-45 rounded-[12px] border border-dashed border-white/50"
+        className="absolute rotate-45 rounded-[12px] border border-dashed border-white/50 transition-all duration-300 group-hover:rotate-90 group-hover:border-accent/60"
         style={{
           width: "calc(var(--diamond) * 0.7)",
           height: "calc(var(--diamond) * 0.7)",
@@ -33,14 +33,14 @@ function Diamond({ children }: { children: ReactNode }) {
       />
       <span
         aria-hidden="true"
-        className="absolute rotate-45 rounded-[18px] border border-white/45 bg-[#0d0d0d]"
+        className="absolute rotate-45 rounded-[18px] border border-white/45 bg-[#0d0d0d] transition-all duration-300 group-hover:border-accent group-hover:bg-[linear-gradient(135deg,#241410,#100e0e)] group-hover:shadow-[0_0_35px_rgba(255,77,31,0.35)]"
         style={{
           width: "calc(var(--diamond) * 0.553)",
           height: "calc(var(--diamond) * 0.553)",
         }}
       />
       <span
-        className="relative z-10 text-center text-[clamp(14px,1.35vw,26px)] font-normal leading-[1.35] text-white"
+        className="relative z-10 text-center text-[clamp(14px,1.35vw,26px)] font-normal leading-[1.35] text-white transition-colors duration-300 group-hover:text-accent-soft"
         style={{ maxWidth: "calc(var(--diamond) * 0.72)" }}
       >
         {children}

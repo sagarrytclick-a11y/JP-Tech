@@ -81,16 +81,16 @@ export default function IndustriesSection() {
           {industries.map(({ name, use, icon: Icon }) => (
             <div
               key={name}
-              className="group flex items-start gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 transition-colors hover:border-white/15 hover:bg-white/[0.04]"
+              className="group flex items-start gap-3.5 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:bg-gradient-to-r hover:from-white/[0.08] hover:via-accent/[0.06] hover:to-white/[0.03] hover:shadow-[0_12px_28px_-12px_rgba(255,77,31,0.25)] cursor-default"
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/[0.05] text-white/50 transition-colors group-hover:text-accent">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/[0.05] text-white/50 transition-all duration-300 group-hover:scale-110 group-hover:bg-accent group-hover:text-white group-hover:shadow-[0_0_15px_rgba(255,77,31,0.45)]">
                 <Icon size={16} aria-hidden="true" />
               </span>
               <span>
-                <span className="block text-[13.5px] font-semibold text-white/85">
+                <span className="block text-[13.5px] font-semibold text-white/85 transition-colors duration-200 group-hover:text-white">
                   {name}
                 </span>
-                <span className="mt-0.5 block text-[11.5px] leading-snug text-white/40">
+                <span className="mt-0.5 block text-[11.5px] leading-snug text-white/40 transition-colors duration-200 group-hover:text-white/65">
                   {use}
                 </span>
               </span>

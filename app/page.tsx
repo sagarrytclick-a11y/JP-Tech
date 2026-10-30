@@ -7,6 +7,7 @@ import PartnerSection from "@/components/site/PartnerSection";
 import SolutionsSection from "@/components/site/SolutionsSection";
 import BuildSection from "@/components/site/BuildSection";
 import ProcessSection from "@/components/site/ProcessSection";
+import DualMarqueeSlider from "@/components/site/DualMarqueeSlider";
 import WhyChoose from "@/components/site/WhyChoose";
 import EngagementSection from "@/components/site/EngagementSection";
 import IndustriesSection from "@/components/site/IndustriesSection";
@@ -37,6 +38,7 @@ export default function Home() {
         <SolutionsSection />
         <BuildSection />
         <ProcessSection />
+        <DualMarqueeSlider />
         <WhyChoose />
         <EngagementSection />
         <IndustriesSection />

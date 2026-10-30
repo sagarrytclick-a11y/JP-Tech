@@ -4,23 +4,29 @@ import { useEffect, useRef, useState } from "react";
 
 type CountUpProps = {
   value: number;
+  start?: number;
   duration?: number;
+  decimals?: number;
   prefix?: string;
   suffix?: string;
   className?: string;
 };
 
-const easeOutCubic = (progress: number) => 1 - Math.pow(1 - progress, 3);
+// Quartic ease-out for ultra smooth deceleration
+const easeOutQuart = (x: number): number => 1 - Math.pow(1 - x, 4);
 
 export default function CountUp({
   value,
-  duration = 1100,
+  start = 0,
+  duration = 1400,
+  decimals = 0,
   prefix = "",
   suffix = "",
   className = "",
 }: CountUpProps) {
   const ref = useRef<HTMLSpanElement | null>(null);
-  const [display, setDisplay] = useState(0);
+  const [display, setDisplay] = useState(start);
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
     const element = ref.current;
@@ -30,18 +36,33 @@ export default function CountUp({
     let startedAt: number | null = null;
 
     const run = () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      if (
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
         setDisplay(value);
+        setIsFinished(true);
         return;
       }
 
       const step = (timestamp: number) => {
         if (startedAt === null) startedAt = timestamp;
-        const progress = Math.min(1, (timestamp - startedAt) / duration);
-        setDisplay(Math.round(value * easeOutCubic(progress)));
+        const elapsed = timestamp - startedAt;
+        const progress = Math.min(1, elapsed / duration);
+        const eased = easeOutQuart(progress);
+        const current = start + (value - start) * eased;
+
+        if (decimals > 0) {
+          setDisplay(Number(current.toFixed(decimals)));
+        } else {
+          setDisplay(Math.round(current));
+        }
 
         if (progress < 1) {
           frame = window.requestAnimationFrame(step);
+        } else {
+          setDisplay(value);
+          setIsFinished(true);
         }
       };
 
@@ -52,7 +73,10 @@ export default function CountUp({
       typeof IntersectionObserver === "undefined" ||
       !("requestAnimationFrame" in window)
     ) {
-      const timer = window.setTimeout(() => setDisplay(value), 0);
+      const timer = window.setTimeout(() => {
+        setDisplay(value);
+        setIsFinished(true);
+      }, 50);
       return () => window.clearTimeout(timer);
     }
 
@@ -62,22 +86,35 @@ export default function CountUp({
         observer.disconnect();
         run();
       },
-      { threshold: 0.35 }
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
     );
 
     observer.observe(element);
 
     return () => {
       observer.disconnect();
-      window.cancelAnimationFrame(frame);
+      if (frame) window.cancelAnimationFrame(frame);
     };
-  }, [value, duration]);
+  }, [value, start, duration, decimals]);
+
+  const formattedValue =
+    decimals > 0
+      ? display.toLocaleString("en-IN", {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals,
+        })
+      : display.toLocaleString("en-IN");
 
   return (
-    <span ref={ref} className={className} aria-label={String(value)}>
+    <span
+      ref={ref}
+      className={`inline-block transition-transform duration-300 ${isFinished ? "count-up-complete" : ""} ${className}`.trim()}
+      aria-label={`${prefix}${value}${suffix}`}
+    >
       {prefix}
-      {display.toLocaleString("en-IN")}
+      {formattedValue}
       {suffix}
     </span>
   );
 }
+

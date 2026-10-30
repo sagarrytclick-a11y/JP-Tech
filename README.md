@@ -47,3 +47,30 @@ GROQ_MODEL=
 node scripts/test-smtp.mjs        # verify SMTP login only
 node scripts/test-smtp.mjs --send # verify login and send a real test email
 ```
+
+## Deploying to Netlify
+
+Netlify's secret scanner looks for the values of environment variables marked
+as secrets inside the build output. A few values in this project are ordinary
+configuration (not secrets) and also appear as literals in the bundle, so they
+trigger false positives:
+
+- `ADMIN_USER` — the value `admin` appears in route paths such as `/admin/blogs/page`
+- `GROQ_MODEL` — the model id is also the fallback in `app/api/chat/route.ts`
+- `SMTP_HOST` — `smtp.gmail.com` appears in the mailer code and dependency strings
+
+Fix it in Netlify (Project configuration → Environment variables) by adding:
+
+```env
+SECRETS_SCAN_OMIT_KEYS=ADMIN_USER,GROQ_MODEL,SMTP_HOST,SMTP_USER,SMTP_PORT,SMTP_SECURE,SMTP_FROM,NOTIFICATION_EMAIL,EMAIL_CC,IMAGEKIT_PUBLIC_KEY,IMAGEKIT_URL_ENDPOINT
+```
+
+Apply it to all deploy contexts, then clear the build cache (Deploys → Options
+→ Clear cache) and trigger a new deploy. Real secrets (`ADMIN_PASSWORD`,
+`JWT_SECRET`, `MONGODB_URI`, `SMTP_PASS`, `IMAGEKIT_PRIVATE_KEY`,
+`GROQ_API_KEY`) stay protected and are still scanned.
+
+Alternatively, delete and re-add the non-secret variables without selecting
+`Contains secret values` (Netlify does not allow un-flagging a variable once it
+is marked secret), or use a unique admin username that does not appear in
+route paths (for example `jp.ops`).

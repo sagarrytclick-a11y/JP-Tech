@@ -60,9 +60,7 @@ export default function AdminLogin() {
             <h1 className="mt-4 text-[28px] font-bold tracking-[-0.03em] text-white sm:text-[32px]">
               Admin login
             </h1>
-            <p className="mt-2 max-w-[300px] text-[12.5px] leading-relaxed text-white/45">
-              Use the username and password from your env file.
-            </p>
+           
           </div>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-5">

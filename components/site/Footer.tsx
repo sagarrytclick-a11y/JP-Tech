@@ -35,6 +35,7 @@ const resourceLinks = [
   { label: "FAQs", href: "/#faq" },
   { label: "Privacy policy", href: "/privacy" },
   { label: "Terms of service", href: "/terms" },
+  { label: "Sitemap", href: "/sitemap" },
 ];
 
 const socials = [
@@ -44,13 +45,15 @@ const socials = [
 export default function Footer() {
   return (
     <footer className="shell pb-5 pt-10 lg:pt-14">
-      <div className="relative overflow-hidden rounded-[24px] border border-line bg-[#121212] px-5 py-8 sm:rounded-[30px] sm:px-8 sm:py-10 lg:px-12">
+      <div className="relative overflow-hidden rounded-[24px] border border-line bg-[#121212] px-5 py-8 sm:rounded-[30px] sm:px-8 sm:py-10 lg:px-10">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_100%_at_50%_0%,rgba(255,77,31,0.16),transparent_55%)]" />
 
-        <div className="relative grid gap-8 md:grid-cols-2 lg:grid-cols-[1.15fr_0.85fr_0.95fr_0.8fr_1.35fr] lg:gap-7">
-          <div>
+        {/* Grid layout equalized across 5 columns */}
+        <div className="relative grid gap-8 md:grid-cols-2 lg:grid-cols-5 lg:gap-6">
+          {/* Brand Col */}
+          <div className="lg:col-span-1">
             <Logo />
-            <p className="mt-4 max-w-[280px] text-[12.5px] leading-relaxed text-white/50">
+            <p className="mt-4 text-[12.5px] leading-relaxed text-white/50">
               A senior web &amp; IT team building websites, CRM dashboards,
               native apps, and automation for growing businesses.
             </p>
@@ -71,7 +74,8 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
+          {/* Company Links Col */}
+          <div className="lg:col-span-1">
             <h3 className="text-[13px] font-semibold uppercase tracking-[0.14em] text-white/40">
               Company
             </h3>
@@ -80,7 +84,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="footer-link transition-all duration-200 hover:translate-x-1"
+                    className="footer-link inline-block transition-all duration-200 hover:translate-x-1 hover:text-white"
                   >
                     {link.label}
                   </Link>
@@ -89,7 +93,8 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div>
+          {/* Services Links Col */}
+          <div className="lg:col-span-1">
             <h3 className="text-[13px] font-semibold uppercase tracking-[0.14em] text-white/40">
               Services
             </h3>
@@ -98,7 +103,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="footer-link transition-all duration-200 hover:translate-x-1"
+                    className="footer-link inline-block transition-all duration-200 hover:translate-x-1 hover:text-white"
                   >
                     {link.label}
                   </Link>
@@ -107,7 +112,8 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div>
+          {/* Resources Links Col */}
+          <div className="lg:col-span-1">
             <h3 className="text-[13px] font-semibold uppercase tracking-[0.14em] text-white/40">
               Resources
             </h3>
@@ -116,7 +122,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="footer-link transition-all duration-200 hover:translate-x-1"
+                    className="footer-link inline-block transition-all duration-200 hover:translate-x-1 hover:text-white"
                   >
                     {link.label}
                   </Link>
@@ -125,11 +131,12 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div>
+          {/* Contact Col */}
+          <div className="lg:col-span-1">
             <h3 className="text-[13px] font-semibold uppercase tracking-[0.14em] text-white/40">
               Talk to a human
             </h3>
-            <p className="mt-4 max-w-[300px] text-[12.5px] leading-[1.7] text-white/50">
+            <p className="mt-4 text-[12.5px] leading-[1.7] text-white/50">
               Tell us what you are building or what is slowing your team down.
               You will hear back within one business day.
             </p>
@@ -168,7 +175,15 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="relative mt-10 border-t border-white/[0.07] pt-6">
+        {/* Simple Disclaimer Text Section */}
+        <div className="relative mt-8 border-t border-white/[0.07] pt-5">
+          <p className="text-[11.5px] leading-relaxed text-white/40">
+            <strong className="text-white/60 font-medium">Disclaimer:</strong> All product names, logos, brands, trademarks, and registered trademarks are property of their respective owners. All company, product, and service names used in this website are for identification purposes only. Use of these names, trademarks, and brands does not imply endorsement.
+          </p>
+        </div>
+
+        {/* Bottom copyright & legal links section */}
+        <div className="relative mt-6 border-t border-white/[0.07] pt-5">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[12px] text-white/60 sm:text-[13px]">
               <span>

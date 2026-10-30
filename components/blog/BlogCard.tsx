@@ -15,7 +15,7 @@ function BlogCard({
 
   return (
     <article
-      className={`card-lift group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-[#141414] hover:border-white/20 ${
+      className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-[#141414] transition-all duration-300 hover:-translate-y-2 hover:border-accent/40 hover:bg-gradient-to-b hover:from-[#1f1715] hover:to-[#111111] hover:shadow-[0_22px_45px_-18px_rgba(255,77,31,0.22)] ${
         featured ? "sm:col-span-2" : ""
       }`}
     >

@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 
 import ContactButton from "@/components/contact/ContactButton";
+import CountUp from "@/components/ui/CountUp";
 
 type Plan = {
   name: string;
@@ -148,43 +149,49 @@ export default function PricingPlans() {
           }) => (
             <article
               key={name}
-              className={`relative flex flex-col rounded-[18px] border bg-[linear-gradient(165deg,#1b1b1b_0%,#141414_60%,#101010_100%)] p-6 transition-colors duration-200 ${
-                popular
-                  ? "border-accent/70 shadow-[0_0_60px_-30px_rgba(255,77,31,0.55)]"
-                  : "border-white/[0.08] hover:border-white/15"
-              }`}
+              className={`group relative flex flex-col rounded-[18px] border p-6 transition-all duration-300 hover:-translate-y-2 ${popular
+                  ? "border-accent/70 bg-[linear-gradient(165deg,#1f1a18_0%,#151313_60%,#101010_100%)] shadow-[0_0_60px_-30px_rgba(255,77,31,0.55)] hover:border-accent hover:bg-[linear-gradient(165deg,#2c1a14_0%,#1a1412_60%,#101010_100%)] hover:shadow-[0_24px_60px_-20px_rgba(255,77,31,0.4)]"
+                  : "border-white/[0.08] bg-[linear-gradient(165deg,#1b1b1b_0%,#141414_60%,#101010_100%)] hover:border-accent/40 hover:bg-[linear-gradient(165deg,#231815_0%,#181413_60%,#101010_100%)] hover:shadow-[0_22px_50px_-20px_rgba(255,77,31,0.22)]"
+                }`}
             >
+              {/* Most Popular Badge positioned at the top center */}
               {popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-accent px-3 py-1 text-[11px] font-semibold text-white shadow-lg shadow-accent/25">
+                <span className="absolute -top-3.5 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-accent px-3.5 py-1 text-[11px] font-semibold text-white shadow-md shadow-accent/30">
                   Most Popular
                 </span>
               )}
 
+              {/* Top ambient hover accent line */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 top-0 h-[2px] rounded-t-[18px] bg-gradient-to-r from-transparent via-accent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              />
+
               <div className="flex items-center gap-3">
                 <span
-                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${
-                    popular
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border transition-all duration-300 group-hover:scale-110 group-hover:bg-accent group-hover:text-white group-hover:shadow-[0_0_15px_rgba(255,77,31,0.4)] ${popular
                       ? "border-accent/40 bg-accent/10 text-accent"
                       : "border-white/10 bg-white/[0.04] text-accent"
-                  }`}
+                    }`}
                 >
                   <Icon size={19} strokeWidth={1.7} aria-hidden="true" />
                 </span>
-                <h2 className="text-[17px] font-semibold text-white sm:text-[18px]">
+                <h2 className="text-[17px] font-semibold text-white transition-colors duration-300 group-hover:text-white sm:text-[18px]">
                   {name}
                 </h2>
               </div>
 
-              <p className="mt-3 min-h-[44px] text-[13px] leading-[1.65] text-white/55 sm:text-[14px]">
+              <p className="mt-3 min-h-[44px] text-[13px] leading-[1.65] text-white/55 transition-colors duration-300 group-hover:text-white/70 sm:text-[14px]">
                 {description}
               </p>
 
               <p className="mt-5 flex items-end gap-2 border-b border-white/[0.07] pb-5">
-                <span className="text-[30px] font-semibold leading-none tracking-[-0.02em] text-white sm:text-[34px]">
-                  <span className="mr-0.5 align-top text-[18px] font-medium text-white/70">
-                    {"\u20b9"}
-                  </span>
-                  {price}
+                <span className="text-[30px] font-bold leading-none tracking-[-0.02em] text-white transition-colors duration-300 group-hover:text-accent-soft sm:text-[34px]">
+                  <CountUp
+                    value={parseInt(price.replace(/,/g, ""), 10)}
+                    prefix="₹"
+                    duration={1500}
+                  />
                 </span>
                 <span className="pb-0.5 text-[12px] font-medium text-white/45">
                   {suffix ?? "INR"}
@@ -225,11 +232,10 @@ export default function PricingPlans() {
 
               <div className="mt-auto pt-7">
                 <ContactButton
-                  className={`inline-flex h-11 w-full items-center justify-center rounded-lg text-[13px] font-semibold transition-colors duration-200 ${
-                    popular
+                  className={`inline-flex h-11 w-full items-center justify-center rounded-lg text-[13px] font-semibold transition-colors duration-200 ${popular
                       ? "bg-accent text-white hover:bg-accent-soft"
                       : "border border-white/15 bg-white/[0.03] text-white/90 hover:bg-white/[0.08] hover:text-white"
-                  }`}
+                    }`}
                 >
                   {cta}
                 </ContactButton>

@@ -41,7 +41,7 @@ export default function WhoWeAre() {
             {industries.map((industry) => (
               <span
                 key={industry}
-                className="flex min-h-[44px] items-center justify-center rounded-2xl border border-accent/40 px-2 py-2.5 text-center text-[12px] font-medium text-white/90 transition-colors hover:border-accent sm:px-3 sm:text-[13px] lg:text-[14px]"
+                className="flex min-h-[44px] items-center justify-center rounded-2xl border border-accent/40 bg-white/[0.02] px-2 py-2.5 text-center text-[12px] font-medium text-white/90 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent hover:bg-accent/20 hover:text-white hover:shadow-[0_0_20px_rgba(255,77,31,0.3)] cursor-default sm:px-3 sm:text-[13px] lg:text-[14px]"
               >
                 {industry}
               </span>
