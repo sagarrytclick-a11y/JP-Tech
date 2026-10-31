@@ -19,20 +19,16 @@ import CareerForm from "@/components/careers/CareerForm";
 import ContactButton from "@/components/contact/ContactButton";
 import { careerRoles } from "@/lib/careers";
 import { site } from "@/lib/site";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema, pageMetadata, webPageSchema } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Careers | Build with JP Technology",
+export const metadata: Metadata = pageMetadata({
+  title: "Careers — Build with Us",
   description:
     "Join JP Technology. Open roles for frontend, backend, full stack, and mobile app developers in Noida. Build real products for real businesses.",
-  alternates: { canonical: "/careers" },
-  openGraph: {
-    title: "Careers | Build with JP Technology",
-    description:
-      "Open roles for frontend, backend, full stack, and mobile app developers in Noida.",
-    url: "/careers",
-    type: "website",
-  },
-};
+  path: "/careers",
+  ogTitle: "Careers — Build with JP Technology",
+});
 
 const values = [
   {
@@ -93,6 +89,25 @@ export default async function CareersPage({ searchParams }: PageProps) {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-ink">
+      <JsonLd
+        id="careers-schema"
+        data={[
+          webPageSchema({
+            name: "Careers — Build with JP Technology",
+            description:
+              "Open roles for frontend, backend, full stack, and mobile app developers in Noida.",
+            path: "/careers",
+            crumbs: [
+              { name: "Home", path: "/" },
+              { name: "Careers", path: "/careers" },
+            ],
+          }),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Careers", path: "/careers" },
+          ]),
+        ]}
+      />
       <TopBar />
 
       <div className="shell pt-4 sm:pt-6">

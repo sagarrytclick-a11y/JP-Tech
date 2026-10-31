@@ -6,14 +6,16 @@ import Navbar from "@/components/site/Navbar";
 import HeroRings from "@/components/site/HeroRings";
 import Footer from "@/components/site/Footer";
 import Reveal from "@/components/ui/Reveal";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema, pageMetadata, webPageSchema } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Sitemap | JP Technology",
+export const metadata: Metadata = pageMetadata({
+  title: "Sitemap",
   description:
     "Every page on the JP Technology website in one place — services, pricing, blog, careers, legal pages, and contact details.",
-  alternates: { canonical: "/sitemap" },
-};
+  path: "/sitemap",
+});
 
 type SitemapLink = { label: string; href: string; hint?: string };
 
@@ -63,6 +65,25 @@ const groups: Array<{ title: string; links: SitemapLink[] }> = [
 export default function SitemapPage() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-ink">
+      <JsonLd
+        id="sitemap-schema"
+        data={[
+          webPageSchema({
+            name: "Sitemap — Every page on jptechnologies.co",
+            description:
+              "A quick directory of every page on the JP Technology website: services, pricing, blog, careers, and legal details.",
+            path: "/sitemap",
+            crumbs: [
+              { name: "Home", path: "/" },
+              { name: "Sitemap", path: "/sitemap" },
+            ],
+          }),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Sitemap", path: "/sitemap" },
+          ]),
+        ]}
+      />
       <TopBar />
 
       <div className="shell pt-4 sm:pt-6">

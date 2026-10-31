@@ -12,12 +12,32 @@ import Navbar from "@/components/site/Navbar";
 import HeroRings from "@/components/site/HeroRings";
 import Footer from "@/components/site/Footer";
 import ContactButton from "@/components/contact/ContactButton";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/seo";
 import { site } from "@/lib/site";
 import type { ServicePageData } from "@/lib/service-pages";
 
 export default function ServicePage({ data }: { data: ServicePageData }) {
+  const path = `/services/${data.slug}`;
   return (
     <div className="min-h-screen overflow-x-hidden bg-ink">
+      <JsonLd
+        id="service-schema"
+        data={[
+          serviceSchema({
+            name: data.eyebrow,
+            description: data.summary,
+            path,
+            features: data.features,
+          }),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Services", path: "/services" },
+            { name: data.eyebrow, path },
+          ]),
+          ...(data.faqs.length ? [faqSchema(data.faqs)] : []),
+        ]}
+      />
       <TopBar />
 
       <div className="shell pt-4 sm:pt-6">

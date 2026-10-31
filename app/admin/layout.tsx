@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Admin | JP Technology",
+  title: "Admin",
   description: "Manage enquiries, blog posts, and publishing.",
-  robots: { index: false, follow: false },
+  alternates: { canonical: "/admin" },
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: { index: false, follow: false, noimageindex: true },
+  },
 };
 
 export default function AdminLayout({

@@ -5,13 +5,14 @@ import LegalPage, {
   LegalSectionBlock,
 } from "@/components/legal/LegalPage";
 import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Terms of Service | JP Technology",
+export const metadata: Metadata = pageMetadata({
+  title: "Terms of Service",
   description:
     "The terms that govern use of the JP Technology website, proposals, project engagements, ownership of work, and payment.",
-  alternates: { canonical: "/terms" },
-};
+  path: "/terms",
+});
 
 const sections = [
   { id: "acceptance", title: "Acceptance of these terms" },
@@ -35,6 +36,7 @@ export default function TermsPage() {
       title="Terms of Service"
       summary="The ground rules for using this website and working with us — scope, payment, ownership, and what happens if something goes wrong."
       updated="October 2026"
+      path="/terms"
       sections={sections}
       other={{ label: "Read our Privacy Policy", href: "/privacy" }}
     >

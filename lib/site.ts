@@ -1,8 +1,24 @@
+/**
+ * Canonical site URL.
+ *
+ * Resolution order:
+ *  1. NEXT_PUBLIC_SITE_URL  — set this to force a domain (e.g. the custom domain).
+ *  2. URL                   — set automatically by Netlify to the site's main URL,
+ *                             so canonicals stay correct on the *.netlify.app domain
+ *                             until jptechnologies.co is attached.
+ *  3. Production domain     — final fallback.
+ */
+const resolvedSiteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+  process.env.URL?.trim() ||
+  'https://jptechnologies.co'
+).replace(/\/+$/, '');
+
 export const site = {
   name: 'JP Technology',
   legalName: 'JP Technology Private Limited',
   tagline: 'Web, CRM & App Development Company',
-  url: 'https://jptechnology.com',
+  url: resolvedSiteUrl,
   email: 'Abhishek@vidyavriddhi.com',
   phone: '+91-9839865347',
   phoneHref: '+919839865347',

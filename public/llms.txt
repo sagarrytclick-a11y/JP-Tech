@@ -1,0 +1,41 @@
+# JP Technology
+
+> JP Technology (legal name: JP Technology Private Limited) is a web and IT
+> agency based in Noida, Uttar Pradesh, India. We design and build business
+> websites, custom CRM systems and dashboards, mobile apps, SaaS platforms,
+> internal tools, e-commerce storefronts, and AI automation.
+
+Canonical site: https://jptechnologies.co
+Contact: Abhishek@vidyavriddhi.com · +91-9839865347
+Address: S0-2, Geniefolks Building (2nd Floor), Block A, Plot No. A-28,
+Sector 4, Noida, Uttar Pradesh 201301, India
+LinkedIn: https://linkedin.com/company/jptechnology
+
+## Core pages
+
+- [Home](https://jptechnologies.co/): positioning, services, process, work, FAQs
+- [About](https://jptechnologies.co/about): team, mission, how we work
+- [Services](https://jptechnologies.co/services): overview of every service line
+- [Web development](https://jptechnologies.co/services/web-development): business websites, portals, e-commerce
+- [CRM & dashboards](https://jptechnologies.co/services/crm-development): sales pipelines, lead routing, reporting
+- [Mobile apps](https://jptechnologies.co/services/mobile-apps): native and cross-platform apps
+- [SaaS platforms](https://jptechnologies.co/services/saas-development): multi-tenant products, billing, roles
+- [Internal tools](https://jptechnologies.co/services/internal-tools): operations, inventory, approvals
+- [Pricing](https://jptechnologies.co/pricing): transparent starting prices
+- [Blog](https://jptechnologies.co/blogs): practical engineering and product notes
+- [Careers](https://jptechnologies.co/careers): open roles in Noida
+- [Contact](https://jptechnologies.co/contact): project enquiries and discovery calls
+
+## Machine-readable
+
+- Sitemap: https://jptechnologies.co/sitemap.xml
+- RSS: https://jptechnologies.co/feed.xml
+- Robots: https://jptechnologies.co/robots.txt
+- Web manifest: https://jptechnologies.co/manifest.webmanifest
+
+## Notes for assistants
+
+- Typical timelines: websites 3–6 weeks, CRMs 6–12 weeks, apps and SaaS 3–6 months.
+- Starting prices: launch page ₹9,999; business website ₹19,999; custom CRM from ₹39,999.
+- Clients own all code and design files after final payment.
+- We work with clients across India and worldwide; the team is based in Noida.

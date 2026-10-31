@@ -40,6 +40,11 @@ GROQ_MODEL=
 - `SMTP_*` — Nodemailer SMTP settings used for enquiry and career notification emails
 - `IMAGEKIT_PRIVATE_KEY` / `IMAGEKIT_URL_ENDPOINT` — required for all uploads (blog covers, career resumes, and optional enquiry attachments). Files are never stored on the server, so these must be set for uploads to work.
 - `GROQ_API_KEY` / `GROQ_MODEL` — server-side Groq credentials for the AI chat widget. `GROQ_MODEL` defaults to `openai/gpt-oss-120b`.
+- `NEXT_PUBLIC_SITE_URL` — canonical site URL used in metadata, sitemap, RSS and schema (defaults to Netlify's `URL`, then `https://jptechnologies.co`)
+- `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` — optional Google Search Console verification code (rendered as a meta tag)
+- `NEXT_PUBLIC_BING_SITE_VERIFICATION` — optional Bing Webmaster verification code (rendered as a meta tag)
+
+See [SEO.md](./SEO.md) for the full SEO setup and launch checklist.
 
 ## Email check
 

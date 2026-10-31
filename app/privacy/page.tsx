@@ -5,13 +5,14 @@ import LegalPage, {
   LegalSectionBlock,
 } from "@/components/legal/LegalPage";
 import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy | JP Technology",
+export const metadata: Metadata = pageMetadata({
+  title: "Privacy Policy",
   description:
     "How JP Technology collects, uses, stores, and protects the information you share through our website, enquiry forms, and project work.",
-  alternates: { canonical: "/privacy" },
-};
+  path: "/privacy",
+});
 
 const sections = [
   { id: "overview", title: "Overview" },
@@ -31,6 +32,7 @@ export default function PrivacyPage() {
       title="Privacy Policy"
       summary="What we collect when you enquire, how we use it, and the choices you have. Written so you can actually read it."
       updated="October 2026"
+      path="/privacy"
       sections={sections}
       other={{ label: "Read our Terms", href: "/terms" }}
     >

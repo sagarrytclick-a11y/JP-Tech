@@ -6,19 +6,39 @@ import PricingPlans from "@/components/pricing/PricingPlans";
 import CallToAction from "@/components/site/CallToAction";
 import ContactSection from "@/components/site/ContactSection";
 import Footer from "@/components/site/Footer";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema, pageMetadata, webPageSchema } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Pricing | JP Technology",
+export const metadata: Metadata = pageMetadata({
+  title: "Pricing — Websites, CRM & App Development",
   description:
     "Transparent starting prices for business websites, custom CRM dashboards, mobile apps, and SaaS platforms, plus AI automation, e-commerce, and care plans.",
-  alternates: {
-    canonical: "/pricing",
-  },
-};
+  path: "/pricing",
+  ogTitle: "Pricing — Websites, CRM & App Development | JP Technology",
+});
 
 export default function PricingPage() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-ink">
+      <JsonLd
+        id="pricing-schema"
+        data={[
+          webPageSchema({
+            name: "Pricing — Websites, CRM & App Development",
+            description:
+              "Transparent starting prices for websites, custom CRMs, mobile apps, and SaaS platforms.",
+            path: "/pricing",
+            crumbs: [
+              { name: "Home", path: "/" },
+              { name: "Pricing", path: "/pricing" },
+            ],
+          }),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Pricing", path: "/pricing" },
+          ]),
+        ]}
+      />
       <TopBar />
 
       <div className="shell pt-4 sm:pt-6">

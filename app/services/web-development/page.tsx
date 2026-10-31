@@ -1,22 +1,17 @@
 import type { Metadata } from "next";
 import ServicePage from "@/components/services/ServicePage";
 import { getServicePage } from "@/lib/service-pages";
+import { pageMetadata } from "@/lib/seo";
 
 const service = getServicePage("web-development")!;
 
-export const metadata: Metadata = {
-  title: "Web Development | JP Technology",
+export const metadata: Metadata = pageMetadata({
+  title: "Web Development Company in Noida",
   description:
     "Custom business websites, portals, and e-commerce builds that are fast, SEO-ready, and easy to run.",
-  alternates: { canonical: "/services/web-development" },
-  openGraph: {
-    title: "Web Development | JP Technology",
-    description:
-      "Custom business websites, portals, and e-commerce builds that are fast, SEO-ready, and easy to run.",
-    url: "/services/web-development",
-    type: "website",
-  },
-};
+  path: "/services/web-development",
+  ogTitle: "Web Development Company in Noida | JP Technology",
+});
 
 export default function Page() {
   return <ServicePage data={service} />;

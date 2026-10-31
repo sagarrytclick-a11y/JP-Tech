@@ -4,19 +4,40 @@ import Navbar from "@/components/site/Navbar";
 import HeroRings from "@/components/site/HeroRings";
 import ContactSection from "@/components/site/ContactSection";
 import Footer from "@/components/site/Footer";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema, pageMetadata, webPageSchema } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact Us | JP Technology",
+export const metadata: Metadata = pageMetadata({
+  title: "Contact Us — Book a Discovery Call",
   description:
-    "Tell us about your project and book a discovery call with JP Technology. We build business websites, custom CRMs, educational platforms, and custom web applications.",
-  alternates: {
-    canonical: "/contact",
-  },
-};
+    "Tell us about your project and book a discovery call with JP Technology in Noida. We build business websites, custom CRMs, educational platforms, and custom web applications.",
+  path: "/contact",
+  ogTitle: "Contact JP Technology — Book a Discovery Call",
+});
 
 export default function ContactPage() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-ink">
+      <JsonLd
+        id="contact-schema"
+        data={[
+          webPageSchema({
+            name: "Contact JP Technology — Book a Discovery Call",
+            description:
+              "Share a few details about your project and we will get back within one business day.",
+            path: "/contact",
+            type: "ContactPage",
+            crumbs: [
+              { name: "Home", path: "/" },
+              { name: "Contact", path: "/contact" },
+            ],
+          }),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Contact", path: "/contact" },
+          ]),
+        ]}
+      />
       <TopBar />
 
       <div className="shell pt-4 sm:pt-6">

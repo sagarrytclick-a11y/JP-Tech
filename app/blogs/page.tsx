@@ -6,15 +6,18 @@ import Footer from "@/components/site/Footer";
 import CallToAction from "@/components/site/CallToAction";
 import BlogGrid from "@/components/blog/BlogGrid";
 import { getPublishedBlogs } from "@/lib/blogs";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema, pageMetadata, webPageSchema } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Blog | JP Technology",
+export const metadata: Metadata = pageMetadata({
+  title: "Blog — Field Notes from the Build Room",
   description:
     "Practical notes on websites, custom CRMs, native apps, e-commerce, and AI automation from the JP Technology build team.",
-  alternates: { canonical: "/blogs" },
-};
+  path: "/blogs",
+  ogTitle: "Blog — Field Notes from the Build Room | JP Technology",
+});
 
 export default async function BlogsPage() {
   const { posts } = await getPublishedBlogs(50);
@@ -22,6 +25,26 @@ export default async function BlogsPage() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-ink">
+      <JsonLd
+        id="blog-schema"
+        data={[
+          webPageSchema({
+            name: "Blog — Field Notes from the Build Room",
+            description:
+              "Practical notes on websites, custom CRMs, native apps, e-commerce, and AI automation from the JP Technology build team.",
+            path: "/blogs",
+            type: "CollectionPage",
+            crumbs: [
+              { name: "Home", path: "/" },
+              { name: "Blog", path: "/blogs" },
+            ],
+          }),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Blog", path: "/blogs" },
+          ]),
+        ]}
+      />
       <TopBar />
 
       <div className="shell pt-4 sm:pt-6">

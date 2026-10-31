@@ -9,9 +9,11 @@ import Footer from "@/components/site/Footer";
 import ContactButton from "@/components/contact/ContactButton";
 import BlogCard from "@/components/blog/BlogCard";
 import BlogContent from "@/components/blog/BlogContent";
+import JsonLd from "@/components/seo/JsonLd";
 import { getBlogBySlug, getPublishedBlogs } from "@/lib/blogs";
 import { blogTones, formatBlogDate } from "@/lib/blog-theme";
 import { site } from "@/lib/site";
+import { articleSchema, breadcrumbSchema, ogImage } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -22,11 +24,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = await getBlogBySlug(slug);
 
   if (!post) {
-    return { title: "Article not found | JP Technology" };
+    return {
+      title: "Article not found",
+      robots: { index: false, follow: false },
+    };
   }
 
   return {
-    title: `${post.title} | JP Technology`,
+    title: post.title,
     description: post.excerpt,
     alternates: { canonical: `/blogs/${post.slug}` },
     openGraph: {
@@ -34,6 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: post.excerpt,
       type: "article",
       publishedTime: post.publishedAt,
+      modifiedTime: post.updatedAt ?? post.publishedAt,
       authors: [post.author],
       tags: post.tags,
       images: post.coverImage
@@ -45,7 +51,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
               alt: post.title,
             },
           ]
-        : undefined,
+        : ogImage(post.title),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: post.coverImage
+        ? [
+            /^https?:\/\//i.test(post.coverImage)
+              ? post.coverImage
+              : new URL(post.coverImage, site.url).toString(),
+          ]
+        : ogImage(post.title).map((image) => image.url),
     },
   };
 }
@@ -68,6 +86,17 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-ink">
+      <JsonLd
+        id="article-schema"
+        data={[
+          articleSchema(post),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Blog", path: "/blogs" },
+            { name: post.title, path: `/blogs/${post.slug}` },
+          ]),
+        ]}
+      />
       <TopBar />
 
       <div className="shell pt-4 sm:pt-6">

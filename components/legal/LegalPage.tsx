@@ -5,12 +5,15 @@ import TopBar from "@/components/site/TopBar";
 import Navbar from "@/components/site/Navbar";
 import HeroRings from "@/components/site/HeroRings";
 import Footer from "@/components/site/Footer";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema, webPageSchema } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export default function LegalPage({
   title,
   summary,
   updated,
+  path,
   sections,
   other,
   children,
@@ -18,12 +21,31 @@ export default function LegalPage({
   title: string;
   summary: string;
   updated: string;
+  path: string;
   sections: { id: string; title: string }[];
   other: { label: string; href: string };
   children: ReactNode;
 }) {
   return (
     <div className="min-h-screen overflow-x-clip bg-ink">
+      <JsonLd
+        id="legal-schema"
+        data={[
+          webPageSchema({
+            name: title,
+            description: summary,
+            path,
+            crumbs: [
+              { name: "Home", path: "/" },
+              { name: title, path },
+            ],
+          }),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: title, path },
+          ]),
+        ]}
+      />
       <TopBar />
 
       <div className="shell pt-4 sm:pt-6">

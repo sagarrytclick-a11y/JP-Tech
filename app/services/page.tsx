@@ -16,13 +16,16 @@ import HeroRings from "@/components/site/HeroRings";
 import Footer from "@/components/site/Footer";
 import ContactButton from "@/components/contact/ContactButton";
 import { servicePages } from "@/lib/service-pages";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema, itemListSchema, pageMetadata, webPageSchema } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Services | Websites, CRM, Apps & SaaS | JP Technology",
+export const metadata: Metadata = pageMetadata({
+  title: "Services — Websites, CRM, Apps & SaaS",
   description:
-    "Explore JP Technology's services: business websites, custom CRM and dashboards, mobile apps, SaaS platforms, and internal tools.",
-  alternates: { canonical: "/services" },
-};
+    "Explore JP Technology's services: business websites, custom CRM and dashboards, mobile apps, SaaS platforms, and internal tools built for growing businesses.",
+  path: "/services",
+  ogTitle: "Services — Websites, CRM, Apps & SaaS | JP Technology",
+});
 
 const icons: Record<string, LucideIcon> = {
   "web-development": Globe,
@@ -35,6 +38,34 @@ const icons: Record<string, LucideIcon> = {
 export default function ServicesPage() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-ink">
+      <JsonLd
+        id="services-schema"
+        data={[
+          webPageSchema({
+            name: "Services — Websites, CRM, Apps & SaaS",
+            description:
+              "Business websites, custom CRM and dashboards, mobile apps, SaaS platforms, and internal tools built by JP Technology.",
+            path: "/services",
+            type: "CollectionPage",
+            crumbs: [
+              { name: "Home", path: "/" },
+              { name: "Services", path: "/services" },
+            ],
+          }),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Services", path: "/services" },
+          ]),
+          itemListSchema({
+            name: "JP Technology services",
+            items: servicePages.map((service) => ({
+              name: service.eyebrow,
+              path: `/services/${service.slug}`,
+              description: service.summary,
+            })),
+          }),
+        ]}
+      />
       <TopBar />
 
       <div className="shell pt-4 sm:pt-6">

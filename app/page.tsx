@@ -14,6 +14,9 @@ import IndustriesSection from "@/components/site/IndustriesSection";
 import FaqSection from "@/components/site/FaqSection";
 import CallToAction from "@/components/site/CallToAction";
 import Footer from "@/components/site/Footer";
+import JsonLd from "@/components/seo/JsonLd";
+import { faqSchema, siteDescription, webPageSchema } from "@/lib/seo";
+import { site } from "@/lib/site";
 
 const TestimonialsSection = dynamic(() =>
   import("@/components/site/TestimonialsSection")
@@ -23,6 +26,17 @@ const BlogPreview = dynamic(() => import("@/components/site/BlogPreview"));
 export default function Home() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-ink">
+      <JsonLd
+        id="home-schema"
+        data={[
+          webPageSchema({
+            name: `${site.name} — ${site.tagline}`,
+            description: siteDescription,
+            path: "/",
+          }),
+          faqSchema(site.faqs),
+        ]}
+      />
       <TopBar />
 
       <div className="shell pt-4 sm:pt-6">
