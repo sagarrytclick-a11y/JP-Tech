@@ -1,24 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import ChatWidget from "@/components/chat/ChatWidget";
+import FloatingButtons from "@/components/site/FloatingButtons";
 import { ContactProvider } from "@/components/contact/ContactProvider";
 import JsonLd from "@/components/seo/JsonLd";
 import { site } from "@/lib/site";
 import { siteDescription, siteGraph } from "@/lib/seo";
 import "./globals.css";
-
-const neverMind = localFont({
-  src: [
-    { path: "./fonts/NeverMind-Regular.ttf", weight: "400", style: "normal" },
-    { path: "./fonts/NeverMind-Medium.ttf", weight: "500", style: "normal" },
-    { path: "./fonts/NeverMind-DemiBold.ttf", weight: "600", style: "normal" },
-    { path: "./fonts/NeverMind-Bold.ttf", weight: "700", style: "normal" },
-  ],
-  variable: "--font-nevermind",
-  display: "swap",
-  preload: true,
-  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -31,7 +20,7 @@ export const metadata: Metadata = {
   authors: [{ name: site.legalName, url: site.url }],
   creator: site.name,
   publisher: site.legalName,
-  category: "technology",
+  category: "technologies",
   classification:
     "Web development, custom CRM development, mobile app development, SaaS platforms, AI automation",
   keywords: [
@@ -93,7 +82,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     title: site.name,
-    statusBarStyle: "black-translucent",
+    statusBarStyle: "default",
   },
   other: {
     "geo.region": "IN-UP",
@@ -120,7 +109,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
   colorScheme: "dark",
-  themeColor: "#070707",
+  themeColor: "#12141d",
 };
 
 export default function RootLayout({
@@ -129,14 +118,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en-IN" className={neverMind.variable}>
+    <html
+      lang="en-IN"
+      data-scroll-behavior="smooth"
+      className={`${GeistSans.variable} ${GeistMono.variable}`}
+    >
       <head>
         <JsonLd id="site-schema" data={siteGraph()} />
       </head>
-      <body className="min-h-screen bg-ink text-white">
+      <body className="min-h-screen bg-ink text-fg antialiased">
         <ContactProvider>
           {children}
           <ChatWidget />
+          <FloatingButtons />
         </ContactProvider>
       </body>
     </html>

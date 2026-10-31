@@ -1,3 +1,5 @@
+import Reveal from "@/components/ui/Reveal";
+
 const steps = [
   {
     number: "01",
@@ -43,7 +45,7 @@ const steps = [
 
 export default function ProcessSection() {
   return (
-    <section id="process" className="shell py-8 lg:py-10">
+    <section id="process" className="shell py-5 lg:py-7">
       <div className="text-center">
         <span className="section-badge">How we work</span>
         <h2 className="section-heading mt-5 text-balance">
@@ -56,12 +58,18 @@ export default function ProcessSection() {
         </p>
       </div>
 
-      <div className="mt-9 grid gap-3 sm:mt-11 sm:grid-cols-2 lg:grid-cols-5 lg:gap-3">
+      <div className="relative mt-7 grid gap-3 sm:mt-8 sm:grid-cols-2 lg:grid-cols-5 lg:gap-3">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-[8%] right-[8%] top-1/2 hidden h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-accent/40 to-transparent lg:block"
+        >
+          <span className="absolute top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-accent shadow-[0_0_14px_rgba(245,176,20,0.9)] animate-step-flow" />
+        </div>
         {steps.map((step, index) => (
-          <article
-            key={step.number}
-            className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-[#141414] p-5 transition-all duration-300 hover:-translate-y-2 hover:border-accent/50 hover:bg-gradient-to-b hover:from-[#241713] hover:via-[#181413] hover:to-[#111111] hover:shadow-[0_22px_48px_-18px_rgba(255,77,31,0.25)]"
-          >
+          <Reveal key={step.number} delay={index * 90} className="h-full">
+            <article
+              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-panel p-5 transition-all duration-300 hover:-translate-y-2 hover:border-accent/50 hover:bg-gradient-to-b hover:from-accent/[0.12] hover:via-accent/[0.06] to-transparent hover:shadow-[0_22px_48px_-18px_rgba(217,119,6,0.25)]"
+            >
             {/* Top ambient hover accent line */}
             <div
               aria-hidden="true"
@@ -69,32 +77,33 @@ export default function ProcessSection() {
             />
 
             <div className="flex items-center justify-between">
-              <span className="text-[26px] font-bold leading-none tracking-[-0.04em] text-white/15 transition-all duration-300 group-hover:scale-110 group-hover:text-accent">
+              <span className="text-[26px] font-bold leading-none tracking-[-0.04em] text-fg/15 transition-all duration-300 group-hover:scale-110 group-hover:text-accent">
                 {step.number}
               </span>
-              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.1em] text-white/35 transition-all duration-300 group-hover:border-accent/40 group-hover:bg-accent/15 group-hover:text-accent-soft">
+              <span className="rounded-full border border-fg/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.1em] text-fg/60 transition-all duration-300 group-hover:border-accent/40 group-hover:bg-accent/15 group-hover:text-accent-soft">
                 {step.duration}
               </span>
             </div>
 
-            <h3 className="mt-5 text-[17px] font-semibold text-white transition-colors duration-300 group-hover:text-accent-soft">
+            <h3 className="mt-5 text-[17px] font-semibold text-fg transition-colors duration-300 group-hover:text-accent-soft">
               {step.title}
             </h3>
-            <p className="mt-2 flex-1 text-[12.5px] leading-relaxed text-white/50 transition-colors duration-300 group-hover:text-white/70">
+            <p className="mt-2 flex-1 text-[12.5px] leading-relaxed text-fg/75 transition-colors duration-300 group-hover:text-fg/70">
               {step.description}
             </p>
 
-            <p className="mt-4 border-t border-white/[0.06] pt-3 text-[11px] leading-snug text-white/35 transition-colors duration-300 group-hover:border-accent/20 group-hover:text-white/55">
+            <p className="mt-4 border-t border-fg/[0.06] pt-3 text-[11px] leading-snug text-fg/60 transition-colors duration-300 group-hover:border-accent/20 group-hover:text-fg/80">
               <span className="text-accent/70 group-hover:text-accent font-medium">You get:</span> {step.output}
             </p>
 
             {index < steps.length - 1 && (
               <span
                 aria-hidden="true"
-                className="absolute -right-[7px] top-1/2 hidden h-3 w-3 -translate-y-1/2 rotate-45 border-r border-t border-white/10 bg-[#141414] transition-colors duration-300 group-hover:border-accent/50 group-hover:bg-[#1a1413] lg:block z-10"
+                className="absolute -right-[7px] top-1/2 hidden h-3 w-3 -translate-y-1/2 rotate-45 border-r border-t border-accent/40 bg-panel transition-colors duration-300 group-hover:border-accent group-hover:bg-panel lg:block z-10 animate-step-flow"
               />
             )}
           </article>
+          </Reveal>
         ))}
       </div>
     </section>

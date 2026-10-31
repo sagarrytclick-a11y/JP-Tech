@@ -3,11 +3,11 @@ import Skeleton from "@/components/ui/Skeleton";
 export default function Loading() {
   return (
     <div
-      className="min-h-screen bg-ink text-white"
+      className="min-h-screen bg-ink text-fg"
       role="status"
       aria-label="Loading page"
     >
-      <header className="border-b border-white/[0.06]">
+      <header className="border-b border-fg/[0.06]">
         <div className="shell flex h-16 items-center justify-between gap-4 sm:h-[76px]">
           <div className="flex items-center gap-2.5">
             <Skeleton className="h-8 w-8 rounded-lg" />
@@ -41,7 +41,7 @@ export default function Loading() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-white/[0.07] bg-[#131313] p-5">
+          <div className="rounded-2xl border border-fg/[0.07] bg-panel p-5">
             <Skeleton className="h-4 w-32" />
             <div className="mt-5 grid grid-cols-2 gap-3">
               {[0, 1, 2, 3].map((item) => (
@@ -56,7 +56,7 @@ export default function Loading() {
           {[0, 1, 2].map((card) => (
             <div
               key={card}
-              className="rounded-2xl border border-white/[0.07] bg-[#111111] p-5"
+              className="rounded-2xl border border-fg/[0.07] bg-panel p-5"
             >
               <Skeleton className="h-9 w-9 rounded-lg" />
               <Skeleton className="mt-4 h-4 w-40" />

@@ -150,13 +150,13 @@ export default function PricingPlans() {
             <article
               key={name}
               className={`group relative flex flex-col rounded-[18px] border p-6 transition-all duration-300 hover:-translate-y-2 ${popular
-                  ? "border-accent/70 bg-[linear-gradient(165deg,#1f1a18_0%,#151313_60%,#101010_100%)] shadow-[0_0_60px_-30px_rgba(255,77,31,0.55)] hover:border-accent hover:bg-[linear-gradient(165deg,#2c1a14_0%,#1a1412_60%,#101010_100%)] hover:shadow-[0_24px_60px_-20px_rgba(255,77,31,0.4)]"
-                  : "border-white/[0.08] bg-[linear-gradient(165deg,#1b1b1b_0%,#141414_60%,#101010_100%)] hover:border-accent/40 hover:bg-[linear-gradient(165deg,#231815_0%,#181413_60%,#101010_100%)] hover:shadow-[0_22px_50px_-20px_rgba(255,77,31,0.22)]"
+                  ? "border-accent/70 bg-panel shadow-[0_0_60px_-30px_rgba(217,119,6,0.55)] hover:border-accent hover:bg-panel hover:shadow-[0_24px_60px_-20px_rgba(217,119,6,0.4)]"
+                  : "border-fg/[0.08] bg-panel hover:border-accent/40 hover:bg-panel hover:shadow-[0_22px_50px_-20px_rgba(217,119,6,0.22)]"
                 }`}
             >
               {/* Most Popular Badge positioned at the top center */}
               {popular && (
-                <span className="absolute -top-3.5 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-accent px-3.5 py-1 text-[11px] font-semibold text-white shadow-md shadow-accent/30">
+                <span className="absolute -top-3.5 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-accent px-3.5 py-1 text-[11px] font-semibold text-fg shadow-md shadow-accent/30">
                   Most Popular
                 </span>
               )}
@@ -169,31 +169,31 @@ export default function PricingPlans() {
 
               <div className="flex items-center gap-3">
                 <span
-                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border transition-all duration-300 group-hover:scale-110 group-hover:bg-accent group-hover:text-white group-hover:shadow-[0_0_15px_rgba(255,77,31,0.4)] ${popular
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border transition-all duration-300 group-hover:scale-110 group-hover:bg-accent group-hover:text-fg group-hover:shadow-[0_0_15px_rgba(217,119,6,0.4)] ${popular
                       ? "border-accent/40 bg-accent/10 text-accent"
-                      : "border-white/10 bg-white/[0.04] text-accent"
+                      : "border-fg/10 bg-fg/[0.04] text-accent"
                     }`}
                 >
                   <Icon size={19} strokeWidth={1.7} aria-hidden="true" />
                 </span>
-                <h2 className="text-[17px] font-semibold text-white transition-colors duration-300 group-hover:text-white sm:text-[18px]">
+                <h2 className="text-[17px] font-semibold text-fg transition-colors duration-300 group-hover:text-fg sm:text-[18px]">
                   {name}
                 </h2>
               </div>
 
-              <p className="mt-3 min-h-[44px] text-[13px] leading-[1.65] text-white/55 transition-colors duration-300 group-hover:text-white/70 sm:text-[14px]">
+              <p className="mt-3 min-h-[44px] text-[13px] leading-[1.65] text-fg/80 transition-colors duration-300 group-hover:text-fg/70 sm:text-[14px]">
                 {description}
               </p>
 
-              <p className="mt-5 flex items-end gap-2 border-b border-white/[0.07] pb-5">
-                <span className="text-[30px] font-bold leading-none tracking-[-0.02em] text-white transition-colors duration-300 group-hover:text-accent-soft sm:text-[34px]">
+              <p className="mt-5 flex items-end gap-2 border-b border-fg/[0.07] pb-5">
+                <span className="text-[30px] font-bold leading-none tracking-[-0.02em] text-fg transition-colors duration-300 group-hover:text-accent-soft sm:text-[34px]">
                   <CountUp
                     value={parseInt(price.replace(/,/g, ""), 10)}
                     prefix="₹"
                     duration={1500}
                   />
                 </span>
-                <span className="pb-0.5 text-[12px] font-medium text-white/45">
+                <span className="pb-0.5 text-[12px] font-medium text-fg/70">
                   {suffix ?? "INR"}
                 </span>
               </p>
@@ -202,7 +202,7 @@ export default function PricingPlans() {
                 {features.map((feature) => (
                   <li
                     key={feature}
-                    className="flex items-start gap-2.5 text-[13px] leading-[1.5] text-white/75"
+                    className="flex items-start gap-2.5 text-[13px] leading-[1.5] text-fg/75"
                   >
                     <Check
                       size={14}
@@ -217,12 +217,12 @@ export default function PricingPlans() {
                 {excluded?.map((feature) => (
                   <li
                     key={feature}
-                    className="flex items-start gap-2.5 text-[13px] leading-[1.5] text-white/30"
+                    className="flex items-start gap-2.5 text-[13px] leading-[1.5] text-fg/75"
                   >
                     <X
                       size={14}
                       strokeWidth={2.4}
-                      className="mt-0.5 shrink-0 text-white/25"
+                      className="mt-0.5 shrink-0 text-fg/70"
                       aria-hidden="true"
                     />
                     <span>{feature}</span>
@@ -233,8 +233,8 @@ export default function PricingPlans() {
               <div className="mt-auto pt-7">
                 <ContactButton
                   className={`inline-flex h-11 w-full items-center justify-center rounded-lg text-[13px] font-semibold transition-colors duration-200 ${popular
-                      ? "bg-accent text-white hover:bg-accent-soft"
-                      : "border border-white/15 bg-white/[0.03] text-white/90 hover:bg-white/[0.08] hover:text-white"
+                      ? "bg-accent text-fg hover:bg-accent-soft"
+                      : "border border-fg/15 bg-fg/[0.03] text-fg/90 hover:bg-fg/[0.08] hover:text-fg"
                     }`}
                 >
                   {cta}
@@ -245,7 +245,7 @@ export default function PricingPlans() {
         )}
       </div>
 
-      <div className="mx-auto mt-6 grid max-w-[1240px] gap-3 rounded-2xl border border-line bg-[#101010] p-5 sm:grid-cols-2 sm:p-6 lg:grid-cols-4">
+      <div className="mx-auto mt-6 grid max-w-[1240px] gap-3 rounded-2xl border border-line bg-panel-soft p-5 sm:grid-cols-2 sm:p-6 lg:grid-cols-4">
         {[
           {
             name: "AI automation",
@@ -268,19 +268,19 @@ export default function PricingPlans() {
             desc: "Monitoring, updates, backups, monthly improvements.",
           },
         ].map((addon) => (
-          <div key={addon.name} className="rounded-xl bg-white/[0.02] p-4">
-            <p className="text-[13px] font-semibold text-white">{addon.name}</p>
+          <div key={addon.name} className="rounded-xl bg-fg/[0.02] p-4">
+            <p className="text-[13px] font-semibold text-fg">{addon.name}</p>
             <p className="mt-1 text-[12px] font-medium text-accent">
               {addon.price}
             </p>
-            <p className="mt-1.5 text-[11.5px] leading-relaxed text-white/45">
+            <p className="mt-1.5 text-[11.5px] leading-relaxed text-fg/70">
               {addon.desc}
             </p>
           </div>
         ))}
       </div>
 
-      <p className="mx-auto mt-8 max-w-[720px] text-center text-[12px] leading-relaxed text-white/45 sm:text-[13px]">
+      <p className="mx-auto mt-8 max-w-[720px] text-center text-[12px] leading-relaxed text-fg/70 sm:text-[13px]">
         Project prices are one-time and exclusive of applicable taxes. Care
         plans are billed monthly. Need a different scope?{" "}
         <ContactButton className="font-medium text-accent underline-offset-4 hover:underline">

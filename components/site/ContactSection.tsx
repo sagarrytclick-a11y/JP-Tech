@@ -68,7 +68,7 @@ export default function ContactSection({
   showHeader?: boolean;
 }) {
   return (
-    <section id="contact" className="shell py-8 lg:py-10">
+    <section id="contact" className="shell py-5 lg:py-7">
       {showHeader && (
         <div className="text-center">
           <span className="section-badge">Contact Us</span>
@@ -84,20 +84,20 @@ export default function ContactSection({
 
       <div
         className={`mx-auto grid max-w-[1120px] gap-4 lg:grid-cols-[minmax(0,0.84fr)_minmax(0,1.16fr)] lg:gap-5 ${
-          showHeader ? "mt-8 sm:mt-10" : "mt-2 lg:mt-0"
+          showHeader ? "mt-8 sm:mt-7" : "mt-2 lg:mt-0"
         }`}
       >
         {/* Contact information */}
-        <aside className="order-2 flex flex-col rounded-[24px] border border-line bg-[#191919] p-6 sm:rounded-[28px] sm:p-7 lg:order-1 lg:p-8">
+        <aside className="order-2 flex flex-col rounded-[24px] border border-line bg-panel p-6 sm:rounded-[28px] sm:p-7 lg:order-1 lg:p-8">
           <span className="text-[10.5px] font-semibold uppercase tracking-[0.18em] text-accent">
             Direct lines
           </span>
 
-          <h3 className="mt-3 text-balance text-[20px] font-semibold leading-[1.25] tracking-[-0.01em] text-white sm:text-[22px]">
+          <h3 className="mt-3 text-balance text-[20px] font-semibold leading-[1.25] tracking-[-0.01em] text-fg sm:text-[22px]">
             Talk to the people who will actually build it
           </h3>
 
-          <p className="mt-3 text-[12.5px] leading-[1.7] text-white/55 sm:text-[13px]">
+          <p className="mt-3 text-[12.5px] leading-[1.7] text-fg/80 sm:text-[13px]">
             No sales handoffs, no account managers relaying messages. The same
             team that scopes your project writes the code.
           </p>
@@ -111,11 +111,11 @@ export default function ContactSection({
                     <Icon size={15} aria-hidden="true" />
                   </span>
                   <span className="min-w-0">
-                    <span className="block text-[10.5px] uppercase tracking-[0.12em] text-white/35">
+                    <span className="block text-[10.5px] uppercase tracking-[0.12em] text-fg/60">
                       {channel.label}
                     </span>
                     <span
-                      className={`mt-0.5 block text-[13px] font-medium text-white/85 ${
+                      className={`mt-0.5 block text-[13px] font-medium text-fg/85 ${
                         channel.label === "Visit us"
                           ? "leading-snug"
                           : "truncate"
@@ -132,12 +132,12 @@ export default function ContactSection({
                   {channel.href ? (
                     <a
                       href={channel.href}
-                      className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-3 py-2.5 transition-colors hover:border-accent/35 hover:bg-white/[0.05]"
+                      className="flex items-center gap-3 rounded-xl border border-fg/[0.06] bg-fg/[0.02] px-3 py-2.5 transition-colors hover:border-accent/35 hover:bg-fg/[0.05]"
                     >
                       {inner}
                     </a>
                   ) : (
-                    <div className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-3 py-2.5">
+                    <div className="flex items-center gap-3 rounded-xl border border-fg/[0.06] bg-fg/[0.02] px-3 py-2.5">
                       {inner}
                     </div>
                   )}
@@ -146,8 +146,8 @@ export default function ContactSection({
             })}
           </ul>
 
-          <div className="mt-7 border-t border-white/[0.07] pt-6">
-            <p className="text-[10.5px] font-semibold uppercase tracking-[0.18em] text-white/40">
+          <div className="mt-7 border-t border-fg/[0.07] pt-6">
+            <p className="text-[10.5px] font-semibold uppercase tracking-[0.18em] text-fg/65">
               What happens next
             </p>
             <ol className="mt-4 space-y-4">
@@ -157,10 +157,10 @@ export default function ContactSection({
                     {index + 1}
                   </span>
                   <span>
-                    <span className="block text-[12.5px] font-semibold text-white/90">
+                    <span className="block text-[12.5px] font-semibold text-fg/90">
                       {step.title}
                     </span>
-                    <span className="mt-0.5 block text-[11.5px] leading-[1.6] text-white/45">
+                    <span className="mt-0.5 block text-[11.5px] leading-[1.6] text-fg/70">
                       {step.copy}
                     </span>
                   </span>
@@ -180,7 +180,7 @@ export default function ContactSection({
                     target="_blank"
                     rel="noreferrer"
                     aria-label={social.label}
-                    className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.07] bg-white/[0.02] text-white/50 transition-colors hover:border-accent/40 hover:text-white"
+                    className="flex h-8 w-8 items-center justify-center rounded-lg border border-fg/[0.07] bg-fg/[0.02] text-fg/75 transition-colors hover:border-accent/40 hover:text-fg"
                   >
                     <Icon size={13} aria-hidden="true" />
                   </a>
@@ -191,19 +191,19 @@ export default function ContactSection({
         </aside>
 
         {/* Form */}
-        <div className="order-1 flex flex-col rounded-[24px] border border-line bg-[#191919] p-4 sm:rounded-[28px] sm:p-7 lg:order-2 lg:p-8">
+        <div className="order-1 flex flex-col rounded-[24px] border border-line bg-panel p-4 sm:rounded-[28px] sm:p-7 lg:order-2 lg:p-8">
           {!showHeader && (
             <div className="mb-5">
-              <h3 className="text-[16px] font-semibold tracking-[-0.01em] text-white sm:text-[17px]">
+              <h3 className="text-[16px] font-semibold tracking-[-0.01em] text-fg sm:text-[17px]">
                 Tell us about your project
               </h3>
-              <p className="mt-1 text-[11.5px] text-white/40">
+              <p className="mt-1 text-[11.5px] text-fg/65">
                 A few details are enough — we&apos;ll ask the rest on the call.
               </p>
             </div>
           )}
           <ContactForm />
-          <div className="mt-auto flex items-start gap-2 border-t border-white/[0.06] pt-4 text-[11px] leading-relaxed text-white/35">
+          <div className="mt-auto flex items-start gap-2 border-t border-fg/[0.06] pt-4 text-[11px] leading-relaxed text-fg/60">
             <ShieldCheck
               size={13}
               className="mt-0.5 shrink-0 text-accent/70"

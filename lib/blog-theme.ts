@@ -1,10 +1,10 @@
 export const blogTones: Record<string, string> = {
-  orange: "from-[#ff4d1f]/35 via-[#2a130c] to-[#101010]",
-  blue: "from-[#2f6fed]/35 via-[#0f1a2e] to-[#101010]",
-  violet: "from-[#8b5cf6]/35 via-[#1a122c] to-[#101010]",
-  green: "from-[#0f9d76]/35 via-[#0c2019] to-[#101010]",
-  amber: "from-[#f08a24]/35 via-[#241708] to-[#101010]",
-  slate: "from-[#64748b]/35 via-[#141a22] to-[#101010]",
+  orange: "from-[#d97706]/30 via-[#fff7e6] to-[#ffffff]",
+  blue: "from-[#2f6fed]/25 via-[#eef4ff] to-[#ffffff]",
+  violet: "from-[#8b5cf6]/25 via-[#f5f0ff] to-[#ffffff]",
+  green: "from-[#0f9d76]/25 via-[#edfbf6] to-[#ffffff]",
+  amber: "from-[#f08a24]/30 via-[#fff7ea] to-[#ffffff]",
+  slate: "from-[#64748b]/25 via-[#f1f5f9] to-[#ffffff]",
 };
 
 export function formatBlogDate(value: string) {

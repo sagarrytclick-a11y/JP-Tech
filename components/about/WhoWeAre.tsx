@@ -33,7 +33,7 @@ export default function WhoWeAre() {
 
       <div className="mt-9 grid gap-10 lg:mt-12 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-16">
         <div>
-          <h3 className="text-center text-[20px] font-medium text-white sm:text-[22px] lg:text-[24px]">
+          <h3 className="text-center text-[20px] font-medium text-fg sm:text-[22px] lg:text-[24px]">
             Industries We Served
           </h3>
 
@@ -41,7 +41,7 @@ export default function WhoWeAre() {
             {industries.map((industry) => (
               <span
                 key={industry}
-                className="flex min-h-[44px] items-center justify-center rounded-2xl border border-accent/40 bg-white/[0.02] px-2 py-2.5 text-center text-[12px] font-medium text-white/90 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent hover:bg-accent/20 hover:text-white hover:shadow-[0_0_20px_rgba(255,77,31,0.3)] cursor-default sm:px-3 sm:text-[13px] lg:text-[14px]"
+                className="flex min-h-[44px] items-center justify-center rounded-2xl border border-accent/40 bg-fg/[0.02] px-2 py-2.5 text-center text-[12px] font-medium text-fg/90 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent hover:bg-accent/20 hover:text-fg hover:shadow-[0_0_20px_rgba(217,119,6,0.3)] cursor-default sm:px-3 sm:text-[13px] lg:text-[14px]"
               >
                 {industry}
               </span>
@@ -50,12 +50,12 @@ export default function WhoWeAre() {
         </div>
 
         <div>
-          <p className="text-[15px] leading-[1.65] text-white/75 sm:text-[17px] lg:text-[18px] lg:leading-[1.6]">
-            JP Technology is a product-focused technology company founded by
-            engineers and strategists who believe technology should solve real
+          <p className="text-[15px] leading-[1.65] text-fg/75 sm:text-[17px] lg:text-[18px] lg:leading-[1.6]">
+            JP Technology is a product-focused technologies company founded by
+            engineers and strategists who believe technologies should solve real
             problems, not just look good.
           </p>
-          <p className="mt-4 text-[15px] leading-[1.65] text-white/75 sm:text-[17px] lg:text-[18px] lg:leading-[1.6]">
+          <p className="mt-4 text-[15px] leading-[1.65] text-fg/75 sm:text-[17px] lg:text-[18px] lg:leading-[1.6]">
             We work as an extended tech team for our clients, helping them go
             from idea to MVP, and from MVP to scale.
           </p>

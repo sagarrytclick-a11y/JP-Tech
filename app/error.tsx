@@ -10,10 +10,10 @@ export default function Error({
     <div className="flex min-h-screen items-center justify-center px-6">
       <div className="max-w-md text-center">
         <span className="text-6xl font-semibold text-accent">!</span>
-        <h1 className="mt-5 text-3xl font-semibold text-white">
+        <h1 className="mt-5 text-3xl font-semibold text-fg">
           Something went wrong
         </h1>
-        <p className="mt-3 text-white/60">
+        <p className="mt-3 text-fg/60">
           An unexpected error occurred. Please try again.
         </p>
         <button

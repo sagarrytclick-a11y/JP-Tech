@@ -15,7 +15,7 @@ function BlogCard({
 
   return (
     <article
-      className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-[#141414] transition-all duration-300 hover:-translate-y-2 hover:border-accent/40 hover:bg-gradient-to-b hover:from-[#1f1715] hover:to-[#111111] hover:shadow-[0_22px_45px_-18px_rgba(255,77,31,0.22)] ${
+      className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-panel transition-all duration-300 hover:-translate-y-2 hover:border-accent/40 hover:bg-gradient-to-b hover:from-accent/[0.12] to-transparent hover:shadow-[0_22px_45px_-18px_rgba(217,119,6,0.22)] ${
         featured ? "sm:col-span-2" : ""
       }`}
     >
@@ -52,15 +52,15 @@ function BlogCard({
               />
               <div
                 aria-hidden="true"
-                className="absolute -right-10 -top-14 h-44 w-44 rounded-full border border-white/10"
+                className="absolute -right-10 -top-14 h-44 w-44 rounded-full border border-fg/10"
               />
               <div
                 aria-hidden="true"
-                className="absolute -right-3 -top-5 h-28 w-28 rounded-full border border-white/[0.07]"
+                className="absolute -right-3 -top-5 h-28 w-28 rounded-full border border-fg/[0.07]"
               />
 
               <div className="absolute inset-x-4 inset-y-4 flex items-end">
-                <span className="text-[54px] font-semibold leading-none tracking-[-0.06em] text-white/[0.07]">
+                <span className="text-[54px] font-semibold leading-none tracking-[-0.06em] text-fg/[0.07]">
                   {post.title.slice(0, 2).toUpperCase()}
                 </span>
               </div>
@@ -68,10 +68,10 @@ function BlogCard({
           )}
 
           <div className="absolute inset-x-4 top-4 flex items-center justify-between gap-3">
-            <span className="rounded-full border border-white/15 bg-black/35 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/90 backdrop-blur-sm">
+            <span className="rounded-full border border-fg/15 bg-black/35 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-fg/90 backdrop-blur-sm">
               {post.category}
             </span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-black/35 px-2 py-1 text-[10px] text-white/75 backdrop-blur-sm">
+            <span className="inline-flex items-center gap-1 rounded-full bg-black/35 px-2 py-1 text-[10px] text-fg/75 backdrop-blur-sm">
               <Clock size={10} aria-hidden="true" />
               {post.readTime} min
             </span>
@@ -80,19 +80,19 @@ function BlogCard({
 
         <div className="flex flex-1 flex-col p-4 sm:p-5">
           <h3
-            className={`font-semibold tracking-[-0.01em] text-white transition-colors group-hover:text-accent ${
+            className={`font-semibold tracking-[-0.01em] text-fg transition-colors group-hover:text-accent ${
               featured ? "text-[19px] sm:text-[22px]" : "text-[16px]"
             }`}
           >
             {post.title}
           </h3>
-          <p className="mt-2 line-clamp-2 text-[12.5px] leading-relaxed text-white/50">
+          <p className="mt-2 line-clamp-2 text-[12.5px] leading-relaxed text-fg/75">
             {post.excerpt}
           </p>
 
-          <div className="mt-auto flex items-center justify-between gap-3 border-t border-white/[0.06] pt-4 text-[11px] text-white/35">
+          <div className="mt-auto flex items-center justify-between gap-3 border-t border-fg/[0.06] pt-4 text-[11px] text-fg/60">
             <span>{formatBlogDate(post.publishedAt)}</span>
-            <span className="inline-flex items-center gap-1 font-medium text-white/60 transition-colors group-hover:text-accent">
+            <span className="inline-flex items-center gap-1 font-medium text-fg/60 transition-colors group-hover:text-accent">
               Read article
               <ArrowUpRight
                 size={12}

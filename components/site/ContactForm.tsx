@@ -61,13 +61,13 @@ export default function ContactForm({
           <Check size={compact ? 22 : 26} aria-hidden="true" />
         </span>
         <h3
-          className={`mt-4 font-semibold text-white ${
+          className={`mt-4 font-semibold text-fg ${
             compact ? "text-lg" : "text-xl sm:text-2xl"
           }`}
         >
           Thank you for reaching out
         </h3>
-        <p className="mt-2 max-w-md text-[12.5px] leading-relaxed text-white/60 sm:text-[13.5px]">
+        <p className="mt-2 max-w-md text-[12.5px] leading-relaxed text-fg/60 sm:text-[13.5px]">
           Your enquiry has been received. Our team will get back to you within
           one business day to schedule your discovery call.
         </p>
@@ -157,7 +157,7 @@ export default function ContactForm({
               onChange={(event) => updateField("service", event.target.value)}
               onBlur={() => handleBlur("service")}
               className={`${inputClass} appearance-none pr-8 ${
-                form.service ? "text-white" : "text-white/40"
+                form.service ? "text-fg" : "text-fg/65"
               }`}
               aria-invalid={Boolean(fieldErrors.service)}
             >
@@ -170,7 +170,7 @@ export default function ContactForm({
             </select>
             <ChevronDown
               size={14}
-              className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-white/70"
+              className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-fg/70"
               aria-hidden="true"
             />
           </div>
@@ -202,7 +202,7 @@ export default function ContactForm({
 
       <div className={compact ? "mt-3" : "mt-5"}>
         <label
-          className={`flex cursor-pointer items-start gap-2.5 leading-relaxed text-white/70 ${
+          className={`flex cursor-pointer items-start gap-2.5 leading-relaxed text-fg/70 ${
             compact ? "text-[11.5px]" : "text-[12px] sm:text-[13px]"
           }`}
         >
@@ -215,21 +215,21 @@ export default function ContactForm({
             }}
             className="peer sr-only"
           />
-          <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border border-white/80 bg-white text-transparent transition-colors peer-checked:border-accent peer-checked:bg-accent peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-accent/50">
+          <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border border-fg/80 bg-panel text-transparent transition-colors peer-checked:border-accent peer-checked:bg-accent peer-checked:text-fg peer-focus-visible:ring-2 peer-focus-visible:ring-accent/50">
             <Check size={12} strokeWidth={3} aria-hidden="true" />
           </span>
           <span>
             I agree to the{" "}
             <a
               href="/privacy"
-              className="underline underline-offset-2 transition-colors hover:text-white"
+              className="underline underline-offset-2 transition-colors hover:text-fg"
             >
               Privacy Policy
             </a>{" "}
             &{" "}
             <a
               href="/terms"
-              className="underline underline-offset-2 transition-colors hover:text-white"
+              className="underline underline-offset-2 transition-colors hover:text-fg"
             >
               Terms &amp; Conditions
             </a>
@@ -241,12 +241,12 @@ export default function ContactForm({
       </div>
 
       {!compact && (
-        <p className="mt-4 text-[11px] text-white/45 sm:text-[12px]">
+        <p className="mt-4 text-[11px] text-fg/70 sm:text-[12px]">
           Note: This contact form is only for project and business inquiries. For
           job inquiries,{" "}
           <a
             href={`mailto:${site.email}?subject=Job%20Inquiry`}
-            className="underline underline-offset-2 transition-colors hover:text-white"
+            className="underline underline-offset-2 transition-colors hover:text-fg"
           >
             Click Here
           </a>
@@ -266,7 +266,7 @@ export default function ContactForm({
       <button
         type="submit"
         disabled={submitting}
-        className={`flex w-full items-center justify-center gap-2 bg-accent font-semibold text-white transition-all duration-200 hover:bg-accent-soft hover:shadow-[0_14px_30px_-16px_rgba(255,77,31,0.9)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 ${
+        className={`flex w-full items-center justify-center gap-2 bg-accent font-semibold text-fg transition-all duration-200 hover:bg-accent-soft hover:shadow-[0_14px_30px_-16px_rgba(217,119,6,0.9)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 ${
           compact
             ? "mt-3.5 h-11 rounded-lg text-[13px]"
             : "mt-5 h-12 rounded-xl text-[14px]"

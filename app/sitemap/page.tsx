@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight, Mail } from "lucide-react";
 import TopBar from "@/components/site/TopBar";
 import Navbar from "@/components/site/Navbar";
-import HeroRings from "@/components/site/HeroRings";
+import TechStack from "@/components/site/TechStack";
 import Footer from "@/components/site/Footer";
 import Reveal from "@/components/ui/Reveal";
 import JsonLd from "@/components/seo/JsonLd";
@@ -64,7 +64,7 @@ const groups: Array<{ title: string; links: SitemapLink[] }> = [
 
 export default function SitemapPage() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-ink">
+    <div className="min-h-screen overflow-x-clip bg-ink">
       <JsonLd
         id="sitemap-schema"
         data={[
@@ -85,33 +85,26 @@ export default function SitemapPage() {
         ]}
       />
       <TopBar />
-
-      <div className="shell pt-4 sm:pt-6">
-        <div className="relative overflow-hidden rounded-[28px] border border-line bg-panel sm:rounded-[40px]">
-          <HeroRings />
-          <Navbar />
+      <Navbar />
 
           <section className="relative px-5 pb-12 pt-10 sm:px-8 sm:pb-16 sm:pt-14 lg:px-12 lg:pb-20 lg:pt-16">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">
               Sitemap
             </p>
-            <h1 className="mt-3 max-w-3xl text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] text-white sm:text-[44px] lg:text-[52px]">
+            <h1 className="mt-3 max-w-3xl text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] text-fg sm:text-[44px] lg:text-[52px]">
               Every page, in one place.
             </h1>
-            <p className="mt-4 max-w-xl text-[13.5px] leading-relaxed text-white/50 sm:text-[14.5px]">
+            <p className="mt-4 max-w-xl text-[13.5px] leading-relaxed text-fg/75 sm:text-[14.5px]">
               A quick directory of everything on this site — from our services and
               pricing to articles, careers, and the legal details.
             </p>
           </section>
-        </div>
-      </div>
-
       <main className="shell pb-14 pt-10 sm:pb-20 sm:pt-14">
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
           {groups.map((group, index) => (
             <Reveal key={group.title} delay={index * 70}>
-              <section className="card-lift h-full rounded-2xl border border-white/[0.07] bg-[#131313] p-5 sm:p-6">
-                <h2 className="text-[11px] font-bold uppercase tracking-[0.16em] text-white/40">
+              <section className="card-lift h-full rounded-2xl border border-fg/[0.07] bg-panel p-5 sm:p-6">
+                <h2 className="text-[11px] font-bold uppercase tracking-[0.16em] text-fg/65">
                   {group.title}
                 </h2>
                 <ul className="mt-4 space-y-1">
@@ -119,7 +112,7 @@ export default function SitemapPage() {
                     <li key={link.href + link.label}>
                       <Link
                         href={link.href}
-                        className="group flex items-center justify-between gap-3 rounded-lg px-2 py-2 text-[13px] text-white/65 transition-colors hover:bg-white/[0.04] hover:text-white"
+                        className="group flex items-center justify-between gap-3 rounded-lg px-2 py-2 text-[13px] text-fg/65 transition-colors hover:bg-fg/[0.04] hover:text-fg"
                       >
                         <span>{link.label}</span>
                         <ArrowUpRight
@@ -137,12 +130,12 @@ export default function SitemapPage() {
         </div>
 
         <Reveal className="mt-6 sm:mt-8">
-          <div className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-white/[0.07] bg-[#131313] p-5 sm:flex-row sm:items-center sm:p-6">
+          <div className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-fg/[0.07] bg-panel p-5 sm:flex-row sm:items-center sm:p-6">
             <div>
-              <h2 className="text-[14px] font-semibold text-white">
+              <h2 className="text-[14px] font-semibold text-fg">
                 Can&apos;t find what you need?
               </h2>
-              <p className="mt-1 text-[12.5px] text-white/45">
+              <p className="mt-1 text-[12.5px] text-fg/70">
                 Tell us what you are looking for and we will point you to the right
                 page — or answer directly.
               </p>
@@ -150,14 +143,14 @@ export default function SitemapPage() {
             <div className="flex flex-wrap items-center gap-2.5">
               <a
                 href={`mailto:${site.email}`}
-                className="inline-flex items-center gap-2 rounded-lg border border-white/[0.09] bg-white/[0.03] px-3.5 py-2 text-[12px] font-semibold text-white/75 transition-colors hover:border-accent/40 hover:text-white"
+                className="inline-flex items-center gap-2 rounded-lg border border-fg/[0.09] bg-fg/[0.03] px-3.5 py-2 text-[12px] font-semibold text-fg/75 transition-colors hover:border-accent/40 hover:text-fg"
               >
                 <Mail size={13} aria-hidden="true" />
                 {site.email}
               </a>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-[12px] font-semibold text-white transition-colors hover:bg-accent-soft"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-[12px] font-semibold text-fg transition-colors hover:bg-accent-soft"
               >
                 Contact us
                 <ArrowUpRight size={13} aria-hidden="true" />
@@ -166,6 +159,8 @@ export default function SitemapPage() {
           </div>
         </Reveal>
       </main>
+
+      <TechStack />
 
       <Footer />
     </div>

@@ -85,7 +85,7 @@ const testimonials = [
 
 export default function TestimonialsSection() {
   return (
-    <section id="testimonials" className="shell py-10 lg:py-12">
+    <section id="testimonials" className="shell py-6 lg:py-8">
       <Reveal className="text-center">
         <span className="section-badge">Client words</span>
         <h2 className="section-heading mt-4 text-balance">
@@ -119,7 +119,7 @@ export default function TestimonialsSection() {
       >
         {testimonials.map((testimonial) => (
           <SwiperSlide key={testimonial.image} className="!h-auto">
-            <figure className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-[#141414] p-5 transition-all duration-300 hover:-translate-y-2 hover:border-accent/40 hover:bg-gradient-to-b hover:from-[#221613] hover:to-[#111111] hover:shadow-[0_22px_45px_-18px_rgba(255,77,31,0.22)]">
+            <figure className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-panel p-5 transition-all duration-300 hover:-translate-y-2 hover:border-accent/40 hover:bg-gradient-to-b hover:from-accent/[0.12] to-transparent hover:shadow-[0_22px_45px_-18px_rgba(217,119,6,0.22)]">
               {/* Top ambient hover accent line */}
               <div
                 aria-hidden="true"
@@ -127,7 +127,7 @@ export default function TestimonialsSection() {
               />
 
               <div className="flex items-center gap-3">
-                <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-white/[0.06] ring-2 ring-white/10 transition-all duration-300 group-hover:ring-accent/60 group-hover:scale-105">
+                <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-fg/[0.06] ring-2 ring-fg/10 transition-all duration-300 group-hover:ring-accent/60 group-hover:scale-105">
                   <Image
                     src={testimonial.image}
                     alt={`${testimonial.role} founder portrait`}
@@ -137,10 +137,10 @@ export default function TestimonialsSection() {
                   />
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-[12.5px] font-semibold text-white transition-colors duration-300 group-hover:text-accent-soft">
+                  <p className="truncate text-[12.5px] font-semibold text-fg transition-colors duration-300 group-hover:text-accent-soft">
                     {testimonial.name}
                   </p>
-                  <p className="truncate text-[10.5px] text-white/40">
+                  <p className="truncate text-[10.5px] text-fg/65">
                     {testimonial.role}
                   </p>
                 </div>
@@ -156,7 +156,7 @@ export default function TestimonialsSection() {
                 </div>
               </div>
 
-              <blockquote className="mt-4 flex-1 text-[12.5px] leading-[1.7] text-white/65 transition-colors duration-300 group-hover:text-white/80">
+              <blockquote className="mt-4 flex-1 text-[12.5px] leading-[1.7] text-fg/65 transition-colors duration-300 group-hover:text-fg/80">
                 <Quote
                   size={14}
                   className="mb-1.5 text-accent/45 transition-colors duration-300 group-hover:text-accent"
@@ -165,7 +165,7 @@ export default function TestimonialsSection() {
                 &ldquo;{testimonial.quote}&rdquo;
               </blockquote>
 
-              <figcaption className="mt-4 border-t border-white/[0.06] pt-3 text-[10.5px] text-white/35 transition-colors duration-300 group-hover:text-white/55">
+              <figcaption className="mt-4 border-t border-fg/[0.06] pt-3 text-[10.5px] text-fg/60 transition-colors duration-300 group-hover:text-fg/80">
                 {testimonial.context}
               </figcaption>
             </figure>

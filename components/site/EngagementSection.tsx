@@ -51,7 +51,7 @@ const models = [
 
 export default function EngagementSection() {
   return (
-    <section id="engagement" className="shell py-8 lg:py-10">
+    <section id="engagement" className="shell py-5 lg:py-7">
       <div className="text-center">
         <span className="section-badge">Engagement models</span>
         <h2 className="section-heading mt-5 text-balance">
@@ -71,8 +71,8 @@ export default function EngagementSection() {
             key={model.name}
             className={`group relative flex h-full flex-col rounded-2xl border p-6 sm:p-7 transition-all duration-300 hover:-translate-y-2 ${
               model.featured
-                ? "border-accent/40 bg-[linear-gradient(165deg,#24120d,#151515_60%)] shadow-[0_10px_30px_-10px_rgba(255,77,31,0.2)] hover:border-accent hover:bg-[linear-gradient(165deg,#341810,#191312_65%)] hover:shadow-[0_28px_60px_-20px_rgba(255,77,31,0.4)]"
-                : "border-line bg-[#141414] hover:border-accent/50 hover:bg-gradient-to-b hover:from-[#241713] hover:via-[#171413] hover:to-[#101010] hover:shadow-[0_24px_50px_-20px_rgba(255,77,31,0.22)]"
+                ? "border-accent/40 bg-panel shadow-[0_10px_30px_-10px_rgba(217,119,6,0.2)] hover:border-accent hover:bg-panel hover:shadow-[0_28px_60px_-20px_rgba(217,119,6,0.4)]"
+                : "border-line bg-panel hover:border-accent/50 hover:bg-gradient-to-b hover:from-accent/[0.12] hover:via-accent/[0.06] hover:to-transparent hover:shadow-[0_24px_50px_-20px_rgba(217,119,6,0.22)]"
             }`}
           >
             {/* Top ambient hover accent line */}
@@ -83,11 +83,11 @@ export default function EngagementSection() {
 
             {/* Header section with Badge cleanly integrated */}
             <div className="flex items-start justify-between gap-3 min-h-[28px]">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/35 transition-colors duration-300 group-hover:text-accent">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-fg/60 transition-colors duration-300 group-hover:text-accent">
                 {model.tagline}
               </p>
               {model.featured ? (
-                <span className="shrink-0 rounded-full bg-accent px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-white shadow-md shadow-accent/30">
+                <span className="shrink-0 rounded-full bg-accent px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-fg shadow-md shadow-accent/30">
                   Most flexible
                 </span>
               ) : (
@@ -96,18 +96,18 @@ export default function EngagementSection() {
               )}
             </div>
 
-            <h3 className="mt-2 text-[21px] font-semibold text-white transition-colors duration-300 group-hover:text-white">
+            <h3 className="mt-2 text-[21px] font-semibold text-fg transition-colors duration-300 group-hover:text-fg">
               {model.name}
             </h3>
 
             <div className="mt-4 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-              <span className="text-[22px] font-semibold tracking-[-0.02em] text-white transition-colors duration-300 group-hover:text-accent-soft">
+              <span className="text-[22px] font-semibold tracking-[-0.02em] text-fg transition-colors duration-300 group-hover:text-accent-soft">
                 {model.price}
               </span>
-              <span className="text-[11px] text-white/35">{model.cadence}</span>
+              <span className="text-[11px] text-fg/60">{model.cadence}</span>
             </div>
 
-            <p className="mt-3 text-[12.5px] leading-relaxed text-white/50 transition-colors duration-300 group-hover:text-white/70">
+            <p className="mt-3 text-[12.5px] leading-relaxed text-fg/75 transition-colors duration-300 group-hover:text-fg/70">
               {model.description}
             </p>
 
@@ -115,12 +115,12 @@ export default function EngagementSection() {
               {model.points.map((point) => (
                 <li
                   key={point}
-                  className="group/point flex items-start gap-2.5 rounded-lg p-1.5 -mx-1.5 transition-colors duration-200 hover:bg-white/[0.04]"
+                  className="group/point flex items-start gap-2.5 rounded-lg p-1.5 -mx-1.5 transition-colors duration-200 hover:bg-fg/[0.04]"
                 >
                   <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent transition-transform duration-200 group-hover/point:scale-110">
                     <Check size={10} strokeWidth={3} aria-hidden="true" />
                   </span>
-                  <span className="text-[12px] leading-snug text-white/65 transition-colors duration-200 group-hover/point:text-white">
+                  <span className="text-[12px] leading-snug text-fg/65 transition-colors duration-200 group-hover/point:text-fg">
                     {point}
                   </span>
                 </li>
@@ -130,8 +130,8 @@ export default function EngagementSection() {
             <ContactButton
               className={`mt-auto inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg text-[13px] font-semibold transition-all duration-300 ${
                 model.featured
-                  ? "bg-accent text-white shadow-lg shadow-accent/20 hover:bg-accent-soft hover:shadow-accent/40"
-                  : "border border-white/15 text-white hover:border-accent hover:bg-accent/10 hover:text-accent"
+                  ? "bg-accent text-fg shadow-lg shadow-accent/20 hover:bg-accent-soft hover:shadow-accent/40"
+                  : "border border-fg/15 text-fg hover:border-accent hover:bg-accent/10 hover:text-accent"
               }`}
             >
               {model.featured ? "Talk about a squad" : "Get a quote"}
@@ -141,11 +141,11 @@ export default function EngagementSection() {
         ))}
       </div>
 
-      <p className="mt-6 text-center text-[12px] text-white/35">
+      <p className="mt-6 text-center text-[12px] text-fg/60">
         Not sure which one fits?{" "}
         <a
           href="/pricing"
-          className="font-medium text-white/60 underline-offset-4 transition-colors hover:text-accent hover:underline"
+          className="font-medium text-fg/60 underline-offset-4 transition-colors hover:text-accent hover:underline"
         >
           Compare detailed pricing
         </a>{" "}

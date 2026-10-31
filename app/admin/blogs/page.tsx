@@ -227,7 +227,7 @@ export default function AdminBlogsPage() {
         <button
           type="button"
           onClick={() => setEditor({ mode: "create" })}
-          className="hidden items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-[12px] font-semibold text-white transition-all duration-200 hover:bg-accent-soft hover:shadow-[0_12px_26px_-14px_rgba(255,77,31,0.9)] active:scale-[0.98] sm:inline-flex"
+          className="hidden items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-[12px] font-semibold text-white transition-all duration-200 hover:bg-accent-soft hover:shadow-[0_12px_26px_-14px_rgba(217,119,6,0.9)] active:scale-[0.98] sm:inline-flex"
         >
           <Plus size={13} aria-hidden="true" />
           New post

@@ -61,17 +61,15 @@ const industries: { name: string; use: string; icon: LucideIcon }[] = [
 
 export default function IndustriesSection() {
   return (
-    <section id="industries" className="shell py-8 lg:py-10">
-      <div className="rounded-[24px] border border-line bg-[#101010] p-5 sm:rounded-[30px] sm:p-8 lg:p-10">
-        <div className="flex flex-col items-start justify-between gap-5 lg:flex-row lg:items-end">
-          <div>
-            <span className="section-badge">Industries</span>
-            <h2 className="section-heading mt-5 max-w-[640px] text-balance">
-              Built across industries,{" "}
-              <span className="text-accent">not just demos</span>
-            </h2>
-          </div>
-          <p className="max-w-[380px] text-[13px] leading-relaxed text-white/50 sm:text-[14px]">
+    <section id="industries" className="shell py-5 lg:py-7">
+      <div className="rounded-[24px] border border-line bg-gradient-to-br from-panel-soft to-accent/[0.06] p-5 sm:rounded-[30px] sm:p-8 lg:p-10">
+        <div className="text-center">
+          <span className="section-badge">Industries</span>
+          <h2 className="section-heading mt-5 mx-auto max-w-[640px] text-balance">
+            Built across industries,{" "}
+            <span className="text-accent">not just demos</span>
+          </h2>
+          <p className="mt-4 mx-auto max-w-[640px] text-[13px] leading-relaxed text-fg/75 sm:text-[14px]">
             The domain changes the details: compliance, permissions, offline
             use, approval chains. We spend the first week learning yours.
           </p>
@@ -81,16 +79,16 @@ export default function IndustriesSection() {
           {industries.map(({ name, use, icon: Icon }) => (
             <div
               key={name}
-              className="group flex items-start gap-3.5 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:bg-gradient-to-r hover:from-white/[0.08] hover:via-accent/[0.06] hover:to-white/[0.03] hover:shadow-[0_12px_28px_-12px_rgba(255,77,31,0.25)] cursor-default"
+              className="group flex items-start gap-3.5 rounded-xl border border-fg/[0.06] bg-fg/[0.02] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:bg-gradient-to-r hover:from-fg/[0.08] hover:via-accent/[0.06] hover:to-fg/[0.03] hover:shadow-[0_12px_28px_-12px_rgba(217,119,6,0.25)] cursor-default"
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/[0.05] text-white/50 transition-all duration-300 group-hover:scale-110 group-hover:bg-accent group-hover:text-white group-hover:shadow-[0_0_15px_rgba(255,77,31,0.45)]">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-fg/[0.05] text-fg/75 transition-all duration-300 group-hover:scale-110 group-hover:bg-accent group-hover:text-fg group-hover:shadow-[0_0_15px_rgba(217,119,6,0.45)]">
                 <Icon size={16} aria-hidden="true" />
               </span>
               <span>
-                <span className="block text-[13.5px] font-semibold text-white/85 transition-colors duration-200 group-hover:text-white">
+                <span className="block text-[13.5px] font-semibold text-fg/85 transition-colors duration-200 group-hover:text-fg">
                   {name}
                 </span>
-                <span className="mt-0.5 block text-[11.5px] leading-snug text-white/40 transition-colors duration-200 group-hover:text-white/65">
+                <span className="mt-0.5 block text-[11.5px] leading-snug text-fg/65 transition-colors duration-200 group-hover:text-fg/65">
                   {use}
                 </span>
               </span>

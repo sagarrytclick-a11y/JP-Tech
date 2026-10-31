@@ -43,7 +43,7 @@ export default function TermsPage() {
       <LegalSectionBlock id="acceptance" title="Acceptance of these terms">
         <p>
           By using this website or engaging {site.legalName} (&ldquo;JP
-          Technology&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;), you agree to
+          Technologies&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;), you agree to
           these terms. If you do not agree, please stop using the site.
         </p>
         <p>

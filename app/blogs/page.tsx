@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import TopBar from "@/components/site/TopBar";
 import Navbar from "@/components/site/Navbar";
-import HeroRings from "@/components/site/HeroRings";
+import TechStack from "@/components/site/TechStack";
 import Footer from "@/components/site/Footer";
 import CallToAction from "@/components/site/CallToAction";
 import BlogGrid from "@/components/blog/BlogGrid";
@@ -24,7 +24,7 @@ export default async function BlogsPage() {
   const categories = new Set(posts.map((post) => post.category));
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-ink">
+    <div className="min-h-screen overflow-x-clip bg-ink">
       <JsonLd
         id="blog-schema"
         data={[
@@ -46,15 +46,11 @@ export default async function BlogsPage() {
         ]}
       />
       <TopBar />
-
-      <div className="shell pt-4 sm:pt-6">
-        <div className="relative overflow-hidden rounded-[28px] border border-line bg-panel sm:rounded-[40px]">
-          <HeroRings />
-          <Navbar />
+      <Navbar />
 
           <section className="relative mx-auto max-w-[980px] px-5 pb-12 pt-6 text-center sm:px-8 sm:pb-14 sm:pt-8 lg:pt-10">
             <span className="section-badge">Blog</span>
-            <h1 className="mt-5 text-balance text-[clamp(30px,4.2vw,58px)] font-semibold leading-[1.06] tracking-[-0.025em] text-white">
+            <h1 className="mt-5 text-balance text-[clamp(30px,4.2vw,58px)] font-semibold leading-[1.06] tracking-[-0.025em] text-fg">
               Field notes from the{" "}
               <span className="text-accent">build room</span>
             </h1>
@@ -64,22 +60,21 @@ export default async function BlogsPage() {
               websites, CRMs, apps, and automations.
             </p>
 
-            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[11px] uppercase tracking-[0.14em] text-white/35">
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[11px] uppercase tracking-[0.14em] text-fg/60">
               <span>{posts.length} articles</span>
-              <span className="h-1 w-1 rounded-full bg-white/20" />
+              <span className="h-1 w-1 rounded-full bg-fg/20" />
               <span>{categories.size} topics</span>
-              <span className="h-1 w-1 rounded-full bg-white/20" />
+              <span className="h-1 w-1 rounded-full bg-fg/20" />
               <span>Updated by the team</span>
             </div>
           </section>
-        </div>
-      </div>
-
       <main className="shell py-10 lg:py-14">
         <BlogGrid posts={posts} />
       </main>
 
       <CallToAction />
+      <TechStack />
+
       <Footer />
     </div>
   );

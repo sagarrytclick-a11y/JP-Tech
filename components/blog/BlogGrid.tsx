@@ -67,8 +67,8 @@ export default function BlogGrid({ posts }: { posts: BlogPostView[] }) {
               }}
               className={`rounded-full border px-3.5 py-1.5 text-[12px] font-medium transition-all duration-200 active:scale-[0.96] ${
                 category === item
-                  ? "border-accent bg-accent text-white shadow-[0_8px_20px_-12px_rgba(255,77,31,0.95)]"
-                  : "border-white/10 bg-white/[0.03] text-white/55 hover:border-white/25 hover:bg-white/[0.05] hover:text-white"
+                  ? "border-accent bg-accent text-fg shadow-[0_8px_20px_-12px_rgba(217,119,6,0.95)]"
+                  : "border-fg/10 bg-fg/[0.03] text-fg/80 hover:border-fg/25 hover:bg-fg/[0.05] hover:text-fg"
               }`}
             >
               {item}
@@ -79,7 +79,7 @@ export default function BlogGrid({ posts }: { posts: BlogPostView[] }) {
         <label className="relative block w-full lg:w-[280px]">
           <Search
             size={14}
-            className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-white/35"
+            className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-fg/60"
             aria-hidden="true"
           />
           <input
@@ -90,12 +90,12 @@ export default function BlogGrid({ posts }: { posts: BlogPostView[] }) {
               setPage(1);
             }}
             placeholder="Search articles"
-            className="h-10 w-full rounded-lg border border-white/10 bg-white/[0.03] pl-9 pr-3 text-[12.5px] text-white outline-none transition placeholder:text-white/30 hover:border-white/20 focus:border-accent/60 focus:bg-white/[0.05]"
+            className="h-10 w-full rounded-lg border border-fg/10 bg-fg/[0.03] pl-9 pr-3 text-[12.5px] text-fg outline-none transition placeholder:text-fg/75 hover:border-fg/20 focus:border-accent/60 focus:bg-fg/[0.05]"
           />
         </label>
       </div>
 
-      <div className="mt-6 flex items-center justify-between text-[11px] text-white/35">
+      <div className="mt-6 flex items-center justify-between text-[11px] text-fg/60">
         <span>
           {filtered.length} {filtered.length === 1 ? "article" : "articles"}
         </span>
@@ -125,16 +125,16 @@ export default function BlogGrid({ posts }: { posts: BlogPostView[] }) {
                 limit={PAGE_SIZE}
                 onPageChange={goToPage}
                 itemLabel="articles"
-                className="mt-8 rounded-2xl border border-line bg-[#141414] px-4 py-3 sm:px-5"
+                className="mt-8 rounded-2xl border border-line bg-panel px-4 py-3 sm:px-5"
               />
             )}
           </>
         ) : (
-          <div className="mt-4 rounded-2xl border border-line bg-[#141414] px-6 py-14 text-center">
-            <p className="text-[15px] font-semibold text-white">
+          <div className="mt-4 rounded-2xl border border-line bg-panel px-6 py-14 text-center">
+            <p className="text-[15px] font-semibold text-fg">
               No articles match that search.
             </p>
-            <p className="mt-1.5 text-[13px] text-white/45">
+            <p className="mt-1.5 text-[13px] text-fg/70">
               Try a different category or clear the search box.
             </p>
             <button
@@ -144,7 +144,7 @@ export default function BlogGrid({ posts }: { posts: BlogPostView[] }) {
                 setCategory("All");
                 setPage(1);
               }}
-              className="mt-5 rounded-lg border border-white/15 px-4 py-2 text-[12px] font-medium text-white/75 transition-all duration-200 hover:border-accent hover:text-accent active:scale-[0.97]"
+              className="mt-5 rounded-lg border border-fg/15 px-4 py-2 text-[12px] font-medium text-fg/75 transition-all duration-200 hover:border-accent hover:text-accent active:scale-[0.97]"
             >
               Reset filters
             </button>

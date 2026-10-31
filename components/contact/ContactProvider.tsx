@@ -75,13 +75,13 @@ export function ContactProvider({ children }: { children: ReactNode }) {
             aria-labelledby="contact-modal-title"
             aria-describedby="contact-modal-description"
             onClick={(event) => event.stopPropagation()}
-            className="dialog-panel no-scrollbar relative max-h-[calc(100dvh-1.5rem)] w-full max-w-[600px] overflow-y-auto overscroll-contain rounded-[22px] border border-white/10 bg-[#141414] p-4 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)] sm:max-h-[calc(100dvh-2rem)] sm:rounded-[24px] sm:p-6"
+            className="dialog-panel no-scrollbar relative max-h-[calc(100dvh-1.5rem)] w-full max-w-[600px] overflow-y-auto overscroll-contain rounded-[22px] border border-fg/10 bg-panel p-4 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)] sm:max-h-[calc(100dvh-2rem)] sm:rounded-[24px] sm:p-6"
           >
             <button
               type="button"
               onClick={closeContact}
               aria-label="Close contact form"
-              className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition-all duration-200 hover:rotate-90 hover:bg-white/10 hover:text-white active:scale-95 sm:right-4 sm:top-4"
+              className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full border border-fg/10 bg-fg/5 text-fg/70 transition-all duration-200 hover:rotate-90 hover:bg-fg/10 hover:text-fg active:scale-95 sm:right-4 sm:top-4"
             >
               <X size={15} aria-hidden="true" />
             </button>
@@ -89,13 +89,13 @@ export function ContactProvider({ children }: { children: ReactNode }) {
             <div className="px-6 text-center sm:px-8">
               <h2
                 id="contact-modal-title"
-                className="text-[22px] font-semibold leading-tight tracking-[-0.02em] text-white sm:text-[26px]"
+                className="text-[22px] font-semibold leading-tight tracking-[-0.02em] text-fg sm:text-[26px]"
               >
                 Get <span className="text-accent">In Touch</span>
               </h2>
               <p
                 id="contact-modal-description"
-                className="mx-auto mt-1.5 max-w-[420px] text-[12px] leading-relaxed text-white/55 sm:text-[12.5px]"
+                className="mx-auto mt-1.5 max-w-[420px] text-[12px] leading-relaxed text-fg/80 sm:text-[12.5px]"
               >
                 Tell us about the project and we&apos;ll book a call at your
                 preferred time.

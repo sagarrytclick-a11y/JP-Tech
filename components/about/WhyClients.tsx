@@ -27,7 +27,7 @@ const points: { text: string; icon: LucideIcon }[] = [
 export default function WhyClients() {
   return (
     <section id="why-choose" className="shell py-10 lg:py-14">
-      <div className="rounded-[22px] border border-line bg-[#0f1415] px-5 py-10 sm:px-10 sm:py-12 lg:px-[75px] lg:py-[65px]">
+      <div className="rounded-[22px] border border-line bg-panel px-5 py-10 sm:px-10 sm:py-12 lg:px-[75px] lg:py-[65px]">
         <div className="text-center">
           <span className="section-badge">Why Choose Us</span>
           <h2 className="section-heading mt-4 text-balance">
@@ -36,7 +36,7 @@ export default function WhyClients() {
         </div>
 
         <div className="mt-8 grid gap-8 lg:mt-10 lg:grid-cols-2 lg:gap-[110px]">
-          <p className="text-[15px] leading-[1.7] text-white/75 sm:text-[17px] lg:text-[18px] lg:leading-[1.65]">
+          <p className="text-[15px] leading-[1.7] text-fg/75 sm:text-[17px] lg:text-[18px] lg:leading-[1.65]">
             We are not just developers, we are long-term product partners. As a
             custom mobile app development agency with expertise in web, SaaS, and
             AI solutions, we help businesses build secure and scalable products
@@ -47,14 +47,14 @@ export default function WhyClients() {
             {points.map(({ text, icon: Icon }) => (
               <li
                 key={text}
-                className="group flex items-start gap-3.5 rounded-xl p-3 -mx-3 transition-all duration-200 hover:bg-white/[0.04] hover:translate-x-1 cursor-default"
+                className="group flex items-start gap-3.5 rounded-xl p-3 -mx-3 transition-all duration-200 hover:bg-fg/[0.04] hover:translate-x-1 cursor-default"
               >
                 <Icon
                   className="mt-[3px] h-[18px] w-[18px] shrink-0 text-accent transition-transform duration-200 group-hover:scale-125"
                   strokeWidth={1.7}
                   aria-hidden="true"
                 />
-                <span className="text-[14px] leading-[1.6] text-white/85 transition-colors duration-200 group-hover:text-white sm:text-[15px] lg:text-[17px]">
+                <span className="text-[14px] leading-[1.6] text-fg/85 transition-colors duration-200 group-hover:text-fg sm:text-[15px] lg:text-[17px]">
                   {text}
                 </span>
               </li>

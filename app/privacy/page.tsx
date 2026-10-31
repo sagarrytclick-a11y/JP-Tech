@@ -61,7 +61,7 @@ export default function PrivacyPage() {
         title="Information we collect"
       >
         <p>We collect information in three ways:</p>
-        <p className="font-medium text-white/75">
+        <p className="font-medium text-fg/75">
           1. Information you give us directly
         </p>
         <LegalList
@@ -72,7 +72,7 @@ export default function PrivacyPage() {
             "Documents you share during scoping, such as briefs, spreadsheets, or access instructions.",
           ]}
         />
-        <p className="mt-4 font-medium text-white/75">
+        <p className="mt-4 font-medium text-fg/75">
           2. Information collected automatically
         </p>
         <LegalList
@@ -82,7 +82,7 @@ export default function PrivacyPage() {
             "Error and performance signals used to keep pages loading reliably.",
           ]}
         />
-        <p className="mt-4 font-medium text-white/75">
+        <p className="mt-4 font-medium text-fg/75">
           3. Information from project work
         </p>
         <p>

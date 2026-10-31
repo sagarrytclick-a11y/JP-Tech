@@ -96,7 +96,7 @@ function buildHtml(data: EnquiryEmailData) {
   rows.push(['Project details', data.message]);
 
   const attachment = data.attachmentUrl
-    ? `<a href="${escapeHtml(data.attachmentUrl)}" style="display:inline-block;margin-top:20px;background:#ff4d1f;color:#fff;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:bold;font-size:14px">Open attachment</a>`
+    ? `<a href="${escapeHtml(data.attachmentUrl)}" style="display:inline-block;margin-top:20px;background:#d97706;color:#090d16;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:bold;font-size:14px">Open attachment</a>`
     : '';
 
   return `
@@ -106,7 +106,7 @@ function buildHtml(data: EnquiryEmailData) {
     <body style="font-family:sans-serif;background:#f4f4f4;padding:40px">
       <div style="max-width:600px;margin:auto;background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1)">
         <div style="background:#111111;padding:24px;text-align:center">
-          <h1 style="color:#ff4d1f;margin:0;font-size:22px">New Project Enquiry</h1>
+          <h1 style="color:#d97706;margin:0;font-size:22px">New Project Enquiry</h1>
         </div>
         <div style="padding:32px">
           <table style="width:100%;border-collapse:collapse">
@@ -214,7 +214,7 @@ function buildCareerHtml(data: CareerEmailData) {
     <body style="font-family:sans-serif;background:#f4f4f4;padding:40px">
       <div style="max-width:600px;margin:auto;background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1)">
         <div style="background:#111111;padding:24px;text-align:center">
-          <h1 style="color:#ff4d1f;margin:0;font-size:22px">New Career Application</h1>
+          <h1 style="color:#d97706;margin:0;font-size:22px">New Career Application</h1>
         </div>
         <div style="padding:32px">
           <table style="width:100%;border-collapse:collapse">
@@ -227,7 +227,7 @@ function buildCareerHtml(data: CareerEmailData) {
               )
               .join('')}
           </table>
-          <a href="${escapeHtml(resumeUrl)}" style="display:inline-block;margin-top:24px;background:#ff4d1f;color:#fff;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:bold;font-size:14px">Open resume</a>
+          <a href="${escapeHtml(resumeUrl)}" style="display:inline-block;margin-top:24px;background:#d97706;color:#090d16;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:bold;font-size:14px">Open resume</a>
           <p style="color:#999;font-size:12px;margin-top:32px;text-align:center">${site.name} \u2014 Career Notification</p>
         </div>
       </div>

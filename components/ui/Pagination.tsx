@@ -53,7 +53,7 @@ export default function Pagination({
       className={`flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between ${className}`}
     >
       <div className="flex flex-wrap items-center gap-3">
-        <p className="text-[11px] text-white/35">
+        <p className="text-[11px] text-fg/60">
           {total === 0
             ? `No ${itemLabel}`
             : `Showing ${start}–${end} of ${total} ${itemLabel}`}
@@ -69,17 +69,17 @@ export default function Pagination({
                 onPageChange(1);
               }}
               disabled={loading}
-              className="h-8 appearance-none rounded-lg border border-white/[0.08] bg-white/[0.02] pl-2.5 pr-7 text-[11px] text-white/60 outline-none transition hover:border-white/20 focus:border-accent/50 disabled:opacity-50"
+              className="h-8 appearance-none rounded-lg border border-fg/[0.08] bg-fg/[0.02] pl-2.5 pr-7 text-[11px] text-fg/60 outline-none transition hover:border-fg/20 focus:border-accent/50 disabled:opacity-50"
             >
               {pageSizes.map((size) => (
-                <option key={size} value={size} className="bg-[#141414]">
+                <option key={size} value={size} className="bg-panel">
                   {size} / page
                 </option>
               ))}
             </select>
             <ChevronDown
               size={12}
-              className="pointer-events-none absolute right-2 text-white/30"
+              className="pointer-events-none absolute right-2 text-fg/75"
               aria-hidden="true"
             />
           </label>
@@ -95,7 +95,7 @@ export default function Pagination({
             type="button"
             onClick={() => goTo(currentPage - 1)}
             disabled={currentPage === 1 || loading}
-            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-white/[0.08] px-2.5 text-[11.5px] font-medium text-white/55 transition-all duration-200 hover:border-white/25 hover:bg-white/[0.04] hover:text-white active:scale-[0.97] disabled:pointer-events-none disabled:opacity-30"
+            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-fg/[0.08] px-2.5 text-[11.5px] font-medium text-fg/80 transition-all duration-200 hover:border-fg/25 hover:bg-fg/[0.04] hover:text-fg active:scale-[0.97] disabled:pointer-events-none disabled:opacity-30"
           >
             <ChevronLeft size={13} aria-hidden="true" />
             <span className="hidden sm:inline">Previous</span>
@@ -103,7 +103,7 @@ export default function Pagination({
 
           <div className="flex items-center gap-1">
             {pages[0] > 1 && (
-              <span className="px-1 text-[11px] text-white/25" aria-hidden="true">
+              <span className="px-1 text-[11px] text-fg/70" aria-hidden="true">
                 …
               </span>
             )}
@@ -119,8 +119,8 @@ export default function Pagination({
                   disabled={loading}
                   className={`h-8 min-w-8 rounded-lg px-1.5 text-[11.5px] font-semibold tabular-nums transition-all duration-200 active:scale-95 ${
                     active
-                      ? "bg-accent text-white shadow-[0_8px_20px_-10px_rgba(255,77,31,0.9)]"
-                      : "text-white/40 hover:bg-white/[0.06] hover:text-white"
+                      ? "bg-accent text-fg shadow-[0_8px_20px_-10px_rgba(217,119,6,0.9)]"
+                      : "text-fg/65 hover:bg-fg/[0.06] hover:text-fg"
                   }`}
                 >
                   {pageNumber}
@@ -129,7 +129,7 @@ export default function Pagination({
             })}
 
             {pages[pages.length - 1] < safeTotalPages && (
-              <span className="px-1 text-[11px] text-white/25" aria-hidden="true">
+              <span className="px-1 text-[11px] text-fg/70" aria-hidden="true">
                 …
               </span>
             )}
@@ -139,7 +139,7 @@ export default function Pagination({
             type="button"
             onClick={() => goTo(currentPage + 1)}
             disabled={currentPage === safeTotalPages || loading}
-            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-white/[0.08] px-2.5 text-[11.5px] font-medium text-white/55 transition-all duration-200 hover:border-white/25 hover:bg-white/[0.04] hover:text-white active:scale-[0.97] disabled:pointer-events-none disabled:opacity-30"
+            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-fg/[0.08] px-2.5 text-[11.5px] font-medium text-fg/80 transition-all duration-200 hover:border-fg/25 hover:bg-fg/[0.04] hover:text-fg active:scale-[0.97] disabled:pointer-events-none disabled:opacity-30"
           >
             <span className="hidden sm:inline">Next</span>
             <ChevronRight size={13} aria-hidden="true" />

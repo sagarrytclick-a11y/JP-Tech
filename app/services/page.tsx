@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import TopBar from "@/components/site/TopBar";
 import Navbar from "@/components/site/Navbar";
-import HeroRings from "@/components/site/HeroRings";
+import TechStack from "@/components/site/TechStack";
 import Footer from "@/components/site/Footer";
 import ContactButton from "@/components/contact/ContactButton";
 import { servicePages } from "@/lib/service-pages";
@@ -37,7 +37,7 @@ const icons: Record<string, LucideIcon> = {
 
 export default function ServicesPage() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-ink">
+    <div className="min-h-screen overflow-x-clip bg-ink">
       <JsonLd
         id="services-schema"
         data={[
@@ -67,15 +67,11 @@ export default function ServicesPage() {
         ]}
       />
       <TopBar />
-
-      <div className="shell pt-4 sm:pt-6">
-        <div className="relative overflow-hidden rounded-[28px] border border-line bg-panel sm:rounded-[40px]">
-          <HeroRings />
-          <Navbar />
+      <Navbar />
 
           <section className="relative mx-auto max-w-[1000px] px-5 pb-12 pt-6 text-center sm:px-8 sm:pb-14 sm:pt-8 lg:pb-16 lg:pt-10">
             <span className="section-badge">Services</span>
-            <h1 className="mt-4 text-balance text-[clamp(32px,4.5vw,58px)] font-semibold leading-[1.06] tracking-[-0.03em] text-white">
+            <h1 className="mt-4 text-balance text-[clamp(32px,4.5vw,58px)] font-semibold leading-[1.06] tracking-[-0.03em] text-fg">
               The systems behind a{" "}
               <span className="text-accent">business that runs</span>
             </h1>
@@ -91,16 +87,13 @@ export default function ServicesPage() {
               </ContactButton>
               <Link
                 href="/pricing"
-                className="inline-flex h-[46px] w-full items-center justify-center gap-2 rounded-lg border border-white/12 px-6 text-[13px] font-semibold text-white/75 transition-colors hover:border-white/25 hover:text-white sm:h-[50px] sm:w-auto"
+                className="inline-flex h-[46px] w-full items-center justify-center gap-2 rounded-lg border border-fg/12 px-6 text-[13px] font-semibold text-fg/75 transition-colors hover:border-fg/25 hover:text-fg sm:h-[50px] sm:w-auto"
               >
                 See pricing
                 <ArrowUpRight size={15} aria-hidden="true" />
               </Link>
             </div>
           </section>
-        </div>
-      </div>
-
       <main>
         <section className="shell py-8 lg:py-10">
           <div className="mx-auto grid max-w-[1200px] gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -110,15 +103,15 @@ export default function ServicesPage() {
                 <Link
                   key={service.slug}
                   href={`/services/${service.slug}`}
-                  className="group flex flex-col rounded-2xl border border-line bg-[#141414] p-5 transition-colors hover:border-accent/40 sm:p-6"
+                  className="group flex flex-col rounded-2xl border border-line bg-panel p-5 transition-colors hover:border-accent/40 sm:p-6"
                 >
                   <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 text-accent ring-1 ring-inset ring-accent/20">
                     <Icon size={18} strokeWidth={1.8} aria-hidden="true" />
                   </span>
-                  <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.01em] text-white">
+                  <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.01em] text-fg">
                     {service.eyebrow}
                   </h2>
-                  <p className="mt-2 flex-1 text-[12.5px] leading-[1.7] text-white/45">
+                  <p className="mt-2 flex-1 text-[12.5px] leading-[1.7] text-fg/70">
                     {service.summary}
                   </p>
                   <span className="mt-5 inline-flex items-center gap-1.5 text-[11.5px] font-semibold text-accent">
@@ -138,21 +131,23 @@ export default function ServicesPage() {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-accent">
                   Not listed?
                 </p>
-                <h2 className="mt-3 text-[18px] font-semibold text-white">
+                <h2 className="mt-3 text-[18px] font-semibold text-fg">
                   Marketplaces, AI workflows, or a hybrid build
                 </h2>
-                <p className="mt-2 text-[12.5px] leading-[1.7] text-white/45">
+                <p className="mt-2 text-[12.5px] leading-[1.7] text-fg/70">
                   If it runs on the web, connects to your data, or needs a
                   mobile surface, we can scope it.
                 </p>
               </div>
-              <ContactButton className="mt-5 inline-flex h-9 w-full items-center justify-center rounded-lg bg-accent text-[11.5px] font-semibold text-white transition-colors hover:bg-accent-soft">
+              <ContactButton className="mt-5 inline-flex h-9 w-full items-center justify-center rounded-lg bg-accent text-[11.5px] font-semibold text-fg transition-colors hover:bg-accent-soft">
                 Describe your project
               </ContactButton>
             </div>
           </div>
         </section>
       </main>
+
+      <TechStack />
 
       <Footer />
     </div>

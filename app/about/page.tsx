@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import TopBar from "@/components/site/TopBar";
 import Navbar from "@/components/site/Navbar";
-import HeroRings from "@/components/site/HeroRings";
+import TechStack from "@/components/site/TechStack";
 import AboutHero from "@/components/about/AboutHero";
 import StatsSection from "@/components/about/StatsSection";
 import WhoWeAre from "@/components/about/WhoWeAre";
@@ -25,7 +25,7 @@ export const metadata: Metadata = pageMetadata({
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-ink">
+    <div className="min-h-screen overflow-x-clip bg-ink">
       <JsonLd
         id="about-schema"
         data={[
@@ -47,15 +47,8 @@ export default function AboutPage() {
         ]}
       />
       <TopBar />
-
-      <div className="shell pt-4 sm:pt-6">
-        <div className="relative overflow-hidden rounded-[28px] border border-line bg-panel sm:rounded-[40px]">
-          <HeroRings />
-          <Navbar />
+      <Navbar />
           <AboutHero />
-        </div>
-      </div>
-
       <main>
         <StatsSection />
         <WhoWeAre />
@@ -66,6 +59,8 @@ export default function AboutPage() {
         <CallToAction />
         <ContactSection />
       </main>
+
+      <TechStack />
 
       <Footer />
     </div>

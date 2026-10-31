@@ -1,15 +1,51 @@
 @import "tailwindcss";
 
+/*
+ * ─────────────────────────────────────────────────────────────
+ *  JP Technology design system
+ *  60% base     → #F1F5F9 (crisp light page background)
+ *  30% structure→ #090D16 headings / #475569 support copy
+ *  10% accent   → #D97706 (rich amber) for CTAs & highlights
+ *
+ *  The public site renders on the light palette above. Admin
+ *  screens opt into the dark palette with the `.theme-dark`
+ *  scope, which simply re-points the same tokens.
+ * ─────────────────────────────────────────────────────────────
+ */
+@theme {
+  --color-ink: #12141d;
+  --color-panel: #1e212b;
+  --color-panel-soft: #252a36;
+  --color-line: #2d3140;
+  --color-fg: #f8fafc;
+  --color-muted: #94a3b8;
+  --color-accent: #f5b014;
+  --color-accent-soft: #ffc001;
+  --color-accent-ink: #12141d;
+}
+
 @theme inline {
-  --color-ink: #070707;
-  --color-panel: #0c0c0c;
-  --color-line: #292929;
-  --color-accent: #ff4d1f;
-  --color-accent-soft: #ff6a3d;
-  --font-sans: var(--font-nevermind);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    monospace;
 }
 
 :root {
+  color-scheme: dark;
+}
+
+/* Admin panel is dark-first — same tokens, inverted values. */
+.theme-dark {
+  --color-ink: #070707;
+  --color-panel: #0c0c0c;
+  --color-panel-soft: #151515;
+  --color-line: #242424;
+  --color-fg: #f1f5f9;
+  --color-muted: #94a3b8;
+  --color-accent: #d97706;
+  --color-accent-soft: #ea8c0c;
+  --color-accent-ink: #090d16;
   color-scheme: dark;
 }
 
@@ -19,22 +55,21 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 32px;
+  scroll-padding-top: 96px;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   background-color: var(--color-ink);
-  color: #f5f5f5;
-  font-family: var(--font-nevermind), ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", sans-serif;
+  color: var(--color-fg);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
   background: var(--color-accent);
-  color: #fff;
+  color: var(--color-accent-ink);
 }
 
 ::-webkit-scrollbar {
@@ -43,70 +78,80 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0b0b0b;
+  background: #1a1d27;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2e2e2e;
+  background: #3a3f50;
   border-radius: 999px;
-  border: 2px solid #0b0b0b;
+  border: 2px solid #1a1d27;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3d3d3d;
+  background: #94a3b8;
+}
+
+.theme-dark ::-webkit-scrollbar-track {
+  background: #0b0b0b;
+}
+
+.theme-dark ::-webkit-scrollbar-thumb {
+  background: #2e2e2e;
+  border: 2px solid #0b0b0b;
 }
 
 @layer components {
   .shell {
-    @apply mx-auto w-full max-w-[1680px] px-4 sm:px-6 lg:px-10;
+    @apply mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8;
   }
 
   .btn-primary {
-    @apply inline-flex h-[46px] items-center justify-center rounded-lg bg-accent px-6 text-[13px] font-semibold text-white transition-all duration-200 hover:bg-accent-soft hover:shadow-[0_14px_34px_-16px_rgba(255,77,31,0.85)] active:translate-y-px active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ink sm:h-[50px] sm:px-7 sm:text-[14px];
+    @apply inline-flex h-[46px] items-center justify-center gap-2 rounded-xl bg-accent px-6 text-[13px] font-semibold text-accent-ink shadow-[0_1px_2px_rgba(15,23,42,0.08)] transition-all duration-200 hover:bg-accent-soft hover:shadow-[0_16px_34px_-16px_rgba(217,119,6,0.75)] active:translate-y-px active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ink sm:h-[50px] sm:px-7 sm:text-[14px];
   }
 
+  /* Secondary action — outline on light surfaces. */
   .btn-light {
-    @apply inline-flex h-[46px] items-center justify-center rounded-lg bg-white px-6 text-[13px] font-semibold text-[#101010] transition-all duration-200 hover:bg-white/90 hover:shadow-[0_14px_30px_-18px_rgba(255,255,255,0.55)] active:translate-y-px active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ink sm:h-[50px] sm:px-7 sm:text-[14px];
+    @apply inline-flex h-[46px] items-center justify-center gap-2 rounded-xl border border-line bg-panel px-6 text-[13px] font-semibold text-fg transition-all duration-200 hover:border-accent/60 hover:bg-accent/[0.06] hover:text-fg active:translate-y-px active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-ink sm:h-[50px] sm:px-7 sm:text-[14px];
   }
 
   .section-badge {
-    @apply inline-flex items-center rounded-full border border-white/10 bg-white/[0.06] px-4 py-1.5 text-[12px] font-semibold tracking-wide text-white/90 transition-colors duration-200 hover:border-accent/30 hover:bg-accent/[0.08];
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-panel px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors duration-200 hover:border-accent/40 hover:text-fg;
   }
 
   .section-heading {
-    @apply text-[clamp(28px,3.5vw,48px)] font-semibold leading-[1.12] tracking-[-0.02em] text-white;
+    @apply text-[clamp(28px,3.5vw,48px)] font-semibold leading-[1.12] tracking-[-0.025em] text-fg;
   }
 
   .section-copy {
-    @apply mx-auto max-w-[900px] text-[14px] leading-[1.72] text-white/65 sm:text-[16px];
+    @apply mx-auto max-w-[900px] text-[14px] leading-[1.72] text-muted sm:text-[16px];
   }
 
   .field-label {
-    @apply mb-1.5 block text-[14px] font-medium text-white;
+    @apply mb-1.5 block text-[14px] font-medium text-fg;
   }
 
   .field {
-    @apply h-12 w-full rounded-xl border border-transparent bg-[#2b3033] px-4 text-[14px] text-white outline-none transition placeholder:text-white/35 hover:bg-[#30363a] focus:border-accent/70 focus:bg-[#30363a] focus:ring-2 focus:ring-accent/15;
+    @apply h-12 w-full rounded-xl border border-line bg-panel px-4 text-[14px] text-fg outline-none transition placeholder:text-muted/70 hover:border-muted/40 focus:border-accent focus:ring-2 focus:ring-accent/15;
   }
 
   .field-area {
-    @apply w-full resize-y rounded-xl border border-transparent bg-[#2b3033] px-4 py-3 text-[14px] leading-relaxed text-white outline-none transition placeholder:text-white/35 hover:bg-[#30363a] focus:border-accent/70 focus:bg-[#30363a] focus:ring-2 focus:ring-accent/15;
+    @apply w-full resize-y rounded-xl border border-line bg-panel px-4 py-3 text-[14px] leading-relaxed text-fg outline-none transition placeholder:text-muted/70 hover:border-muted/40 focus:border-accent focus:ring-2 focus:ring-accent/15;
   }
 
   .field-compact {
-    @apply h-10 w-full rounded-lg border border-transparent bg-[#2b3033] px-3 text-[13px] text-white outline-none transition placeholder:text-white/30 hover:bg-[#30363a] focus:border-accent/70 focus:bg-[#30363a] focus:ring-2 focus:ring-accent/15;
+    @apply h-10 w-full rounded-lg border border-line bg-panel px-3 text-[13px] text-fg outline-none transition placeholder:text-muted/60 hover:border-muted/40 focus:border-accent focus:ring-2 focus:ring-accent/15;
   }
 
   .field-area-compact {
-    @apply w-full resize-none rounded-lg border border-transparent bg-[#2b3033] px-3 py-2.5 text-[13px] leading-relaxed text-white outline-none transition placeholder:text-white/30 hover:bg-[#30363a] focus:border-accent/70 focus:bg-[#30363a] focus:ring-2 focus:ring-accent/15;
+    @apply w-full resize-none rounded-lg border border-line bg-panel px-3 py-2.5 text-[13px] leading-relaxed text-fg outline-none transition placeholder:text-muted/60 hover:border-muted/40 focus:border-accent focus:ring-2 focus:ring-accent/15;
   }
 
   .field-label-compact {
-    @apply mb-1 block text-[11.5px] font-medium text-white/85;
+    @apply mb-1 block text-[11.5px] font-medium text-fg/85;
   }
 
   .footer-link {
-    @apply text-[14px] text-white/70 transition-colors hover:text-white;
+    @apply text-[14px] text-muted transition-colors hover:text-fg;
   }
 }
 
@@ -121,7 +166,7 @@ body {
 
 .thin-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  scrollbar-color: rgba(15, 23, 42, 0.18) transparent;
 }
 
 .thin-scrollbar::-webkit-scrollbar {
@@ -134,11 +179,29 @@ body {
 
 .thin-scrollbar::-webkit-scrollbar-thumb {
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(15, 23, 42, 0.16);
 }
 
 .thin-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.28);
+  background: rgba(15, 23, 42, 0.28);
+}
+
+.theme-dark .thin-scrollbar {
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+.theme-dark .thin-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* Gold surfaces always take the dark ink colour for legible contrast. */
+.theme-dark .bg-accent {
+  color: var(--color-accent-ink);
+}
+
+/* Keep the page canvas dark when an admin screen is mounted. */
+body:has(.theme-dark) {
+  background-color: #070707;
 }
 
 .reveal {
@@ -166,7 +229,7 @@ body {
 
 .card-lift:hover {
   transform: translateY(-4px);
-  box-shadow: 0 24px 48px -30px rgba(0, 0, 0, 0.95);
+  box-shadow: 0 24px 48px -30px rgba(15, 23, 42, 0.28);
 }
 
 .card-lift:active {
@@ -206,8 +269,8 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
 select:-webkit-autofill {
-  -webkit-text-fill-color: #fff;
-  -webkit-box-shadow: 0 0 0px 1000px #2b3033 inset;
+  -webkit-text-fill-color: var(--color-fg);
+  -webkit-box-shadow: 0 0 0px 1000px var(--color-panel) inset;
   transition: background-color 5000s ease-in-out 0s;
 }
 
@@ -262,7 +325,7 @@ select:-webkit-autofill {
   height: 3px;
   margin: 0 3px !important;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.18);
+  background: color-mix(in srgb, var(--color-fg) 18%, transparent);
   opacity: 1;
   transition:
     width 220ms ease,
@@ -288,12 +351,21 @@ select:-webkit-autofill {
   border-radius: 0.75rem;
   background-image: linear-gradient(
     90deg,
+    rgba(15, 23, 42, 0.04) 25%,
+    rgba(15, 23, 42, 0.09) 37%,
+    rgba(15, 23, 42, 0.04) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.8s ease infinite;
+}
+
+.theme-dark .skeleton {
+  background-image: linear-gradient(
+    90deg,
     rgba(255, 255, 255, 0.04) 25%,
     rgba(255, 255, 255, 0.09) 37%,
     rgba(255, 255, 255, 0.04) 63%
   );
-  background-size: 400% 100%;
-  animation: skeleton-shimmer 1.8s ease infinite;
 }
 
 /* Infinite Dual Direction Marquee */
@@ -345,6 +417,25 @@ select:-webkit-autofill {
 
 .animate-doodle-arrow {
   animation: doodle-arrow-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes step-flow {
+  0% { transform: translateX(-4px); opacity: 0.3; }
+  50% { transform: translateX(0); opacity: 1; }
+  100% { transform: translateX(4px); opacity: 0.3; }
+}
+
+.animate-step-flow {
+  animation: step-flow 1.5s ease-in-out infinite;
+}
+
+/* Subtle light-theme texture used behind hero / CTA blocks. */
+.grid-texture {
+  background-image:
+    linear-gradient(to right, rgba(15, 23, 42, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 20%, #000 20%, transparent 75%);
 }
 
 @media (prefers-reduced-motion: reduce) {

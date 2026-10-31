@@ -25,7 +25,7 @@ function Diamond({ children }: { children: ReactNode }) {
     >
       <span
         aria-hidden="true"
-        className="absolute rotate-45 rounded-[12px] border border-dashed border-white/50 transition-all duration-300 group-hover:rotate-90 group-hover:border-accent/60"
+        className="absolute rotate-45 rounded-[12px] border border-dashed border-fg/50 transition-all duration-300 group-hover:rotate-90 group-hover:border-accent/60"
         style={{
           width: "calc(var(--diamond) * 0.7)",
           height: "calc(var(--diamond) * 0.7)",
@@ -33,14 +33,14 @@ function Diamond({ children }: { children: ReactNode }) {
       />
       <span
         aria-hidden="true"
-        className="absolute rotate-45 rounded-[18px] border border-white/45 bg-[#0d0d0d] transition-all duration-300 group-hover:border-accent group-hover:bg-[linear-gradient(135deg,#241410,#100e0e)] group-hover:shadow-[0_0_35px_rgba(255,77,31,0.35)]"
+        className="absolute rotate-45 rounded-[18px] border border-fg/45 bg-panel-soft transition-all duration-300 group-hover:border-accent group-hover:bg-panel group-hover:shadow-[0_0_35px_rgba(217,119,6,0.35)]"
         style={{
           width: "calc(var(--diamond) * 0.553)",
           height: "calc(var(--diamond) * 0.553)",
         }}
       />
       <span
-        className="relative z-10 text-center text-[clamp(14px,1.35vw,26px)] font-normal leading-[1.35] text-white transition-colors duration-300 group-hover:text-accent-soft"
+        className="relative z-10 text-center text-[clamp(14px,1.35vw,26px)] font-normal leading-[1.35] text-fg transition-colors duration-300 group-hover:text-accent-soft"
         style={{ maxWidth: "calc(var(--diamond) * 0.72)" }}
       >
         {children}
@@ -98,7 +98,7 @@ export default function DiamondLattice({
   return (
     <div className={className}>
       {/* Desktop: staggered diamond lattice */}
-      <div className="relative left-1/2 mt-10 hidden h-[clamp(420px,40vw,760px)] w-screen max-w-[1800px] -translate-x-1/2 [--diamond:clamp(170px,17.4vw,330px)] lg:block">
+      <div className="relative left-1/2 mt-7 hidden h-[clamp(420px,40vw,760px)] w-screen max-w-[1800px] -translate-x-1/2 [--diamond:clamp(170px,17.4vw,330px)] lg:block">
         {slots.map((slot, index) => (
           <div
             key={slot.x}
@@ -121,7 +121,7 @@ export default function DiamondLattice({
       </div>
 
       {/* Tablet / mobile fallback */}
-      <div className="mx-auto mt-6 flex max-w-[880px] flex-col items-center gap-1 [--diamond:190px] sm:mt-10 sm:grid sm:grid-cols-2 sm:justify-items-center sm:gap-6 sm:[--diamond:225px] lg:hidden">
+      <div className="mx-auto mt-6 flex max-w-[880px] flex-col items-center gap-1 [--diamond:190px] sm:mt-7 sm:grid sm:grid-cols-2 sm:justify-items-center sm:gap-6 sm:[--diamond:225px] lg:hidden">
         {items.map((item, index) => (
           <div
             key={index}

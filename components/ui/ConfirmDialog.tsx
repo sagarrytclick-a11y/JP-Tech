@@ -85,7 +85,7 @@ export default function ConfirmDialog({
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={description ? descriptionId : undefined}
-        className="dialog-panel relative w-full max-w-[420px] overflow-hidden rounded-2xl border border-white/[0.08] bg-[#131313] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.65)] sm:p-6"
+        className="dialog-panel relative w-full max-w-[420px] overflow-hidden rounded-2xl border border-white/[0.08] bg-[#141414] p-5 text-white shadow-[0_30px_90px_rgba(0,0,0,0.65)] sm:p-6"
       >
         <div className="flex items-start gap-4">
           <span
@@ -108,7 +108,7 @@ export default function ConfirmDialog({
             {description && (
               <div
                 id={descriptionId}
-                className="mt-1.5 text-[12.5px] leading-relaxed text-white/45"
+                className="mt-1.5 text-[12.5px] leading-relaxed text-white/50"
               >
                 {description}
               </div>
@@ -122,7 +122,7 @@ export default function ConfirmDialog({
             type="button"
             onClick={onCancel}
             disabled={loading}
-            className="inline-flex h-10 items-center justify-center rounded-lg border border-white/10 px-4 text-[12px] font-semibold text-white/60 transition-colors hover:border-white/25 hover:text-white disabled:opacity-50"
+            className="inline-flex h-10 items-center justify-center rounded-lg border border-white/12 px-4 text-[12px] font-semibold text-white/60 transition-colors hover:border-white/25 hover:text-white disabled:opacity-50"
           >
             {cancelLabel}
           </button>
@@ -130,10 +130,10 @@ export default function ConfirmDialog({
             type="button"
             onClick={onConfirm}
             disabled={loading}
-            className={`inline-flex h-10 items-center justify-center gap-2 rounded-lg px-4 text-[12px] font-semibold text-white transition-colors disabled:opacity-60 ${
+            className={`inline-flex h-10 items-center justify-center gap-2 rounded-lg px-4 text-[12px] font-semibold transition-colors disabled:opacity-60 ${
               tone === "danger"
-                ? "bg-red-500 hover:bg-red-400"
-                : "bg-accent hover:bg-accent-soft"
+                ? "bg-red-500 text-white hover:bg-red-400"
+                : "bg-accent text-[#090d16] hover:bg-accent-soft"
             }`}
           >
             {loading && (

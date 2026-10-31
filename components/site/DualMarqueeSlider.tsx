@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Reveal from "@/components/ui/Reveal";
 
 // Tech images from /public/images/tech/
@@ -42,13 +43,17 @@ const row2Images = [
 
 function TechLogo({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="group shrink-0 cursor-default transition-all duration-300 hover:scale-110">
-      <img
-        src={src}
-        alt={alt}
-        draggable={false}
-        className="h-14 w-auto rounded-2xl object-contain select-none transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(255,77,31,0.5)] sm:h-16"
-      />
+    <div className="group flex h-16 w-[104px] shrink-0 items-center justify-center rounded-xl border border-line bg-panel p-2.5 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-[0_14px_28px_-16px_rgba(217,119,6,0.55)] sm:h-[76px] sm:w-[122px] sm:p-3">
+      <div className="relative h-full w-full">
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="122px"
+          draggable={false}
+          className="select-none rounded-md object-contain opacity-80 grayscale-[35%] transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
+        />
+      </div>
     </div>
   );
 }
@@ -58,11 +63,11 @@ export default function DualMarqueeSlider() {
   const row2 = [...row2Images, ...row2Images, ...row2Images, ...row2Images];
 
   return (
-    <section id="stack" className="relative overflow-hidden py-10 lg:py-14">
+    <section id="stack" className="relative overflow-hidden py-6 lg:py-10">
       <Reveal className="shell text-center mb-8 sm:mb-10">
         <span className="section-badge">Tech &amp; Capabilities</span>
         <h2 className="section-heading mt-4 text-balance">
-          The technology behind{" "}
+          The technologies behind{" "}
           <span className="text-accent">products that scale</span>
         </h2>
         <p className="section-copy mt-3.5">

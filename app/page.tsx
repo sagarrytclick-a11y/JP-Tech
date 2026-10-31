@@ -1,7 +1,6 @@
 import dynamic from "next/dynamic";
 import TopBar from "@/components/site/TopBar";
 import Navbar from "@/components/site/Navbar";
-import HeroRings from "@/components/site/HeroRings";
 import Hero from "@/components/site/Hero";
 import PartnerSection from "@/components/site/PartnerSection";
 import SolutionsSection from "@/components/site/SolutionsSection";
@@ -25,7 +24,7 @@ const BlogPreview = dynamic(() => import("@/components/site/BlogPreview"));
 
 export default function Home() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-ink">
+    <div className="min-h-screen overflow-x-clip bg-ink">
       <JsonLd
         id="home-schema"
         data={[
@@ -38,16 +37,10 @@ export default function Home() {
         ]}
       />
       <TopBar />
-
-      <div className="shell pt-4 sm:pt-6">
-        <div className="relative overflow-hidden rounded-[28px] border border-line bg-panel sm:rounded-[40px]">
-          <HeroRings />
-          <Navbar />
-          <Hero />
-        </div>
-      </div>
+      <Navbar />
 
       <main>
+        <Hero />
         <PartnerSection />
         <SolutionsSection />
         <BuildSection />

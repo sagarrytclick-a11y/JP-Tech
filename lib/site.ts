@@ -34,8 +34,6 @@ export const site = {
   },
 
   nav: [
-    { label: 'Home', href: '/' },
-    { label: 'About', href: '/about' },
     {
       label: 'Services',
       href: '/services',
@@ -72,9 +70,25 @@ export const site = {
         },
       ],
     },
-    { label: 'Pricing', href: '/pricing' },
-    { label: 'Blogs', href: '/blogs' },
+    { label: 'Portfolio', href: '/#work' },
+    { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' },
+    { label: 'Pricing', href: '/pricing' },
+    { label: 'Blog', href: '/blogs' },
+  ],
+
+  secondaryNav: [
+    { label: 'Pricing', href: '/pricing' },
+    { label: 'Blog', href: '/blogs' },
+    { label: 'Careers', href: '/careers' },
+  ],
+
+  techStack: [
+    { name: 'Next.js', logo: '/images/tech/nextjs.png' },
+    { name: 'React', logo: '/images/tech/react.png' },
+    { name: 'TypeScript', logo: '/images/tech/ts.png' },
+    { name: 'Tailwind CSS', logo: '/images/tech/tailwind.png' },
+    { name: 'Node.js', logo: '/images/tech/nodejs.png' },
   ],
 
   services: [

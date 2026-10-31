@@ -4,7 +4,7 @@ function renderInline(text: string): ReactNode[] {
   return text.split(/(\*\*[^*]+\*\*)/g).map((part, index) => {
     if (part.startsWith("**") && part.endsWith("**")) {
       return (
-        <strong key={index} className="font-semibold text-white">
+        <strong key={index} className="font-semibold text-fg">
           {part.slice(2, -2)}
         </strong>
       );
@@ -32,7 +32,7 @@ export default function BlogContent({
       blocks.push(
         <p
           key={`p-${blocks.length}`}
-          className="mt-4 text-[14px] leading-[1.85] text-white/65 sm:text-[14.5px]"
+          className="mt-4 text-[14px] leading-[1.85] text-fg/65 sm:text-[14.5px]"
         >
           {renderInline(text)}
         </p>
@@ -51,7 +51,7 @@ export default function BlogContent({
               aria-hidden="true"
               className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-accent/70"
             />
-            <span className="text-[13.5px] leading-[1.8] text-white/60 sm:text-[14px]">
+            <span className="text-[13.5px] leading-[1.8] text-fg/60 sm:text-[14px]">
               {renderInline(item)}
             </span>
           </li>
@@ -76,7 +76,7 @@ export default function BlogContent({
       blocks.push(
         <h3
           key={`h3-${blocks.length}`}
-          className="mt-7 text-[16px] font-semibold text-white sm:text-[17px]"
+          className="mt-7 text-[16px] font-semibold text-fg sm:text-[17px]"
         >
           {trimmed.slice(4)}
         </h3>
@@ -90,7 +90,7 @@ export default function BlogContent({
       blocks.push(
         <h2
           key={`h2-${blocks.length}`}
-          className="mt-9 text-[20px] font-semibold tracking-[-0.01em] text-white first:mt-0 sm:text-[23px]"
+          className="mt-9 text-[20px] font-semibold tracking-[-0.01em] text-fg first:mt-0 sm:text-[23px]"
         >
           {trimmed.slice(3)}
         </h2>

@@ -32,24 +32,21 @@ export default function BlogPreview() {
   }, []);
 
   return (
-    <section id="blogs" className="shell py-8 lg:py-10">
+    <section id="blogs" className="shell py-5 lg:py-7">
       <Reveal>
-        <div className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-end">
-          <div>
-            <span className="section-badge">Blog</span>
-            <h2 className="section-heading mt-5 max-w-[700px] text-balance">
-              Field notes from the{" "}
-              <span className="text-accent">build room</span>
-            </h2>
-            <p className="mt-4 max-w-[620px] text-[13px] leading-relaxed text-white/50 sm:text-[14px]">
-              Practical writing on websites, CRMs, mobile apps, and automation
-              &mdash; from the team doing the work, not a content farm.
-            </p>
-          </div>
-
+        <div className="text-center">
+          <span className="section-badge">Blog</span>
+          <h2 className="section-heading mt-5 mx-auto max-w-[700px] text-balance">
+            Field notes from the{" "}
+            <span className="text-accent">build room</span>
+          </h2>
+          <p className="mt-4 mx-auto max-w-[620px] text-[13px] leading-relaxed text-fg/75 sm:text-[14px]">
+            Practical writing on websites, CRMs, mobile apps, and automation
+            &mdash; from the team doing the work, not a content farm.
+          </p>
           <Link
             href="/blogs"
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-white/15 px-4 py-2.5 text-[12.5px] font-medium text-white/80 transition-all duration-200 hover:border-accent hover:bg-accent/[0.06] hover:text-accent active:scale-[0.98]"
+            className="mt-5 inline-flex items-center gap-1.5 rounded-lg border border-fg/15 px-4 py-2.5 text-[12.5px] font-medium text-fg/80 transition-all duration-200 hover:border-accent hover:bg-accent/[0.06] hover:text-accent active:scale-[0.98]"
           >
             View all articles
             <ArrowUpRight size={14} aria-hidden="true" />
@@ -57,7 +54,7 @@ export default function BlogPreview() {
         </div>
       </Reveal>
 
-      <div className="mt-7 grid gap-4 sm:mt-9 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-7 grid gap-4 sm:mt-7 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post, index) => (
           <Reveal
             key={post._id}
