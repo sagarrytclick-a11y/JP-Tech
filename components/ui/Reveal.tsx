@@ -9,6 +9,8 @@ type RevealProps = {
   delay?: number;
   /** How much of the element must be visible before it animates in. */
   threshold?: number;
+  /** Render visible immediately (no entrance animation) — use above the fold. */
+  immediate?: boolean;
   as?: "div" | "section" | "span" | "li";
 };
 
@@ -17,12 +19,14 @@ export default function Reveal({
   className = "",
   delay = 0,
   threshold = 0.12,
+  immediate = false,
   as: Tag = "div",
 }: RevealProps) {
   const ref = useRef<HTMLElement | null>(null);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(immediate);
 
   useEffect(() => {
+    if (immediate) return;
     const element = ref.current;
     if (!element) return;
 
@@ -45,7 +49,7 @@ export default function Reveal({
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, [threshold]);
+  }, [threshold, immediate]);
 
   const style: CSSProperties = delay ? { transitionDelay: `${delay}ms` } : {};
 

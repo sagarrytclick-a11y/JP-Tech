@@ -7,8 +7,6 @@ import {
   ArrowRight,
   ArrowUpRight,
   ChevronDown,
-  Mail,
-  MapPin,
   Menu,
   Phone,
   Sparkles,
@@ -21,6 +19,7 @@ import { site } from "@/lib/site";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [openSection, setOpenSection] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
   const pathname = usePathname();
@@ -29,7 +28,7 @@ export default function Navbar() {
     href.startsWith("#") && pathname !== "/" ? `/${href}` : href;
 
   const isActive = (href: string) => {
-    if (href === "/#work") return false;
+    if (href === "/#work" || href === "/#industries") return false;
     if (href === "/about") return pathname.startsWith("/about");
     if (href === "/contact") return pathname.startsWith("/contact");
     if (href === "/services") return pathname.startsWith("/services");
@@ -42,6 +41,7 @@ export default function Navbar() {
     setLastPath(pathname);
     setOpen(false);
     setOpenMenu(null);
+    setOpenSection(null);
   }
 
   /* Lock page scroll while the mobile drawer is open + close on Escape. */
@@ -95,7 +95,7 @@ export default function Navbar() {
           {/* Desktop navigation — centered with an animated gold underline. */}
           <nav
             aria-label="Primary"
-            className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 lg:flex"
+            className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 lg:flex"
           >
             {site.nav.map((item) =>
               "children" in item ? (
@@ -117,10 +117,10 @@ export default function Navbar() {
                     href={hrefFor(item.href)}
                     aria-haspopup="true"
                     aria-expanded={openMenu === item.label}
-                    className={`relative flex items-center gap-1.5 whitespace-nowrap px-3.5 py-2.5 text-[13.5px] font-semibold tracking-[-0.01em] transition-colors duration-200 ${
+                    className={`relative flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-[13.5px] font-semibold tracking-[-0.01em] xl:px-3.5 transition-colors duration-200 ${
                       isActive(item.href) || openMenu === item.label
-                        ? "text-accent"
-                        : "text-fg/70 hover:text-fg"
+                        ? "bg-accent/10 text-accent"
+                        : "text-fg/70 hover:bg-panel-soft hover:text-fg"
                     }`}
                   >
                     {item.label}
@@ -130,55 +130,105 @@ export default function Navbar() {
                       }`}
                       aria-hidden="true"
                     />
-                    <span
-                      aria-hidden="true"
-                      className={`pointer-events-none absolute inset-x-3.5 bottom-0 h-[2px] origin-left rounded-full bg-accent transition-transform duration-300 ${
-                        isActive(item.href) || openMenu === item.label
-                          ? "scale-x-100"
-                          : "scale-x-0 group-hover:scale-x-100"
-                      }`}
-                    />
                   </Link>
 
-                  {/* Mega-ish services panel: promo rail + link grid. */}
-                  <div
-                    className={`absolute left-1/2 top-full w-[660px] -translate-x-1/2 pt-4 transition-all duration-200 ${
-                      openMenu === item.label
-                        ? "visible translate-y-0 opacity-100"
-                        : "invisible -translate-y-1 opacity-0"
-                    }`}
-                  >
-                    <div className="overflow-hidden rounded-2xl border border-line bg-panel shadow-[0_34px_80px_-38px_rgba(9,13,22,0.4)]">
-                      <div className="grid grid-cols-[216px_1fr]">
-                        <div className="flex flex-col justify-between gap-6 border-r border-line bg-accent/[0.06] p-5">
-                          <div>
-                            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent text-accent-ink">
-                              <Sparkles size={16} aria-hidden="true" />
-                            </span>
-                            <p className="mt-4 text-[14px] font-semibold leading-snug tracking-[-0.01em] text-fg">
-                              Not sure which service fits?
-                            </p>
-                            <p className="mt-1.5 text-[11.5px] leading-relaxed text-muted">
-                              Get a free 30-minute scoping call and a written
-                              plan — no obligation.
-                            </p>
+                  {item.label === "Services" ? (
+                    /* Mega-ish services panel: promo rail + link grid. */
+                    <div
+                      className={`absolute left-1/2 top-full w-[660px] -translate-x-1/2 pt-4 transition-all duration-200 ${
+                        openMenu === item.label
+                          ? "visible translate-y-0 opacity-100"
+                          : "invisible -translate-y-1 opacity-0"
+                      }`}
+                    >
+                      <div className="overflow-hidden rounded-2xl border border-line bg-panel shadow-[0_34px_80px_-38px_rgba(9,13,22,0.4)]">
+                        <div className="grid grid-cols-[216px_1fr]">
+                          <div className="flex flex-col justify-between gap-6 border-r border-line bg-accent/[0.06] p-5">
+                            <div>
+                              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent text-accent-ink">
+                                <Sparkles size={16} aria-hidden="true" />
+                              </span>
+                              <p className="mt-4 text-[14px] font-semibold leading-snug tracking-[-0.01em] text-fg">
+                                Not sure which service fits?
+                              </p>
+                              <p className="mt-1.5 text-[11.5px] leading-relaxed text-muted">
+                                Get a free 30-minute scoping call and a written
+                                plan — no obligation.
+                              </p>
+                            </div>
+                            <ContactButton className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-accent px-3.5 py-2.5 text-[12px] font-semibold text-accent-ink transition-colors hover:bg-accent-soft">
+                              Talk to us
+                              <ArrowUpRight size={13} aria-hidden="true" />
+                            </ContactButton>
                           </div>
-                          <ContactButton className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-accent px-3.5 py-2.5 text-[12px] font-semibold text-accent-ink transition-colors hover:bg-accent-soft">
-                            Talk to us
-                            <ArrowUpRight size={13} aria-hidden="true" />
-                          </ContactButton>
-                        </div>
 
-                        <div className="p-2">
+                          <div className="p-2">
+                            {item.children.map((child) => (
+                              <Link
+                                key={child.label}
+                                href={hrefFor(child.href)}
+                                className={`group/item flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors duration-200 ${
+                                  isActive(child.href)
+                                    ? "bg-accent/10"
+                                    : "hover:bg-panel-soft"
+                                }`}
+                              >
+                                <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-accent/70 transition-transform duration-200 group-hover/item:scale-125" />
+                                <span className="min-w-0">
+                                  <span
+                                    className={`flex items-center gap-1.5 text-[13px] font-semibold ${
+                                      isActive(child.href)
+                                        ? "text-accent"
+                                        : "text-fg"
+                                    }`}
+                                  >
+                                    {child.label}
+                                    <ArrowRight
+                                      size={12}
+                                      className="-translate-x-1 text-accent opacity-0 transition-all duration-200 group-hover/item:translate-x-0 group-hover/item:opacity-100"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                  <span className="mt-0.5 block text-[11.5px] leading-snug text-muted">
+                                    {child.desc}
+                                  </span>
+                                </span>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Compact two-column dropdown (industries). */
+                    <div
+                      className={`absolute left-1/2 top-full w-[560px] -translate-x-1/2 pt-4 transition-all duration-200 ${
+                        openMenu === item.label
+                          ? "visible translate-y-0 opacity-100"
+                          : "invisible -translate-y-1 opacity-0"
+                      }`}
+                    >
+                      <div className="overflow-hidden rounded-2xl border border-line bg-panel p-2 shadow-[0_34px_80px_-38px_rgba(9,13,22,0.4)]">
+                        <div className="grid grid-cols-2 gap-0.5">
                           {item.children.map((child) => (
                             <Link
                               key={child.label}
                               href={hrefFor(child.href)}
-                              className="group/item flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors duration-200 hover:bg-panel-soft"
+                              className={`group/item flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors duration-200 ${
+                                isActive(child.href)
+                                  ? "bg-accent/10"
+                                  : "hover:bg-panel-soft"
+                              }`}
                             >
                               <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-accent/70 transition-transform duration-200 group-hover/item:scale-125" />
                               <span className="min-w-0">
-                                <span className="flex items-center gap-1.5 text-[13px] font-semibold text-fg">
+                                <span
+                                  className={`flex items-center gap-1.5 text-[13px] font-semibold ${
+                                    isActive(child.href)
+                                      ? "text-accent"
+                                      : "text-fg"
+                                  }`}
+                                >
                                   {child.label}
                                   <ArrowRight
                                     size={12}
@@ -195,28 +245,20 @@ export default function Navbar() {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               ) : (
                 <Link
                   key={item.label}
                   href={hrefFor(item.href)}
                   aria-current={isActive(item.href) ? "page" : undefined}
-                  className={`group relative whitespace-nowrap px-3.5 py-2.5 text-[13.5px] font-semibold tracking-[-0.01em] transition-colors duration-200 ${
+                  className={`relative whitespace-nowrap rounded-lg px-3 py-2 text-[13.5px] font-semibold tracking-[-0.01em] xl:px-3.5 transition-colors duration-200 ${
                     isActive(item.href)
-                      ? "text-accent"
-                      : "text-fg/70 hover:text-fg"
+                      ? "bg-accent/10 text-accent"
+                      : "text-fg/70 hover:bg-panel-soft hover:text-fg"
                   }`}
                 >
                   {item.label}
-                  <span
-                    aria-hidden="true"
-                    className={`pointer-events-none absolute inset-x-3.5 bottom-0 h-[2px] origin-left rounded-full bg-accent transition-transform duration-300 ${
-                      isActive(item.href)
-                        ? "scale-x-100"
-                        : "scale-x-0 group-hover:scale-x-100"
-                    }`}
-                  />
                 </Link>
               )
             )}
@@ -243,7 +285,10 @@ export default function Navbar() {
 
             <button
               type="button"
-              onClick={() => setOpen(true)}
+              onClick={() => {
+                setOpenSection(null);
+                setOpen(true);
+              }}
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label="Open menu"
@@ -299,105 +344,167 @@ export default function Navbar() {
             </button>
           </div>
 
-          <div className="flex flex-1 flex-col overflow-y-auto px-5 py-6">
-            <nav aria-label="Mobile primary" className="flex flex-col">
-              {site.nav.map((item, index) => (
-                <div
-                  key={item.label}
-                  className="border-b border-line/70 py-1 last:border-0"
-                >
-                  <Link
-                    href={hrefFor(item.href)}
-                    onClick={() => setOpen(false)}
-                    className="flex items-center gap-3 py-3"
-                  >
-                    <span className="w-5 shrink-0 text-[10.5px] font-semibold tabular-nums text-muted">
-                      0{index + 1}
-                    </span>
-                    <span
-                      className={`flex-1 text-[17px] font-semibold tracking-[-0.02em] transition-colors ${
-                        isActive(item.href)
-                          ? "text-accent"
-                          : "text-fg hover:text-accent"
-                      }`}
-                    >
-                      {item.label}
-                    </span>
-                    <ArrowUpRight
-                      size={16}
-                      className="text-muted"
-                      aria-hidden="true"
-                    />
-                  </Link>
-
-                  {"children" in item && (
-                    <div className="grid grid-cols-2 gap-1 pb-3 pl-8">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.label}
-                          href={hrefFor(child.href)}
-                          onClick={() => setOpen(false)}
-                          className="rounded-lg px-2 py-2 text-[12px] font-medium text-muted transition-colors hover:bg-panel-soft hover:text-fg"
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </nav>
-
-            <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2">
-              {site.secondaryNav.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="text-[12px] font-semibold text-muted transition-colors hover:text-accent"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-
-            <p className="mt-6 flex items-start gap-2 text-[9px] font-bold uppercase leading-relaxed tracking-[0.14em] text-muted">
-              <span
-                className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
-                aria-hidden="true"
-              />
-              Next.js &middot; React &middot; TypeScript &middot; Tailwind &middot; Node.js
+          <div className="flex flex-1 flex-col overflow-y-auto px-4 pb-6 pt-5">
+            <p className="px-3 pb-2 text-[9.5px] font-bold uppercase tracking-[0.18em] text-muted">
+              Menu
             </p>
 
-            <div className="mt-auto pt-6">
-              <div className="rounded-2xl border border-line bg-panel-soft/70 p-4">
-                <a
-                  href={`tel:${site.phoneHref}`}
-                  className="flex items-center gap-2.5 text-[13px] font-semibold text-fg"
-                >
-                  <Phone size={14} className="text-accent" aria-hidden="true" />
-                  {site.phone}
-                </a>
-                <a
-                  href={`mailto:${site.email}`}
-                  className="mt-2.5 flex items-center gap-2.5 text-[12px] text-muted"
-                >
-                  <Mail size={14} className="text-accent" aria-hidden="true" />
-                  <span className="truncate">{site.email}</span>
-                </a>
-                <p className="mt-2.5 flex items-start gap-2.5 text-[12px] leading-snug text-muted">
-                  <MapPin
-                    size={14}
-                    className="mt-0.5 shrink-0 text-accent"
-                    aria-hidden="true"
-                  />
-                  {site.addressShort}
+            <nav aria-label="Mobile primary" className="flex flex-col gap-0.5">
+              {site.nav.map((item, index) => {
+                const active = isActive(item.href);
+
+                if (!("children" in item)) {
+                  return (
+                    <Link
+                      key={item.label}
+                      href={hrefFor(item.href)}
+                      onClick={() => setOpen(false)}
+                      aria-current={active ? "page" : undefined}
+                      className={`group flex items-center gap-3 rounded-xl px-3 py-3.5 transition-colors duration-200 ${
+                        active ? "bg-accent/10" : "hover:bg-panel-soft"
+                      }`}
+                    >
+                      <span
+                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-[10px] font-bold tabular-nums transition-colors ${
+                          active
+                            ? "bg-accent text-accent-ink"
+                            : "bg-fg/[0.06] text-muted group-hover:text-fg"
+                        }`}
+                      >
+                        {index + 1}
+                      </span>
+                      <span
+                        className={`flex-1 text-[16px] font-semibold tracking-[-0.02em] transition-colors ${
+                          active
+                            ? "text-accent"
+                            : "text-fg group-hover:text-accent"
+                        }`}
+                      >
+                        {item.label}
+                      </span>
+                      <ArrowUpRight
+                        size={15}
+                        className={`shrink-0 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 ${
+                          active ? "text-accent" : "text-muted/70"
+                        }`}
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  );
+                }
+
+                const expanded = openSection === item.label;
+
+                return (
+                  <div key={item.label} className="flex flex-col">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setOpenSection(expanded ? null : item.label)
+                      }
+                      aria-expanded={expanded}
+                      aria-controls={`mobile-section-${index}`}
+                      className={`group flex w-full items-center gap-3 rounded-xl px-3 py-3.5 text-left transition-colors duration-200 ${
+                        expanded || active ? "bg-accent/10" : "hover:bg-panel-soft"
+                      }`}
+                    >
+                      <span
+                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-[10px] font-bold tabular-nums transition-colors ${
+                          expanded || active
+                            ? "bg-accent text-accent-ink"
+                            : "bg-fg/[0.06] text-muted group-hover:text-fg"
+                        }`}
+                      >
+                        {index + 1}
+                      </span>
+                      <span
+                        className={`flex-1 text-[16px] font-semibold tracking-[-0.02em] transition-colors ${
+                          expanded || active
+                            ? "text-accent"
+                            : "text-fg group-hover:text-accent"
+                        }`}
+                      >
+                        {item.label}
+                      </span>
+                      <ChevronDown
+                        size={16}
+                        className={`shrink-0 transition-transform duration-300 ${
+                          expanded ? "rotate-180 text-accent" : "text-muted/70"
+                        }`}
+                        aria-hidden="true"
+                      />
+                    </button>
+
+                    <div
+                      id={`mobile-section-${index}`}
+                      className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
+                        expanded
+                          ? "grid-rows-[1fr] opacity-100"
+                          : "grid-rows-[0fr] opacity-0"
+                      }`}
+                    >
+                      <div className="overflow-hidden">
+                        <div className="ml-[2.15rem] mt-1 flex flex-col gap-0.5 border-l border-line/80 pb-2 pl-3">
+                          {item.children.map((child) => {
+                            const childActive = isActive(child.href);
+                            return (
+                              <Link
+                                key={child.label}
+                                href={hrefFor(child.href)}
+                                onClick={() => setOpen(false)}
+                                aria-current={childActive ? "page" : undefined}
+                                className={`group/sub flex items-center gap-2 rounded-lg px-2.5 py-2.5 text-[13.5px] font-medium transition-colors ${
+                                  childActive
+                                    ? "bg-accent/10 text-accent"
+                                    : "text-muted hover:bg-panel-soft hover:text-fg"
+                                }`}
+                              >
+                                <span className="flex-1 leading-snug">
+                                  {child.label}
+                                </span>
+                                <ArrowRight
+                                  size={13}
+                                  className={`shrink-0 -translate-x-1 opacity-0 transition-all duration-200 group-hover/sub:translate-x-0 group-hover/sub:opacity-100 ${
+                                    childActive ? "text-accent" : "text-muted"
+                                  }`}
+                                  aria-hidden="true"
+                                />
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </nav>
+
+            {site.secondaryNav.length > 0 && (
+              <div className="mt-5 border-t border-line/70 px-3 pt-4">
+                <p className="text-[9.5px] font-bold uppercase tracking-[0.18em] text-muted">
+                  More
                 </p>
+                <div className="mt-2.5 flex flex-wrap gap-2">
+                  {site.secondaryNav.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className="rounded-lg border border-line bg-panel-soft px-3 py-1.5 text-[12px] font-semibold text-muted transition-colors hover:border-accent/50 hover:bg-accent/10 hover:text-accent"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
-          <div className="border-t border-line p-5">
+          <div className="border-t border-line bg-panel-soft/40 p-4">
+            <p className="mb-2.5 text-center text-[10.5px] font-medium text-muted">
+              Free 30-minute scoping call · No obligation
+            </p>
             <ContactButton
               onClick={() => setOpen(false)}
               className="btn-primary w-full"

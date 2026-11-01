@@ -71,17 +71,63 @@ export const site = {
       ],
     },
     { label: 'Portfolio', href: '/#work' },
+    {
+      label: 'Industries',
+      href: '/#industries',
+      children: [
+        {
+          label: 'Automotive',
+          href: '/#industries-automotive',
+          desc: 'Dealer portals, warranty, claims',
+        },
+        {
+          label: 'Edtech',
+          href: '/#industries-edtech',
+          desc: 'Admissions, learning, student services',
+        },
+        {
+          label: 'SaaS',
+          href: '/#industries-saas',
+          desc: 'Multi-tenant products, billing',
+        },
+        {
+          label: 'Healthcare',
+          href: '/#industries-healthcare',
+          desc: 'Appointments, records, care coordination',
+        },
+        {
+          label: 'Fintech',
+          href: '/#industries-fintech',
+          desc: 'Onboarding, dashboards, compliance',
+        },
+        {
+          label: 'Real estate',
+          href: '/#industries-real-estate',
+          desc: 'Listings, enquiries, agent operations',
+        },
+        {
+          label: 'E-commerce',
+          href: '/#industries-ecommerce',
+          desc: 'Storefronts, catalogues, order ops',
+        },
+        {
+          label: 'Manufacturing',
+          href: '/#industries-manufacturing',
+          desc: 'Inventory, dealer ops, production',
+        },
+        {
+          label: 'Logistics',
+          href: '/#industries-logistics',
+          desc: 'Dispatch, tracking, partner portals',
+        },
+      ],
+    },
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' },
     { label: 'Pricing', href: '/pricing' },
-    { label: 'Blog', href: '/blogs' },
   ],
 
-  secondaryNav: [
-    { label: 'Pricing', href: '/pricing' },
-    { label: 'Blog', href: '/blogs' },
-    { label: 'Careers', href: '/careers' },
-  ],
+  secondaryNav: [{ label: 'Careers', href: '/careers' }],
 
   techStack: [
     { name: 'Next.js', logo: '/images/tech/nextjs.png' },

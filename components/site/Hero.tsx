@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import ContactButton from "@/components/contact/ContactButton";
 import Reveal from "@/components/ui/Reveal";
-import TechStack from "@/components/site/TechStack";
 
 type ProofPerson = { initials: string; tone?: string; image?: string };
 const proof: ProofPerson[] = [
@@ -143,7 +142,7 @@ export default function Hero() {
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
           {/* Left: text */}
           <div className="max-w-[640px]">
-            <Reveal>
+            <Reveal immediate>
               <span className="inline-flex items-center gap-2 rounded-full border border-line bg-panel px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted shadow-[0_1px_2px_rgba(9,13,22,0.05)] sm:text-[10.5px]">
                 <span className="relative flex h-2 w-2" aria-hidden="true">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/60" />
@@ -156,7 +155,7 @@ export default function Hero() {
               </span>
             </Reveal>
 
-            <Reveal delay={70}>
+            <Reveal delay={70} immediate>
               <h1 className="mt-6 text-balance text-[clamp(34px,4.6vw,58px)] font-semibold leading-[1.05] tracking-[-0.04em] text-fg">
                 Websites, software &amp; IT systems built to{" "}
                 <span className="relative inline-block bg-gradient-to-r from-accent to-accent-soft bg-clip-text text-transparent">
@@ -188,7 +187,7 @@ export default function Hero() {
               </h1>
             </Reveal>
 
-            <Reveal delay={140}>
+            <Reveal delay={140} immediate>
               <p className="mt-6 text-[14.5px] leading-[1.75] text-muted sm:text-[16px]">
                 JP Technology is a senior product studio in Noida. We design and
                 engineer high-converting websites, scalable custom software, and
@@ -197,7 +196,7 @@ export default function Hero() {
               </p>
             </Reveal>
 
-            <Reveal delay={210}>
+            <Reveal delay={210} immediate>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <ContactButton className="btn-primary w-full sm:w-auto">
                   Book a Consultation
@@ -210,7 +209,7 @@ export default function Hero() {
               </div>
             </Reveal>
 
-            <Reveal delay={280}>
+            <Reveal delay={280} immediate>
               <div className="mt-7 flex flex-col gap-3.5 sm:flex-row sm:items-center sm:gap-5">
                 <div className="flex -space-x-2" aria-hidden="true">
                   {proof.map((person) => (
@@ -257,7 +256,7 @@ export default function Hero() {
           </div>
 
           {/* Right: website preview mockup */}
-          <Reveal delay={120} className="relative">
+          <Reveal delay={120} className="relative" immediate>
             <div className="relative mx-auto w-full max-w-[560px]">
               <div className="absolute -inset-6 -z-10 rounded-[32px] bg-gradient-to-br from-accent/20 via-accent/5 to-transparent blur-2xl" />
               <div className="overflow-hidden rounded-2xl border border-line bg-panel shadow-[0_30px_80px_-30px_rgba(245,176,20,0.35)]">
@@ -424,10 +423,6 @@ export default function Hero() {
             </article>
           </Reveal>
         </div>
-      </div>
-
-      <div className="mt-8 sm:mt-7">
-        <TechStack />
       </div>
     </section>
   );

@@ -1,24 +1,12 @@
-import type { ComponentType } from "react";
-import {
-  SiNextdotjs,
-  SiNodedotjs,
-  SiReact,
-  SiTailwindcss,
-  SiTypescript,
-} from "react-icons/si";
+import Image from "next/image";
 import { site } from "@/lib/site";
-
-const icons: Record<string, ComponentType<{ size?: number; className?: string }>> = {
-  "Next.js": SiNextdotjs,
-  React: SiReact,
-  TypeScript: SiTypescript,
-  "Tailwind CSS": SiTailwindcss,
-  "Node.js": SiNodedotjs,
-};
 
 /**
  * Subtle, reusable technologies strip. Rendered on the hero and on every
  * marketing page so the stack reads as a consistent trust signal.
+ *
+ * Logos run as a seamless marquee (same animation as DualMarqueeSlider)
+ * with rounded image tiles and no section background.
  */
 export default function TechStack({
   className = "",
@@ -27,35 +15,58 @@ export default function TechStack({
   className?: string;
   label?: string;
 }) {
+  // Repeat the list so the -50% marquee translation loops seamlessly.
+  const loop = [
+    ...site.techStack,
+    ...site.techStack,
+    ...site.techStack,
+    ...site.techStack,
+    ...site.techStack,
+    ...site.techStack,
+  ];
+
   return (
     <section
       aria-label="Technologies we specialise in"
-      className={`border-y border-line bg-panel/60 ${className}`}
+      className={`relative overflow-hidden ${className}`}
     >
-      <div className="shell flex flex-col items-center justify-between gap-4 py-5 sm:flex-row sm:gap-6">
-        <p className="flex items-center gap-2 text-[10.5px] font-semibold uppercase tracking-[0.18em] text-muted">
-          <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+      <div className="shell flex flex-col items-center gap-3 py-4 sm:flex-row sm:gap-7 sm:py-5">
+        <p className="flex shrink-0 items-center gap-2 text-[10.5px] font-semibold uppercase tracking-[0.18em] text-muted">
+          <span
+            className="h-1.5 w-1.5 rounded-full bg-accent"
+            aria-hidden="true"
+          />
           {label}
         </p>
 
-        <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 sm:gap-x-8">
-          {site.techStack.map((tech) => {
-            const Icon = icons[tech.name];
-            return (
-              <li key={tech.name} className="group flex items-center gap-2">
-                {Icon ? (
-                  <Icon
-                    size={18}
-                    className="text-fg/70 transition-colors duration-200 group-hover:text-accent"
+        <div className="relative w-full min-w-0 overflow-hidden">
+          {/* Edge fade masks */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-ink to-transparent"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-ink to-transparent"
+          />
+
+          <ul className="animate-marquee-left items-center gap-3 py-1 sm:gap-4">
+            {loop.map((tech, index) => (
+              <li key={`${tech.name}-${index}`} className="shrink-0">
+                <div className="group relative h-11 w-20 overflow-hidden rounded-lg ring-1 ring-line/70 transition-all duration-300 hover:ring-accent/60 sm:h-12 sm:w-24">
+                  <Image
+                    src={tech.logo}
+                    alt={tech.name}
+                    fill
+                    sizes="96px"
+                    draggable={false}
+                    className="select-none object-cover opacity-80 grayscale-[35%] transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
                   />
-                ) : null}
-                <span className="text-[12px] font-medium text-muted transition-colors group-hover:text-fg">
-                  {tech.name}
-                </span>
+                </div>
               </li>
-            );
-          })}
-        </ul>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

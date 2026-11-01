@@ -3,6 +3,7 @@ import TopBar from "@/components/site/TopBar";
 import Navbar from "@/components/site/Navbar";
 import Hero from "@/components/site/Hero";
 import PartnerSection from "@/components/site/PartnerSection";
+import ClienteleSection from "@/components/site/ClienteleSection";
 import SolutionsSection from "@/components/site/SolutionsSection";
 import BuildSection from "@/components/site/BuildSection";
 import ProcessSection from "@/components/site/ProcessSection";
@@ -42,6 +43,7 @@ export default function Home() {
       <main>
         <Hero />
         <PartnerSection />
+        <ClienteleSection />
         <SolutionsSection />
         <BuildSection />
         <ProcessSection />

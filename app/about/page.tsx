@@ -8,7 +8,6 @@ import WhoWeAre from "@/components/about/WhoWeAre";
 import WhyClients from "@/components/about/WhyClients";
 import DifferenceSection from "@/components/about/DifferenceSection";
 import MissionVision from "@/components/about/MissionVision";
-import TeamSection from "@/components/about/TeamSection";
 import CallToAction from "@/components/site/CallToAction";
 import ContactSection from "@/components/site/ContactSection";
 import Footer from "@/components/site/Footer";
@@ -55,7 +54,6 @@ export default function AboutPage() {
         <WhyClients />
         <DifferenceSection />
         <MissionVision />
-        <TeamSection />
         <CallToAction />
         <ContactSection />
       </main>

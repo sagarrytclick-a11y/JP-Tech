@@ -27,8 +27,8 @@ export default function AboutHero() {
           <ContactButton className="btn-primary w-full sm:w-auto">
             Start a conversation
           </ContactButton>
-          <Link href="#team" className="btn-light w-full sm:w-auto">
-            Meet the team
+          <Link href="#why-choose" className="btn-light w-full sm:w-auto">
+            Why work with us
           </Link>
         </div>
 

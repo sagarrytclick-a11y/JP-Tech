@@ -43,17 +43,15 @@ const row2Images = [
 
 function TechLogo({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="group flex h-16 w-[104px] shrink-0 items-center justify-center rounded-xl border border-line bg-panel p-2.5 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/50 hover:shadow-[0_14px_28px_-16px_rgba(217,119,6,0.55)] sm:h-[76px] sm:w-[122px] sm:p-3">
-      <div className="relative h-full w-full">
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          sizes="122px"
-          draggable={false}
-          className="select-none rounded-md object-contain opacity-80 grayscale-[35%] transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
-        />
-      </div>
+    <div className="group relative h-16 w-[104px] shrink-0 overflow-hidden rounded-xl transition-transform duration-300 hover:-translate-y-0.5 sm:h-[76px] sm:w-[122px]">
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="122px"
+        draggable={false}
+        className="select-none rounded-xl object-cover opacity-80 grayscale-[35%] transition-all duration-300 group-hover:scale-[1.04] group-hover:opacity-100 group-hover:grayscale-0"
+      />
     </div>
   );
 }

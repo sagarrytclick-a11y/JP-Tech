@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, Phone } from "lucide-react";
+import ContactButton from "@/components/contact/ContactButton";
 
 export default function FloatingButtons() {
   const [showTop, setShowTop] = useState(false);
@@ -19,6 +20,17 @@ export default function FloatingButtons() {
 
   return (
     <>
+      {/* Get a Call — vertical tab pinned to the left edge. */}
+      <ContactButton
+        ariaLabel="Get a call"
+        className="group fixed left-0 top-1/2 z-[90] flex -translate-y-1/2 flex-col items-center gap-1.5 rounded-r-xl border border-l-0 border-accent/50 bg-gradient-to-b from-accent to-accent-soft py-3 pl-1 pr-1.5 text-accent-ink shadow-[0_18px_40px_-18px_rgba(217,119,6,0.9)] transition-all duration-200 hover:pr-2.5 hover:brightness-105 active:brightness-95 sm:py-3.5 sm:pl-1.5 sm:pr-2"
+      >
+        <Phone size={13} aria-hidden="true" />
+        <span className="rotate-180 text-[10px] font-bold uppercase tracking-[0.16em] [writing-mode:vertical-rl]">
+          Get a Call
+        </span>
+      </ContactButton>
+
       {/* Scroll to top — bottom left */}
       {showTop && (
         <button
